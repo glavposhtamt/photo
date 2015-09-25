@@ -4,12 +4,16 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1>Новости</h1>
-                        <a class="add-new" href="/admin/news/add">
+                        <h1>Наши работы</h1>
+                        <a class="add-new" href="/admin/work/add">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
-                            <span class="anchor">Создать новость</span>
+                            <span class="anchor">Добавить работу</span>
                         </a>
-                        <a href="#menu-toggle" id="news-position" class="add-new">
+                        <a href="/admin/institution/"  class="add-new">
+                            <span class="glyphicon glyphicon-book" aria-hidden="true" ></span>
+                            <span class="anchor">Добавить учебное заведение</span>
+                        </a>
+                        <a href="#menu-toggle" class="add-new" id="news-position">
                             <span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true" ></span>
                             <span class="anchor">Показать/Скрыть</span>
                         </a>

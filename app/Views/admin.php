@@ -26,7 +26,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/admin/work/">
                         <span class="glyphicon glyphicon-education" aria-hidden="true" ></span>
                         <span class="anchor">Наши работы</span>
                     </a>

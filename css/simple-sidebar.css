@@ -185,7 +185,7 @@
     clear: both;
 }
 
-#add-new, #news-position {
+.add-new {
     display: inline-block;
     width: 250px;
     height: 120px;
@@ -198,23 +198,21 @@
     margin-bottom: 20px;
 }
 
- #news-position {
-     margin-left: 50px;
- }
-
 .panel-button {
     margin-top: 50px;
 }
 
-#add-new span.glyphicon, #news-position span.glyphicon {
+.add-new span.glyphicon {
     font-size: 2.2em;
 }
-#news-position:hover,
-#news-position:active,
-#news-position:focus,
-#add-new:hover,
-#add-new:active,
-#add-new:focus {
+
+.add-new:nth-child(odd){
+    margin: 0 50px 0 50px;
+}
+
+.add-new:hover,
+.add-new:active,
+.add-new:focus {
     outline: none;
     text-decoration: none;
     color: #333;

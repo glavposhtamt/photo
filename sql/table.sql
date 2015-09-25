@@ -41,6 +41,8 @@ CREATE TABLE `files` (
   INDEX ixName ( name )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- Таблица связей картинок с новостями
+
 CREATE TABLE `bind` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `file_name` varchar(255) DEFAULT NULL,
@@ -53,6 +55,8 @@ CREATE TABLE `bind` (
   INDEX ixNews ( news_id )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- Таблица для хранения названия картинки/водяного знака
+
 CREATE TABLE `watermark`(
   `id` int(11) unsigned NOT NULL,
   `file_name` varchar(255) DEFAULT NULL,
@@ -61,4 +65,16 @@ CREATE TABLE `watermark`(
   INDEX ixName ( file_name ),    
   INDEX ixFile ( file_id )
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Таблица учебных заведений
+
+CREATE TABLE `institution` (
+    `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Название',
+    `type` ENUM('Детский сад', 'Школа', 'ВУЗ') NOT NULL COMMENT 'Тип заведения',
+    `sity` varchar(255) DEFAULT NULL COMMENT 'Город',
+    PRIMARY KEY (id),
+    INDEX ixTitle (title),
+    INDEX ixSity (sity)
+) ENGINE=InnoDB COMMENT 'Таблица учебных заведений' CHARACTER SET utf8 COLLATE utf8_general_ci;
 

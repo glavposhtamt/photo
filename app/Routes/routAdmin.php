@@ -182,9 +182,8 @@ $app->get('/admin/gallery', function() use($app) {
 });
 
 $app->get('/admin/test', function() {
-
-  $null = News::find(8);
-  var_dump(!is_null($null->mini));
+    var_dump(FILES_PATH);
+    var_dump(CLASS_PATH);
 });
 
 $app->post('/admin/position/', function() use($addImgThumbnail){
@@ -235,9 +234,9 @@ $app->post('/admin/thumbnail/:id', function($id) use($imgCollection) {
     $x2 = $_POST['x2'];
     $y1 = $_POST['y1'];
     $y2 = $_POST['y2'];
-    $img = $_SERVER["DOCUMENT_ROOT"] . $_POST['img'];
+    $img = $_SERVER["DOCUMENT_ROOT"] . "/" . $_POST['img'];
     $patch = $_POST['crop'];
-    $full_patch = $_SERVER['DOCUMENT_ROOT'] . $patch;
+    $full_patch = $_SERVER['DOCUMENT_ROOT'] . "/" . $patch;
     if(!is_null($thumb->mini)){
         unlink($full_patch . $thumb->mini);
     }
@@ -248,6 +247,8 @@ $app->post('/admin/thumbnail/:id', function($id) use($imgCollection) {
 
 $app->get('/admin/watermark/:id', function($id) use($watermark){
     $img = Bind::find_all_by_news_id((int)$id, array('select' => 'file_name'));
+    $count_img = Bind::num_rows();
+    if($count_img === 0){ die("В этой новости нету картинок!"); }
     $count = Watermark::num_rows();
     if($count === 0){ die("Не установлен логотип!"); }
     $water = Watermark::find(1);
@@ -260,8 +261,8 @@ $app->get('/admin/watermark/:id', function($id) use($watermark){
             $water->delete();
             die("Логотип был удалён!");
     }
-    $img_path = $_SERVER['DOCUMENT_ROOT'] . 'files/';
-    $img_water_path = $_SERVER['DOCUMENT_ROOT'] . 'files/water/';
+    $img_path = $_SERVER['DOCUMENT_ROOT'] . '/files/';
+    $img_water_path = $_SERVER['DOCUMENT_ROOT'] . '/files/water/';
     foreach ($img as $file_name){
         $arr = explode('.', $file_name->file_name);
         array_pop($arr);
@@ -292,4 +293,40 @@ $app->post('/admin/setwatermark/', function(){
     } else {
         die(-1);
     } 
+});
+
+$app->get('/admin/work/', function() use($app) {
+        $list = News::find_by_sql("SELECT id, title, date FROM news");
+	$app->render('work.php', array('list' => $list));
+
+});
+
+$app->get('/admin/institution/', function() use($app) {
+    $inst = Institution::find('all');
+    $app->render('institution.php', array('inst' => $inst));
+
+});
+
+$app->post('/admin/institution/', function() use($app) {
+
+    $type = (int)$_POST['type'];
+    if($type > 0 && $type < 4 ){
+        $inst = new Institution();
+        $inst->title = $_POST['title'];
+        $inst->type = $type;
+        $inst->sity = $_POST['sity'];
+        $inst->save();
+    } else {
+        $app->redirect('/admin/institution/');
+        die();
+    }
+    $app->redirect('/admin/institution/success/'); 
+
+});
+
+$app->get('/admin/institution/success/', function() use($app) {
+
+    $inst = Institution::find('all');
+    $app->render('institution.php', array('inst' => $inst, 'message' => "Учебное заведение успешно добавлено!"));
+
 });
