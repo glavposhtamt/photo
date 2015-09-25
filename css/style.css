@@ -1,0 +1,119 @@
+#jcl-demo .carousel {
+    border: 1px solid #bababa;
+    border-radius: 10px;
+    background-color: ghostwhite;
+    float: left;
+    padding-left: 10px;
+}
+    #jcl-demo .carousel>ul>li>img {
+        width: 150px;
+        height: 118px;
+        vertical-align:middle;
+        margin: 10px 10px 10px 0;
+        border-radius: 5px;
+    }
+
+#jcl-demo a.prev, #jcl-demo a.next {
+    display: block;
+    width: 26px;
+    height: 30px;
+    line-height: 1;
+    background-color: #333333;
+    color: ghostwhite;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 25px;
+    border-radius: 8px;
+    float: left;
+}
+    #jcl-demo a.prev {
+        margin: 50px -5px 0 0; text-indent: 7px;
+    }
+    #jcl-demo a.next {
+        margin: 50px 0 0 -5px; text-indent: 10px;
+    }
+        #jcl-demo a.prev:hover, #jcl-demo a.next:hover {
+            background-color: #666666;
+        }
+
+.custom-container{
+    margin: auto;
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-left: 85px;
+}
+
+.custom-container #big-img {
+    display: block;
+    max-width: 678px;
+    max-height: 400px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.carousel {
+    background-color: #E5E6EB;
+    float: left;
+    padding: 15px 15px 10px 0;
+    border-top: 5px solid white;
+    border-bottom: 5px solid white;
+}
+
+.carousel ul li {
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.carousel ul li img {
+    border: 3px solid white;
+}
+
+.carousel ul li:last-child {
+    margin-right: 0;
+}
+
+.left-moove, .right-moove {
+    float: left;
+    background-color: #E5E6EB;
+    width: 27px;
+    height: 133px;
+    border-top: 5px solid white;
+    border-bottom: 5px solid white;
+    position: relative;
+}
+
+.left-moove {
+    border-left: 5px solid white;
+}
+
+.right-moove {
+    border-right: 5px solid white;
+}
+
+.left-moove i, .right-moove i {
+    cursor: pointer;
+    color: #a1a5b4;
+    position: absolute;
+    top: 55px;
+}
+
+.left-moove i {
+    right: 0; 
+}
+
+#box-big-img {
+    position: relative;
+}
+
+#fullscreen-img {
+    position: absolute;
+    z-index: 1;
+    left: 47%;
+    bottom: 45%;
+    font-size: 3em;
+    opacity: 0.6;
+    display: none;
+}
+
+
