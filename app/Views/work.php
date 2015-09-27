@@ -5,9 +5,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1>Наши работы</h1>
-                        <a class="add-new" href="/admin/work/add">
+                        <a class="add-new" href="/admin/work/add/">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
-                            <span class="anchor">Добавить работу</span>
+                            <span class="anchor">Создать работу</span>
                         </a>
                         <a href="/admin/institution/"  class="add-new">
                             <span class="glyphicon glyphicon-book" aria-hidden="true" ></span>

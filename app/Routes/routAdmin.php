@@ -182,8 +182,10 @@ $app->get('/admin/gallery', function() use($app) {
 });
 
 $app->get('/admin/test', function() {
-    var_dump(FILES_PATH);
-    var_dump(CLASS_PATH);
+//    var_dump(FILES_PATH);
+//    var_dump(CLASS_PATH);
+    $obj = Institution::get_unique_sityes();
+    var_dump($obj);
 });
 
 $app->post('/admin/position/', function() use($addImgThumbnail){
@@ -303,7 +305,8 @@ $app->get('/admin/work/', function() use($app) {
 
 $app->get('/admin/institution/', function() use($app) {
     $inst = Institution::find('all');
-    $app->render('institution.php', array('inst' => $inst));
+    $sity = Institution::get_unique_sityes();    
+    $app->render('institution.php', array('inst' => $inst ,'sity' => $sity ));
 
 });
 
@@ -314,11 +317,16 @@ $app->post('/admin/institution/', function() use($app) {
         $inst = new Institution();
         $inst->title = $_POST['title'];
         $inst->type = $type;
-        $inst->sity = $_POST['sity'];
+        if($_POST['other-sity'] === '' && $_POST['sity'] !== '' && $_POST['sity'] !== 'Другой вариант'){ 
+            $inst->sity = $_POST['sity'];
+        }elseif ($_POST['other-sity'] !== '') {
+            $inst->sity = $_POST['other-sity'];
+        }  else {
+            $app->redirect('/admin/institution/');
+        }
         $inst->save();
     } else {
         $app->redirect('/admin/institution/');
-        die();
     }
     $app->redirect('/admin/institution/success/'); 
 
@@ -327,6 +335,12 @@ $app->post('/admin/institution/', function() use($app) {
 $app->get('/admin/institution/success/', function() use($app) {
 
     $inst = Institution::find('all');
-    $app->render('institution.php', array('inst' => $inst, 'message' => "Учебное заведение успешно добавлено!"));
+    $sity = Institution::get_unique_sityes();
+    $app->render('institution.php', array('inst' => $inst, 'sity' => $sity, 'message' => "Учебное заведение успешно добавлено!"));
 
+});
+
+$app->get('/admin/work/add/', function() use($app){
+    
+    $app->render("work_add.php");
 });

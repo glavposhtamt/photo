@@ -22,16 +22,6 @@ function routes($route, $app) {
     else {echo "ЧТо-то пошло не так"; }
 }
 
-function child_routes($route_parent, $route_child, $app){  
-
-    $parent = Post::find_by_route(array('route' => $route_parent));
-    $child = Post::find_by_route(array('route' => $route_child));
-    if(!$parent || !$child){ echo "База данных пуста"; }
-    else { 
-        $app->render('template.php', array('desc' => $parent->description, 'post' => $child->post, 'title' => $child->title));
-    }
-}
-
 $app->get('/', function() use($app) {	$app->render('index.php'); });
 
 $app->get('/kids/', function() use($app) { routes('kids', $app); });
@@ -56,13 +46,13 @@ $app->get('/student/info/', function() use($app) { routes('student/info', $app);
 
 $app->get('/minibook/info/', function() use($app) { routes('minibook/info', $app); });
 
-$app->get('/kids/faq/', function() use($app) { child_routes('kids', 'faq', $app); });
+$app->get('/kids/faq/', function() use($app) { routes('kids/faq', $app); });
 
-$app->get('/minibook/faq/', function() use($app) { child_routes('minibook', 'faq', $app); });
+$app->get('/minibook/faq/', function() use($app) { routes('minibook/faq', $app); });
 
-$app->get('/school/faq/', function() use($app) { child_routes('school', 'faq', $app); });
+$app->get('/school/faq/', function() use($app) { routes('school/faq', $app); });
 
-$app->get('/student/faq/', function() use($app) { child_routes('student', 'faq', $app); });
+$app->get('/student/faq/', function() use($app) { routes('student/faq', $app); });
 
 $app->get('/kids/price/', function() use($app) { routes('kids/price', $app); });
 
@@ -99,4 +89,8 @@ $app->get('/news/:id', function($id) use($app){
     $app->render('news_open.php', array('news' => $news, 'img' => $img_arr, 'id' => $id));
 } );
 
+
+$app->get('/portfolio/', function() use($app){
+    $app->render('portfolio.php', array('title' => "Портфолио"));
+});
 

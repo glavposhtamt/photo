@@ -1,48 +1,100 @@
 <?php include_once 'admin-header-default.php'; ?>
-<?php include 'admin.php' ?>
+<?php include_once 'admin.php'; ?>
 <div id="page-content-wrapper">
             <div class="container-fluid">
                 <h1>
-                    Новости
+                    Наши работы
                     <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" id="rv"></span>
-                    Создать новость
+                    Создать работу
                 </h1>
                 <div class="row">
-                    <div class="col-lg-8">
-                        <!-- Page Content -->
-                        <form method="POST" action="/admin/news/add" id="add-news" role="form">
-                            <input type="text" name="title" class="form-control  title" placeholder="Заголовок" required>
-                            <textarea name="anotation" class="anotation form-control" placeholder="Анотация"></textarea>
-                            <textarea name="editor2" id="editor2" rows="10" cols="80"></textarea>
-                            <script>
-                                // Replace the <textarea id="editor1"> with a CKEditor
-                                // instance, using default configuration.
-                                CKEDITOR.replace( 'editor2' );
-                            </script>
-                            <input type="text" name="keywords" class="form-control input-row" placeholder="Ключевые слова">
-                            <input type="submit" class="btn btn-success" value="Создать новость" >
-                            <a href="/admin/news" class="btn btn-danger">Отмена</a>
+                    <div class="col-lg-9">
+                        <form method="POST">
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <select class="form-control input-lg" name="type">
+                                            <option value="1">Детский сад</option>
+                                            <option value="2" selected>Школа</option>
+                                            <option value="3">ВУЗ</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <select class="form-control input-lg" name="type">
+                                            <?php for($i = 1; $i <= 2; ++$i) : ?>
+                                                <option><?='ВУЗ ' . $i?></option>
+                                            <?php endfor; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <select class="form-control input-lg" name="type">
+                                            <?php for($i = 1; $i <= 11; ++$i) : ?>
+                                                <option><?=$i?></option>
+                                            <?php endfor; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2"><h4>г. Джанкой</h4></div>
+                                <div class="col-lg-7">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control input-lg" placeholder="Улица, номер дома">
+                                    </div>
+                                </div> 
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control input-lg" placeholder="Год выпуска">
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control input-lg" name="" id="" cols="30" rows="5" placeholder="Описание"></textarea>
+                                    </div>
+                                </div>                                
+                            </div>                            
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control input-lg" placeholder="Ключевые слова">
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-success btn-lg" value="Создать работу">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <a href="/admin/work" class="btn btn-danger btn-lg">Отмена/Назад</a>
+                                </div>   
+                            </div>                            
                         </form>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <!-- The fileinput-button span is used to style the file input field as button -->
-                       <span class="btn btn-success fileinput-button upload-img">
+                        <span class="btn btn-success fileinput-button upload-img">
                             <i class="glyphicon glyphicon-plus"></i>
                             <span>Выбрать изображения</span>
                             <!-- The file input field used as target for the file upload widget -->
                             <input id="fileupload" type="file" name="files[]" multiple>
                         </span>
-                            <br>
-                            <br>
-                            <!-- The global progress bar -->
-                            <div id="progress" class="progress">
-                                <div class="progress-bar progress-bar-success"></div>
-                            </div>
-                            <!-- The container for the uploaded files -->
-                            <div id="files" class="files"></div>
-                            <br>
+                        <br><br>
+                        <!-- The global progress bar -->
+                        <div id="progress" class="progress">
+                            <div class="progress-bar progress-bar-success"></div>
+                        </div>
+                        <!-- The container for the uploaded files -->
+                        <div id="files" class="files"></div>
+                        <br>                        
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -53,6 +105,7 @@
         <!-- /#riht-frame -->
         <div class="clear"></div>
     </div>
+    <!-- /#wrapper -->
     <!-- /#wrapper -->
     <!--Scripts -->
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>

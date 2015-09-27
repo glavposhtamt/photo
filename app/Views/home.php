@@ -5,7 +5,7 @@
                     <a href="#" title="Войти в личный кабинет">Личный кабинет</a>
 		</div>
 		<div id="rkontakt">
-                    <a class="logo" title="StartUP" alt="StartUP" href="http://startupfoto.ru/"> </a>
+                    <a class="logo" title="StartUP" alt="StartUP" href="/"> </a>
                     <span class="rkp">+7(495) 776-61-33<br>+7(926) 269-09-64</span>
                     <span class="rke">
 			<a href="mailto:info@startupfoto.ru">info@startupfoto.ru</a><br>
@@ -24,10 +24,10 @@
                                         <a href="/info">Информация</a>
                                     </li>
                                     <li class="item-140">
-                                        <a href="http://startupfoto.ru/kids/price">Цены</a>
+                                        <a href="/kids/price">Цены</a>
                                     </li>
                                     <li class="item-141">
-                                        <a href="http://startupfoto.ru/kids/faq">Вопросы</a>
+                                        <a href="/kids/faq">Вопросы</a>
                                     </li>
                                 </ul>
                             </li>
@@ -35,24 +35,24 @@
                                 <a href="/school/">Школьный альбом</a>
                                 <ul>
                                     <li class="item-136">
-                                        <a href="http://startupfoto.ru/school/info">Инфо</a>
+                                        <a href="/school/info">Инфо</a>
                                     </li>
                                     <li class="item-137">
-                                        <a href="http://startupfoto.ru/school/price">Цены</a>
+                                        <a href="/school/price">Цены</a>
                                     </li>
                                     <li class="item-138">
-                                        <a href="http://startupfoto.ru/school/faq">Вопросы</a>
+                                        <a href="/school/faq">Вопросы</a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="item-104 deeper parent">
                                 <a href="/student/">Студенческий альбом</a>
                                 <ul>
-                                    <li class="item-142"><a href="http://startupfoto.ru/student/info">Инфо</a>
+                                    <li class="item-142"><a href="/student/info">Инфо</a>
                                     </li><li class="item-143">
-                                        <a href="http://startupfoto.ru/student/price">Цены</a>
+                                        <a href="/student/price">Цены</a>
                                     </li><li class="item-144">
-                                        <a href="http://startupfoto.ru/student/faq">Вопросы</a>
+                                        <a href="/student/faq">Вопросы</a>
                                     </li>
                                 </ul>
                             </li>
@@ -60,13 +60,13 @@
                                 <a href="/minibook/">Mini Book</a>
                                 <ul>
                                     <li class="item-145">
-                                        <a href="http://startupfoto.ru/minibook/info">Инфо</a>
+                                        <a href="/minibook/info">Инфо</a>
                                     </li>
                                     <li class="item-146">
-                                        <a href="http://startupfoto.ru/minibook/price">Цены</a>
+                                        <a href="/minibook/price">Цены</a>
                                     </li>
                                     <li class="item-147">
-                                        <a href="http://startupfoto.ru/minibook/faq">Вопросы</a>
+                                        <a href="/minibook/faq">Вопросы</a>
                                     </li>
                                 </ul>
                             </li>
@@ -97,7 +97,7 @@
 				<a href="/contacts/">Контакты</a>
 				<ul style="margin-top:-69px;">
                                     <li>
-                                        <a href="http://startupfoto.ru/contacts/vacancies/">Вакансии</a>
+                                        <a href="/contacts/vacancies/">Вакансии</a>
                                     </li>
 				</ul>
                             </li>

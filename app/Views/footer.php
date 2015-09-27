@@ -11,7 +11,6 @@
 			</div>
                         <div class="copy" style="top: 100px; right: 30px;">
                             2011-2014 © StartUP Foto 
-                            <a href="http://startupfoto.ru/">www.startupfoto.ru</a>
                         </div>
                         <div class="soc">
                             <a title="Мы в Facebook" href="https://www.facebook.com/groups/169948596435926/"></a>

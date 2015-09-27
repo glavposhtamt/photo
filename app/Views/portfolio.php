@@ -1,3 +1,6 @@
+<?php
+include 'header_portfolio.php';
+?>
 <div id="b1">
     <div id="b2">
 	<div id="login">
@@ -81,52 +84,31 @@
             <div class="container ">
                 <ul class="menu" id="bodym2">
                     <li class="item-106">
-			<a href="/portfolio/">Наши работы</a>
+                        <a href="/portfolio/" id="geo-item">География альбомов</a>
                     </li>
                     <li class="item-109">
-                        <a href="/about/">О нас</a>
+                        <a href="#">Наши работы</a>
                     </li>
                     <li class="item-111">
-                        <a href="/prom/">Организация выпускного</a>
-                    </li>
-                    <li class="item-107">
                         <a href="/video/">Видео</a>
                     </li>
-                    <li class="item-110">
+                    <li class="item-107">
                         <a href="/news/">Новости</a>
+                    </li>
+                    <li class="item-110">
+                        <a href="/contacts/vacancies/">Вакансии</a>
                     </li>
                     <li class="item-108">
                         <a href="/contacts/">Контакты</a>
-                        <ul>
-                            <li>
-                                <a href="/contacts/vacancies/">Вакансии</a>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </div>
         </div>
-        <div id="moduleinfo">
-            <div class="container schoolminfo">
-                <?=$desc?>
-            </div>
-            <div id="tvkladki">
-                <div class="container ">
-                    <ul class="menu" id="104">
-                        <li class="item-142 ">
-                            <a href="/kids/info">Инфо</a>
-                        </li>
-                        <li class="item-143 ">
-                            <a href="/kids/price">Цены</a>
-                        </li>
-                        <li class="item-144 ">
-                            <a href="/kids/faq">Вопросы</a>
-                        </li>
-                    </ul>
-		</div>
-            </div>
-        </div>
         <div class="item-pagebook1">
-            <?php if(isset($post)) { echo $post; } ?>
+            <div id="map" style="width:840px; height:600px"></div>
         </div>
+        <?php include 'footer.php'; ?>
+
+
+
 

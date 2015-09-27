@@ -1165,3 +1165,7 @@ body{
 .vk-block {
     margin: 0 auto;
 }
+
+#bodym2  #geo-item {
+  font: bold 14px/14px Tahoma;
+}

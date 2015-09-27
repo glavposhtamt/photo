@@ -15,7 +15,7 @@
                             
                         <form method="POST" action="/admin/institution/">
                             <div class="form-group">
-                                <input type="text" class="form-control input-lg" name="title" placeholder="Название учебного заведения">
+                                <input type="text" class="form-control input-lg" name="title" placeholder="Название учебного заведения" required>
                             </div>
                             <div class="form-group">
                                 <label>Тип учебного заведения:</label>
@@ -27,12 +27,15 @@
                             </div>
                             <div class="form-group">
                                 <label>Город:</label>
-                                <select class="form-control input-lg" name="sity">
-                                    <?php if(!empty($inst)) : foreach ($inst as $value): ?>
+                                <select class="form-control input-lg" name="sity" id="sity-target">
+                                    <?php if(!empty($sity)) : foreach ($sity as $value): ?>
                                         <option value="<?=$value->sity?>"><?=$value->sity?></option>
-                                    <?php endforeach; endif;?>
-                                        <option value="">Другой вариант</option>
+                                    <?php endforeach; endif; ?>
+                                        <option>Другой вариант</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="other-sity" class="form-control input-lg" id="other-sity" placeholder="Введите город" required>
                             </div>
                             <input type="submit" class="btn btn-success btn-lg" value="Сохранить">
                         </form>

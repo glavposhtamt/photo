@@ -211,3 +211,35 @@ jQuery(document).ready(function(){
         $.get('/admin/watermark/' + $(that).data('news-id'), function(data){ alert(data); });
     });
 });
+
+/* Добавление поля в форму учебных заведений */
+
+jQuery(document).ready(function(){
+    var input = document.getElementById('other-sity');
+    if($("#sity-target option").length === 1){
+        input.type = 'text';
+    }
+    $( "#sity-target" ).change(function() {
+        var str = "";
+        $( "#sity-target option:selected" ).each(function() {
+            str += $( this ).text();
+            if(str === 'Другой вариант' ){
+                input.type = 'text';
+            }else if(str !== 'Другой вариант' && input.value === '' && input.type === 'hidden') return;
+            else {
+                input.type = 'hidden';
+                input.value = '';
+            }
+        });
+    });
+});
+
+/* Яндекс API координаты места */
+
+jQuery(document).ready(function(){
+    function success(data){
+        
+        console.log(data.GeoObjectCollection);
+    }
+    $.get("https://geocode-maps.yandex.ru/1.x/?format=json&geocode=%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%B0%D1%8F+6", success);
+});
