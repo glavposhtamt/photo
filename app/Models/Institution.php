@@ -21,8 +21,8 @@ class Institution extends ActiveRecord\Model{
         return (int)$obj[0]->num_rows;
     }
     
-    public static function get_unique_sityes(){
-        $obj = self::all(array('select' => 'DISTINCT sity'));
+    public static function get_unique_cityes(){
+        $obj = self::all(array('select' => 'DISTINCT city'));
         return $obj;
     }
 }

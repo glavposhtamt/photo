@@ -234,12 +234,8 @@ jQuery(document).ready(function(){
     });
 });
 
-/* Яндекс API координаты места */
+/* Умная динамичная форма */
 
 jQuery(document).ready(function(){
-    function success(data){
-        
-        console.log(data.GeoObjectCollection);
-    }
-    $.get("https://geocode-maps.yandex.ru/1.x/?format=json&geocode=%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%B0%D1%8F+6", success);
+    $.get('/admin/smartform/', function(data){console.log(jQuery.parseJSON(data));});
 });

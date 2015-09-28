@@ -1,4 +1,4 @@
---Таблица страниц
+-- Таблица страниц
 
 CREATE TABLE post (
     id int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -12,7 +12,7 @@ CREATE TABLE post (
 ) COMMENT 'Таблица страниц сайта' CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
---Таблица новостей
+-- Таблица новостей
 
 CREATE TABLE news (
     id int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -72,9 +72,11 @@ CREATE TABLE `institution` (
     `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
     `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Название',
     `type` ENUM('Детский сад', 'Школа', 'ВУЗ') NOT NULL COMMENT 'Тип заведения',
-    `sity` varchar(255) DEFAULT NULL COMMENT 'Город',
+    `city` varchar(255) DEFAULT NULL COMMENT 'Город',
+    `street` varchar(255) DEFAULT NULL COMMENT 'Улица',
     PRIMARY KEY (id),
     INDEX ixTitle (title),
-    INDEX ixSity (sity)
+    INDEX ixCity (city),
+    INDEX ixStreet (street)
 ) ENGINE=InnoDB COMMENT 'Таблица учебных заведений' CHARACTER SET utf8 COLLATE utf8_general_ci;
 

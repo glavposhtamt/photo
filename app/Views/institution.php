@@ -27,15 +27,18 @@
                             </div>
                             <div class="form-group">
                                 <label>Город:</label>
-                                <select class="form-control input-lg" name="sity" id="sity-target">
-                                    <?php if(!empty($sity)) : foreach ($sity as $value): ?>
-                                        <option value="<?=$value->sity?>"><?=$value->sity?></option>
+                                <select class="form-control input-lg" name="city" id="city-target">
+                                    <?php if(!empty($city)) : foreach ($city as $value): ?>
+                                        <option value="<?=$value->city?>"><?=$value->city?></option>
                                     <?php endforeach; endif; ?>
                                         <option>Другой вариант</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input type="hidden" name="other-sity" class="form-control input-lg" id="other-sity" placeholder="Введите город" required>
+                                <input type="<?=$count === 0 ? 'text' : 'hidden' ?>" name="other-city" class="form-control input-lg" id="other-city" placeholder="Введите город" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="street" class="form-control input-lg" id="other-city" placeholder="Улица, дом" required>
                             </div>
                             <input type="submit" class="btn btn-success btn-lg" value="Сохранить">
                         </form>
@@ -49,6 +52,7 @@
                                     <th>Тип</th>
                                     <th>Название</th>
                                     <th>Город</th>
+                                    <th>Улица</th>
                                 </tr>                                
                             </thead>
                             <tbody>
@@ -57,7 +61,8 @@
                                         <td><?=$i++?></td>
                                         <td><?=$value->type?></td>
                                         <td><?=$value->title?></td>
-                                        <td><?=$value->sity?></td>
+                                        <td><?=$value->city?></td>
+                                        <td><?=$value->street?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

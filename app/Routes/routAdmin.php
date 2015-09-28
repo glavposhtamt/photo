@@ -184,7 +184,7 @@ $app->get('/admin/gallery', function() use($app) {
 $app->get('/admin/test', function() {
 //    var_dump(FILES_PATH);
 //    var_dump(CLASS_PATH);
-    $obj = Institution::get_unique_sityes();
+    $obj = Institution::get_unique_cityes();
     var_dump($obj);
 });
 
@@ -298,15 +298,17 @@ $app->post('/admin/setwatermark/', function(){
 });
 
 $app->get('/admin/work/', function() use($app) {
-        $list = News::find_by_sql("SELECT id, title, date FROM news");
+    $list = News::find_by_sql("SELECT id, title, date FROM news");
 	$app->render('work.php', array('list' => $list));
 
 });
 
 $app->get('/admin/institution/', function() use($app) {
     $inst = Institution::find('all');
-    $sity = Institution::get_unique_sityes();    
-    $app->render('institution.php', array('inst' => $inst ,'sity' => $sity ));
+    $count = Institution::num_rows();
+    $city = Institution::get_unique_cityes();  
+
+    $app->render('institution.php', array('inst' => $inst ,'city' => $city, 'count' => $count ));
 
 });
 
@@ -316,11 +318,12 @@ $app->post('/admin/institution/', function() use($app) {
     if($type > 0 && $type < 4 ){
         $inst = new Institution();
         $inst->title = $_POST['title'];
+        $inst->street = $_POST['street'];
         $inst->type = $type;
-        if($_POST['other-sity'] === '' && $_POST['sity'] !== '' && $_POST['sity'] !== 'Другой вариант'){ 
-            $inst->sity = $_POST['sity'];
-        }elseif ($_POST['other-sity'] !== '') {
-            $inst->sity = $_POST['other-sity'];
+        if($_POST['other-city'] === '' && $_POST['city'] !== '' && $_POST['city'] !== 'Другой вариант'){ 
+            $inst->city = $_POST['city'];
+        }elseif ($_POST['other-city'] !== '') {
+            $inst->city = $_POST['other-city'];
         }  else {
             $app->redirect('/admin/institution/');
         }
@@ -333,14 +336,41 @@ $app->post('/admin/institution/', function() use($app) {
 });
 
 $app->get('/admin/institution/success/', function() use($app) {
-
+    $count = Institution::num_rows();
     $inst = Institution::find('all');
-    $sity = Institution::get_unique_sityes();
-    $app->render('institution.php', array('inst' => $inst, 'sity' => $sity, 'message' => "Учебное заведение успешно добавлено!"));
+    $city = Institution::get_unique_cityes();
+    $app->render('institution.php', array('inst' => $inst, 'city' => $city, 'message' => "Учебное заведение успешно добавлено!", 'count' => $count));
 
 });
 
 $app->get('/admin/work/add/', function() use($app){
-    
+    $school = Institution::find('all', array('conditions' => array('type' => 'Школа')));
     $app->render("work_add.php");
+});
+
+$app->get('/admin/smartform/', function(){
+/*    $count = Institution::num_rows();
+    if($count === 0) return;
+    $city = Institution::get_unique_cityes();
+    $inst = Institution::find('all');
+    $obj = new stdClass();
+    $obj->length = $count;
+    $obj->title = [];
+    $obj->type = [];
+    $obj->city = [];
+    $obj->id = [];
+    $i = 0;
+    $obj->unique = [];
+    foreach($city as $value){
+        $obj->unique[$i] = $value->city;
+        $i++;
+    }
+    foreach($inst as $value){
+        $obj->title[$i] = $value->title;
+        $obj->type[$i] = $value->type;
+        $obj->city[$i] = $value->city;
+        $obj->id[$i] = $value->id;
+        $i++;
+    }
+    die(json_encode($obj));*/
 });
