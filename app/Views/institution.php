@@ -35,10 +35,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input type="<?=$count === 0 ? 'text' : 'hidden' ?>" name="other-city" class="form-control input-lg" id="other-city" placeholder="Введите город" required>
+          <input type="<?=$count === 0 ? 'text' : 'hidden' ?>" name="other-city" class="form-control input-lg" id="other-city" placeholder="Введите город" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="street" class="form-control input-lg" id="other-city" placeholder="Улица, дом" required>
+                                <input type="text" name="street" class="form-control input-lg" placeholder="Улица, дом" required>
                             </div>
                             <input type="submit" class="btn btn-success btn-lg" value="Сохранить">
                         </form>

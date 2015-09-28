@@ -11,9 +11,9 @@
                     <div class="col-lg-8">
                         <form method="POST">
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="form-group">
-                                        <select class="form-control input-lg" name="type">
+                                        <select class="form-control input-lg" id="work-type" name="work-type">
                                             <option value="1">Детский сад</option>
                                             <option value="2" selected>Школа</option>
                                             <option value="3">ВУЗ</option>
@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                      <div class="form-group">
-                                        <select class="form-control input-lg" name="type">
+                                        <select class="form-control input-lg" id="work-class" name="work-class">
                                             <option>Класс</option>
                                             <?php for($i = 1; $i <= 11; ++$i) : ?>
                                                 <option><?=$i?></option>
@@ -30,13 +30,13 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-5">
                                     <div class="form-group">
-                                        <select class="form-control input-lg" name="type">
+                                        <select class="form-control input-lg" id="work-city" name="work-city">
                                             <option>Город</option>
-                                            <?php for($i = 1; $i <= 2; ++$i) : ?>
-                                                <option><?='Город ' . $i?></option>
-                                            <?php endfor; ?>
+                                            <?php foreach($school as $value) : ?>
+                                                <option><?=$value->city?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@
 
                                 <div class="col-lg-9">
                                     <div class="form-group">
-                                        <select class="form-control input-lg" name="type">
+                                        <select class="form-control input-lg" name="institution" id="work-institution" disabled>
                                             <option>Учебное заведение</option>
                                             <?php for($i = 1; $i <= 2; ++$i) : ?>
                                                 <option><?='ВУЗ ' . $i?></option>

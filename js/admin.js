@@ -215,13 +215,13 @@ jQuery(document).ready(function(){
 /* Добавление поля в форму учебных заведений */
 
 jQuery(document).ready(function(){
-    var input = document.getElementById('other-sity');
-    if($("#sity-target option").length === 1){
+    var input = document.getElementById('other-city');
+    if($("#сity-target option").length === 1){
         input.type = 'text';
     }
-    $( "#sity-target" ).change(function() {
+    $( "#city-target" ).change(function() {
         var str = "";
-        $( "#sity-target option:selected" ).each(function() {
+        $( "#city-target option:selected" ).each(function() {
             str += $( this ).text();
             if(str === 'Другой вариант' ){
                 input.type = 'text';
@@ -237,5 +237,44 @@ jQuery(document).ready(function(){
 /* Умная динамичная форма */
 
 jQuery(document).ready(function(){
-    $.get('/admin/smartform/', function(data){console.log(jQuery.parseJSON(data));});
+    var type, city, createOption = function(val, parent){
+        var option = document.createElement('option');
+        option.text = val;
+        parent.appendChild(option);
+    };
+    $("#work-type").change(function(){
+        $("#work-type option:selected").each(function() {
+            type = $(this).text();
+            $("#work-city")[0].disabled = true;
+            $("#work-institution")[0].disabled = true;
+            if(type !== 'Школа') $("#work-class").hide(500);
+            else $("#work-class").show(500);
+            $.post("/admin/smartform/", { query: 'city', type: type }, function(data){
+                var arr = jQuery.parseJSON(data);
+                if(arr.length > 0){
+                    $("#work-city").children().remove();
+                    createOption('Город', $("#work-city")[0]);
+                    for(var i = 0; i < arr.length; ++i){
+                        createOption(arr[i], $("#work-city")[0]);
+                    }
+                    $("#work-city")[0].disabled = false;
+                }else return;
+            });
+        });
+    });
+    
+    $("#work-city").change(function(){
+        $("#work-city option:selected").each(function() {
+            city = $(this).text();
+            type = type === undefined ? 'Школа' : type;
+            alert(type);
+            if(city !== 'Город'){
+                $.post("/admin/smartform/", { query: 'institution', type: type, city: city }, function(data){
+                    console.log(jQuery.parseJSON(data));
+                });
+            }else return;
+            
+        });
+    });
+
 });

@@ -182,10 +182,9 @@ $app->get('/admin/gallery', function() use($app) {
 });
 
 $app->get('/admin/test', function() {
-//    var_dump(FILES_PATH);
-//    var_dump(CLASS_PATH);
-    $obj = Institution::get_unique_cityes();
-    var_dump($obj);
+
+    $city = Institution::all(array('select' => 'DISTINCT city', 'conditions' => array('type' => 'ВУЗ')));
+    var_dump($city);
 });
 
 $app->post('/admin/position/', function() use($addImgThumbnail){
@@ -344,33 +343,31 @@ $app->get('/admin/institution/success/', function() use($app) {
 });
 
 $app->get('/admin/work/add/', function() use($app){
-    $school = Institution::find('all', array('conditions' => array('type' => 'Школа')));
-    $app->render("work_add.php");
+    $school = Institution::find('all', array('select' => 'city', 'conditions' => array('type' => 'Школа')));
+    //var_dump($school);
+    $app->render("work_add.php", array('school' => $school));
 });
 
-$app->get('/admin/smartform/', function(){
-/*    $count = Institution::num_rows();
-    if($count === 0) return;
-    $city = Institution::get_unique_cityes();
-    $inst = Institution::find('all');
-    $obj = new stdClass();
-    $obj->length = $count;
-    $obj->title = [];
-    $obj->type = [];
-    $obj->city = [];
-    $obj->id = [];
-    $i = 0;
-    $obj->unique = [];
-    foreach($city as $value){
-        $obj->unique[$i] = $value->city;
-        $i++;
+$app->post('/admin/smartform/', function(){
+    if(isset($_POST['query']) && $_POST['query'] === 'city'){
+        $city = Institution::all(array('select' => 'DISTINCT city', 'conditions' => array('type' => $_POST['type'])));
+        $arr = []; $i = 0;
+        foreach($city as $value){
+            $arr[$i] = $value->city;
+            $i++;
+        }
+        die(json_encode($arr)); 
     }
-    foreach($inst as $value){
-        $obj->title[$i] = $value->title;
-        $obj->type[$i] = $value->type;
-        $obj->city[$i] = $value->city;
-        $obj->id[$i] = $value->id;
-        $i++;
+    
+    if(isset($_POST['query']) && $_POST['query'] === 'institution'){
+        $inst = Institution::all(array('select' => 'DISTINCT title', 'conditions' => array('type' => $_POST['type'], 
+                                                                                           'city' => $_POST['city'])));
+        $arr = []; $i = 0;        
+        foreach($inst as $value){
+            $arr[$i] = $value->title;
+            $i++;
+        }
+        die(json_encode($arr));
     }
-    die(json_encode($obj));*/
+    
 });
