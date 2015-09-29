@@ -183,7 +183,9 @@ $app->get('/admin/gallery', function() use($app) {
 
 $app->get('/admin/test', function() {
 
-    $city = Institution::all(array('select' => 'DISTINCT city', 'conditions' => array('type' => 'ВУЗ')));
+/*        $inst = Institution::all(array('select' => 'DISTINCT title', 'conditions' => array('type' => 'Школа', 
+                                                                                           'city' => 'Джанкой')));*/
+    $city = Institution::all(array('select' => 'DISTINCT city', 'conditions' => array('type' => 'Школа')));
     var_dump($city);
 });
 
@@ -343,7 +345,7 @@ $app->get('/admin/institution/success/', function() use($app) {
 });
 
 $app->get('/admin/work/add/', function() use($app){
-    $school = Institution::find('all', array('select' => 'city', 'conditions' => array('type' => 'Школа')));
+    $school = Institution::find('all', array('select' => 'DISTINCT city', 'conditions' => array('type' => 'Школа')));
     //var_dump($school);
     $app->render("work_add.php", array('school' => $school));
 });

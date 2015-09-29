@@ -1,6 +1,4 @@
-<?php
-include 'header_portfolio.php';
-?>
+<?php include 'header_portfolio.php'; ?>
 <div id="b1">
     <div id="b2">
 	<div id="login">

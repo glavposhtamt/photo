@@ -52,9 +52,11 @@ jQuery(document).ready(function(){
 /* Datetimepicker */
 jQuery(document).ready(function(){
     $(function () {
-        $('#datetimepicker2').datetimepicker({
-           locale: 'ru'
-        });
+        if($('#datetimepicker2').length > 0){
+            $('#datetimepicker2').datetimepicker({
+               locale: 'ru'
+            });
+        }
     });
 });
 
@@ -267,10 +269,15 @@ jQuery(document).ready(function(){
         $("#work-city option:selected").each(function() {
             city = $(this).text();
             type = type === undefined ? 'Школа' : type;
-            alert(type);
             if(city !== 'Город'){
                 $.post("/admin/smartform/", { query: 'institution', type: type, city: city }, function(data){
-                    console.log(jQuery.parseJSON(data));
+                    var arr = jQuery.parseJSON(data);
+                    $("#work-institution").children().remove();
+                    createOption('Учебное заведение', $("#work-institution")[0]);
+                    for(var i = 0; i < arr.length; ++i){
+                        createOption(arr[i], $("#work-institution")[0]);
+                    }
+                    $("#work-institution")[0].disabled = false;
                 });
             }else return;
             

@@ -94,3 +94,7 @@ $app->get('/portfolio/', function() use($app){
     $app->render('portfolio.php', array('title' => "Портфолио"));
 });
 
+$app->post('/geography/', function(){
+    die(json_encode(['Привет', 'Мир']));
+});
+
