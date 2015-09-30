@@ -12,12 +12,7 @@ class Bind extends ActiveRecord\Model {
     }
     
     public static function deleteRow($table, $id){
-        if($table === 'work'){
-            self::delete_all(array('conditions' => array('work_id' => (int)$id)));
-        }
-        elseif($table === 'news'){
-            self::delete_all(array('conditions' => array('news_id' => (int)$id)));
-        }
+        self::delete_all(array('conditions' => array($table . '_id' => (int)$id)));
     }
     
     public static $table_name = 'bind';

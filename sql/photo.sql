@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 30 2015 г., 16:45
+-- Время создания: Сен 30 2015 г., 23:03
 -- Версия сервера: 5.5.44-0ubuntu0.12.04.1
 -- Версия PHP: 5.6.13-1+deb.sury.org~precise+3
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `bind` (
   `news_id` int(11) DEFAULT NULL,
   `work_id` int(11) DEFAULT NULL,
   `position` int(11) DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -49,21 +49,7 @@ CREATE TABLE IF NOT EXISTS `files` (
   `url` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` text
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
-
---
--- Дамп данных таблицы `files`
---
-
-INSERT INTO `files` (`id`, `name`, `size`, `type`, `url`, `title`, `description`) VALUES
-(1, 'Bob Marley.jpg', 116169, 'image/jpeg', NULL, 'fsdf', 'fsdf'),
-(2, 'html5_1.jpg', 347664, 'image/jpeg', NULL, 'fdf', 'fdfd'),
-(3, 'samsung-mozilla-rust.jpg', 69410, 'image/jpeg', NULL, 'fdfdf', 'fdfd'),
-(4, 'Bob Marley (1).jpg', 116169, 'image/jpeg', NULL, '', ''),
-(5, 'HTML5_sticker.png', 50484, 'image/png', NULL, '', ''),
-(6, 'html5_1 (1).jpg', 347664, 'image/jpeg', NULL, '', ''),
-(7, 'HTML5_sticker (1).png', 50484, 'image/png', NULL, '', ''),
-(8, 'IDE-logo.png', 5393, 'image/png', NULL, '', '');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 -- --------------------------------------------------------
 
@@ -77,17 +63,7 @@ CREATE TABLE IF NOT EXISTS `institution` (
   `type` enum('Детский сад','Школа','ВУЗ') NOT NULL COMMENT 'Тип заведения',
   `city` varchar(255) DEFAULT NULL COMMENT 'Город',
   `street` varchar(255) DEFAULT NULL COMMENT 'Улица'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица учебных заведений' AUTO_INCREMENT=5 ;
-
---
--- Дамп данных таблицы `institution`
---
-
-INSERT INTO `institution` (`id`, `title`, `type`, `city`, `street`) VALUES
-(1, 'Аграрка', 'Школа', 'Симферополь', 'Научная, 2'),
-(2, 'Школа № 7', 'Школа', 'Джанкой', 'Интернациональная, 16'),
-(3, 'Ногайский колледж', 'ВУЗ', 'Приморск', 'Морская, 65'),
-(4, 'Школа № 6', 'Школа', 'Джанкой', 'Возле АТБ');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица учебных заведений' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -104,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Дата редактирования',
   `thumbnail` varchar(255) DEFAULT NULL COMMENT 'Промежуточная картинка',
   `mini` varchar(255) DEFAULT NULL COMMENT 'Миниатюрка новости'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица страниц сайта' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица страниц сайта' AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -164,6 +140,23 @@ CREATE TABLE IF NOT EXISTS `watermark` (
   `file_id` int(11) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `work`
+--
+
+CREATE TABLE IF NOT EXISTS `work` (
+`id` int(10) unsigned NOT NULL COMMENT 'ID',
+  `institution` int(10) unsigned NOT NULL COMMENT 'ID учебного заведения',
+  `school_class` int(10) unsigned NOT NULL COMMENT 'Класс',
+  `year` int(10) unsigned NOT NULL COMMENT 'Год окончания',
+  `anotation` varchar(255) NOT NULL DEFAULT '' COMMENT 'Анотация',
+  `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Ключевые слова',
+  `thumbnail` varchar(255) DEFAULT NULL COMMENT 'Промежуточная картинка',
+  `mini` varchar(255) DEFAULT NULL COMMENT 'Миниатюрка новости'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица работ' AUTO_INCREMENT=4 ;
+
 --
 -- Indexes for dumped tables
 --
@@ -205,6 +198,12 @@ ALTER TABLE `watermark`
  ADD PRIMARY KEY (`id`), ADD KEY `ixName` (`file_name`), ADD KEY `ixFile` (`file_id`);
 
 --
+-- Indexes for table `work`
+--
+ALTER TABLE `work`
+ ADD PRIMARY KEY (`id`), ADD KEY `ixInstitution` (`institution`), ADD KEY `ixThumb` (`thumbnail`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -212,27 +211,32 @@ ALTER TABLE `watermark`
 -- AUTO_INCREMENT for table `bind`
 --
 ALTER TABLE `bind`
-MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `files`
 --
 ALTER TABLE `files`
-MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `institution`
 --
 ALTER TABLE `institution`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=5;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID';
 --
 -- AUTO_INCREMENT for table `news`
 --
 ALTER TABLE `news`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=4;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
 MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Код товара',AUTO_INCREMENT=23;
+--
+-- AUTO_INCREMENT for table `work`
+--
+ALTER TABLE `work`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
