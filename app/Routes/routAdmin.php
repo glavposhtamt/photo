@@ -49,6 +49,26 @@ $func = function($route){
     
 };
 
+$bindTables = function($table, $id, $addImgThumbnail){
+    $i = 0;
+    if (isset($_COOKIE['file'])) {
+        foreach ($_COOKIE['file'] as $name => $value) {
+            if($value !== "") {
+                $bind = new Bind();
+                $bind->file_name = $value;
+                $bind->file_id = (int)$name;
+                $bind->getTableId($table, $id);
+                $bind->position = $i;
+                $bind->save();
+                setcookie ("file[$name]", "", time() - 3600, "/admin/");
+                if($i === 0) $addImgThumbnail($bind->file_name, $bind->news_id);
+                $i++;
+                
+            }
+        }
+    }
+};
+
 $app->get('/admin/', function() use($app) {
 	$app->redirect('/admin/news');
 });
@@ -103,9 +123,7 @@ $app->get('/admin/news/add', function () use($app) {
 });
 
 
-$app->post('/admin/news/add', function () use ($app, $addImgThumbnail){
-    $i = 0;
-    $file_id;
+$app->post('/admin/news/add', function () use ($app, $addImgThumbnail, $bindTables){
     $news = new News();
     $news->title = $_POST["title"];
     $news->anotation = $_POST["anotation"];
@@ -114,23 +132,7 @@ $app->post('/admin/news/add', function () use ($app, $addImgThumbnail){
     $news->save();
     
     /*связываем новость и картинки*/
-    
-    if (isset($_COOKIE['file'])) {
-        foreach ($_COOKIE['file'] as $name => $value) {
-            if($value !== "") {
-                $bind = new Bind();
-                $bind->file_name = $value;
-                $bind->file_id = (int)$name;
-                $bind->news_id = (int)$news->id;
-                $bind->position = $i;
-                $bind->save();
-                setcookie ("file[$name]", "", time() - 3600, "/admin/");
-                if($i === 0) $addImgThumbnail($bind->file_name, $bind->news_id);
-                $i++;
-                
-            }
-        }
-}
+    $bindTables('news', $news->id, $addImgThumbnail);
     
     $app->redirect('/admin/thumbnail/'. $news->id);
 });
@@ -182,11 +184,11 @@ $app->get('/admin/gallery', function() use($app) {
 });
 
 $app->get('/admin/test', function() {
-
-/*        $inst = Institution::all(array('select' => 'DISTINCT title', 'conditions' => array('type' => 'Школа', 
-                                                                                           'city' => 'Джанкой')));*/
-    $city = Institution::all(array('select' => 'DISTINCT city', 'conditions' => array('type' => 'Школа')));
-    var_dump($city);
+    $obj = new stdClass();
+    $obj->first = "раз";
+    $link = &$obj->first;
+    $link = "два";
+    var_dump($obj);
 });
 
 $app->post('/admin/position/', function() use($addImgThumbnail){
@@ -371,5 +373,9 @@ $app->post('/admin/smartform/', function(){
         }
         die(json_encode($arr));
     }
+    
+});
+
+$app->post('/admin/work/add/', function() use($app, $addImgThumbnail, $bindTables){
     
 });

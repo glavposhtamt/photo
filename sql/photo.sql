@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 28 2015 г., 18:38
+-- Время создания: Сен 30 2015 г., 16:45
 -- Версия сервера: 5.5.44-0ubuntu0.12.04.1
 -- Версия PHP: 5.6.13-1+deb.sury.org~precise+3
 
@@ -31,19 +31,9 @@ CREATE TABLE IF NOT EXISTS `bind` (
   `file_name` varchar(255) DEFAULT NULL,
   `file_id` int(11) DEFAULT NULL,
   `news_id` int(11) DEFAULT NULL,
+  `work_id` int(11) DEFAULT NULL,
   `position` int(11) DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
---
--- Дамп данных таблицы `bind`
---
-
-INSERT INTO `bind` (`id`, `file_name`, `file_id`, `news_id`, `position`) VALUES
-(1, 'c_workshop_to_up.png', 4, 1, 0),
-(2, 'hello_world_by_marielart.jpg', 5, 1, 1),
-(3, 'keep-calm-and-study-c-programming.png', 6, 1, 2),
-(4, '3d174fd6503240198b12fd991bc177ac (1).jpg', 7, 2, 0),
-(5, '8645-c-programming-1680x1050-computer-wallpaper (1).jpg', 8, 2, 1);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -66,14 +56,14 @@ CREATE TABLE IF NOT EXISTS `files` (
 --
 
 INSERT INTO `files` (`id`, `name`, `size`, `type`, `url`, `title`, `description`) VALUES
-(1, '3d174fd6503240198b12fd991bc177ac.jpg', 524520, 'image/jpeg', NULL, '', ''),
-(2, '2015-07-03 01-57-37 Skrinshot ekrana.jpg', 210733, 'image/jpeg', NULL, '', ''),
-(3, '8645-c-programming-1680x1050-computer-wallpaper.jpg', 94493, 'image/jpeg', NULL, '', ''),
-(4, 'c_workshop_to_up.png', 809157, 'image/png', NULL, 'sfsdf', 'sdfsdf'),
-(5, 'hello_world_by_marielart.jpg', 21320, 'image/jpeg', NULL, 'dfdf', 'fdf'),
-(6, 'keep-calm-and-study-c-programming.png', 45200, 'image/png', NULL, 'dfdf', 'fdf'),
-(7, '3d174fd6503240198b12fd991bc177ac (1).jpg', 524520, 'image/jpeg', NULL, 'ава', 'ава'),
-(8, '8645-c-programming-1680x1050-computer-wallpaper (1).jpg', 94493, 'image/jpeg', NULL, 'ава', 'ава');
+(1, 'Bob Marley.jpg', 116169, 'image/jpeg', NULL, 'fsdf', 'fsdf'),
+(2, 'html5_1.jpg', 347664, 'image/jpeg', NULL, 'fdf', 'fdfd'),
+(3, 'samsung-mozilla-rust.jpg', 69410, 'image/jpeg', NULL, 'fdfdf', 'fdfd'),
+(4, 'Bob Marley (1).jpg', 116169, 'image/jpeg', NULL, '', ''),
+(5, 'HTML5_sticker.png', 50484, 'image/png', NULL, '', ''),
+(6, 'html5_1 (1).jpg', 347664, 'image/jpeg', NULL, '', ''),
+(7, 'HTML5_sticker (1).png', 50484, 'image/png', NULL, '', ''),
+(8, 'IDE-logo.png', 5393, 'image/png', NULL, '', '');
 
 -- --------------------------------------------------------
 
@@ -87,14 +77,17 @@ CREATE TABLE IF NOT EXISTS `institution` (
   `type` enum('Детский сад','Школа','ВУЗ') NOT NULL COMMENT 'Тип заведения',
   `city` varchar(255) DEFAULT NULL COMMENT 'Город',
   `street` varchar(255) DEFAULT NULL COMMENT 'Улица'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица учебных заведений' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица учебных заведений' AUTO_INCREMENT=5 ;
 
 --
 -- Дамп данных таблицы `institution`
 --
 
 INSERT INTO `institution` (`id`, `title`, `type`, `city`, `street`) VALUES
-(1, 'Аграрка', 'Школа', 'Симферополь', 'Научная, 2');
+(1, 'Аграрка', 'Школа', 'Симферополь', 'Научная, 2'),
+(2, 'Школа № 7', 'Школа', 'Джанкой', 'Интернациональная, 16'),
+(3, 'Ногайский колледж', 'ВУЗ', 'Приморск', 'Морская, 65'),
+(4, 'Школа № 6', 'Школа', 'Джанкой', 'Возле АТБ');
 
 -- --------------------------------------------------------
 
@@ -111,15 +104,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Дата редактирования',
   `thumbnail` varchar(255) DEFAULT NULL COMMENT 'Промежуточная картинка',
   `mini` varchar(255) DEFAULT NULL COMMENT 'Миниатюрка новости'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица страниц сайта' AUTO_INCREMENT=3 ;
-
---
--- Дамп данных таблицы `news`
---
-
-INSERT INTO `news` (`id`, `title`, `anotation`, `news`, `keywords`, `date`, `thumbnail`, `mini`) VALUES
-(1, 'fsdfsdfsdf', 'sfsdfsdf', '<p>sdfsdf</p>\r\n', '', '2015-09-28 13:51:21', '1_c_workshop_to_up.png', '1_c_workshop_to_up.png'),
-(2, 'вава', 'авава', '<p>авав</p>\r\n', '', '2015-09-28 15:19:15', '2_3d174fd6503240198b12fd991bc177ac (1).jpg', '2_3d174fd6503240198b12fd991bc177ac (1).jpg');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица страниц сайта' AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -227,7 +212,7 @@ ALTER TABLE `watermark`
 -- AUTO_INCREMENT for table `bind`
 --
 ALTER TABLE `bind`
-MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `files`
 --
@@ -237,12 +222,12 @@ MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- AUTO_INCREMENT for table `institution`
 --
 ALTER TABLE `institution`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=2;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `news`
 --
 ALTER TABLE `news`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=3;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `post`
 --

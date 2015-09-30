@@ -47,11 +47,12 @@ class MysqlUploadHandler extends UploadHandler {
             );
             $query->execute();
             $file->id = $this->db->insert_id;
-            if('http://'. $_SERVER['HTTP_HOST'] . '/admin/news/add' === $_SERVER['HTTP_REFERER']){
+            $ref1 = 'http://'. $_SERVER['HTTP_HOST'] . '/admin/news/add';
+            $ref2 = 'http://'. $_SERVER['HTTP_HOST'] . '/admin/work/add';
+            if( $ref1 === $_SERVER['HTTP_REFERER'] || $ref2 === $_SERVER['HTTP_REFERER']){
                 setcookie("file[$file->id]", $file->name);
             }
-            
-            
+
         }
         return $file;
     }

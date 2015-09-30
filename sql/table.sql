@@ -41,13 +41,14 @@ CREATE TABLE `files` (
   INDEX ixName ( name )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Таблица связей картинок с новостями
+-- Таблица связей картинок с новостями и работами
 
 CREATE TABLE `bind` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `file_name` varchar(255) DEFAULT NULL,
   `file_id` int(11) DEFAULT NULL,
   `news_id` int(11) DEFAULT NULL,
+  `work_id` int(11) DEFAULT NULL,
   `position` int(11) DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX ixName ( file_name ),

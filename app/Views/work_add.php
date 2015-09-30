@@ -55,21 +55,21 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <input type="text" class="form-control input-lg" placeholder="Год выпуска">
+                                        <input type="text" class="form-control input-lg" placeholder="Год выпуска" name="work-year">
                                     </div>
                                 </div>                                
                             </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <textarea class="form-control input-lg" name="" id="" cols="30" rows="5" placeholder="Описание"></textarea>
+                                        <textarea class="form-control input-lg" name="" id="" cols="30" rows="5" name="work-desc" placeholder="Описание"></textarea>
                                     </div>
                                 </div>                                
                             </div>                            
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input type="text" class="form-control input-lg" placeholder="Ключевые слова">
+                                        <input type="text" class="form-control input-lg" placeholder="Ключевые слова" name="work-keywords">
                                     </div>
                                 </div>                                
                             </div>
