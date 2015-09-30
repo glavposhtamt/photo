@@ -61,7 +61,7 @@ $bindTables = function($table, $id, $addImgThumbnail){
                 $bind->position = $i;
                 $bind->save();
                 setcookie ("file[$name]", "", time() - 3600, "/admin/");
-                if($i === 0) $addImgThumbnail($bind->file_name, $bind->news_id);
+                if($i === 0 && $table === 'news') $addImgThumbnail($bind->file_name, $bind->news_id);
                 $i++;
                 
             }
@@ -74,8 +74,8 @@ $app->get('/admin/', function() use($app) {
 });
 
 $app->get('/admin/news/', function() use($app) {
-        $list = News::find_by_sql("SELECT id, title, date FROM news");
-	$app->render('news.php', array('list' => $list));
+    $list = News::find_by_sql("SELECT id, title, date FROM news");
+    $app->render('news.php', array('list' => $list));
 
 });
 
@@ -101,16 +101,19 @@ $app->post('/admin/page/:id', function ($id) use($app) {
     
 });
 
-$app->get('/admin/news/delete/:id', function ($id) {
-    $news = News::find((int)$id);
-    $news->delete();
-    Bind::delete_all(array('conditions' => array('news_id' => (int)$id)));
-    $file_name1 = FILES_PATH . '/mini/' . $news->thumbnail;
-    $file_name2 = FILES_PATH . '/crop/' . $news->mini;
-    if(is_file($file_name1)) { unlink($file_name1); }
-    if(is_file($file_name2)) { unlink($file_name2); }
-
-    echo $id;
+$app->post('/admin/delete/', function () {
+    Bind::deleteRow($_POST['type'], $_POST['id']);
+    if(isset($_POST['type']) && $_POST['type'] === 'news'){
+        $news = News::find((int)$_POST['id']);
+        $news->delete();
+        $file_name1 = FILES_PATH . '/mini/' . $news->thumbnail;
+        $file_name2 = FILES_PATH . '/crop/' . $news->mini;
+        if(is_file($file_name1)) { unlink($file_name1); }
+        if(is_file($file_name2)) { unlink($file_name2); }
+    }elseif(isset($_POST['type']) && $_POST['type'] === 'work'){
+        $news = Work::find((int)$_POST['id']);
+        $news->delete();
+    }
 });
 
 $app->get('/admin/news/add', function () use($app) {
@@ -301,7 +304,7 @@ $app->post('/admin/setwatermark/', function(){
 });
 
 $app->get('/admin/work/', function() use($app) {
-    $list = News::find_by_sql("SELECT id, title, date FROM news");
+    $list = Work::find_by_sql('SELECT work.id, title, city FROM work INNER JOIN institution ON work.institution = institution.id');
 	$app->render('work.php', array('list' => $list));
 
 });
@@ -346,9 +349,8 @@ $app->get('/admin/institution/success/', function() use($app) {
 
 });
 
-$app->get('/admin/work/add/', function() use($app){
+$app->get('/admin/work/add', function() use($app){
     $school = Institution::find('all', array('select' => 'DISTINCT city', 'conditions' => array('type' => 'Школа')));
-    //var_dump($school);
     $app->render("work_add.php", array('school' => $school));
 });
 
@@ -364,18 +366,31 @@ $app->post('/admin/smartform/', function(){
     }
     
     if(isset($_POST['query']) && $_POST['query'] === 'institution'){
-        $inst = Institution::all(array('select' => 'DISTINCT title', 'conditions' => array('type' => $_POST['type'], 
+        $inst = Institution::all(array('select' => 'id, title', 'conditions' => array('type' => $_POST['type'], 
                                                                                            'city' => $_POST['city'])));
-        $arr = []; $i = 0;        
-        foreach($inst as $value){
-            $arr[$i] = $value->title;
-            $i++;
-        }
+        $arr = [];
+        foreach($inst as $value) $arr[$value->id] = $value->title;
+ 
         die(json_encode($arr));
     }
     
 });
 
-$app->post('/admin/work/add/', function() use($app, $addImgThumbnail, $bindTables){
+$app->post('/admin/work/add', function() use($app, $addImgThumbnail, $bindTables){
+
+    $work = new Work();
+    if(isset($_POST['institution'])) $work->institution = (int)$_POST['institution'];
+    else return;
+    if(isset($_POST['work-class'])) $work->school_class = $_POST['work-class'];
+    $work->year = $_POST['work-year'];
+    $work->anotation = $_POST['work-desc'];
+    $work->keywords = $_POST['work-keywords'];
+    $work->save();
+    $bindTables('work', $work->id, $addImgThumbnail);
+    $app->redirect('/admin/work/');
     
+});
+
+$app->get('/admin/work/:id', function($id) use($app){
+    $app->render('work_edit.php');
 });

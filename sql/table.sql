@@ -25,7 +25,7 @@ CREATE TABLE news (
     `mini` varchar(255) DEFAULT NULL COMMENT 'Миниатюрка новости',
     PRIMARY KEY (id),
     INDEX ixThumb ( thumbnail )
-) ENGINE=InnoDB COMMENT 'Таблица страниц сайта' CHARACTER SET utf8 COLLATE utf8_general_ci;
+) ENGINE=InnoDB COMMENT 'Таблица новостей' CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 -- Таблица файлов
 
@@ -80,4 +80,20 @@ CREATE TABLE `institution` (
     INDEX ixCity (city),
     INDEX ixStreet (street)
 ) ENGINE=InnoDB COMMENT 'Таблица учебных заведений' CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+-- Таблица "Наши работы"
+
+CREATE TABLE `work` (
+    `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `institution` int UNSIGNED NOT NULL COMMENT 'ID учебного заведения',
+    `school_class` int UNSIGNED NOT NULL COMMENT 'Класс',
+    `year` int UNSIGNED NOT NULL COMMENT 'Год окончания',
+    `anotation` varchar(255) NOT NULL DEFAULT '' COMMENT 'Анотация',
+    `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Ключевые слова',
+    `thumbnail` varchar(255) DEFAULT NULL COMMENT 'Промежуточная картинка',
+    `mini` varchar(255) DEFAULT NULL COMMENT 'Миниатюрка новости',
+    PRIMARY KEY (id),
+    INDEX ixInstitution ( institution ),
+    INDEX ixThumb ( thumbnail )
+) ENGINE=InnoDB COMMENT 'Таблица работ' CHARACTER SET utf8 COLLATE utf8_general_ci;
 

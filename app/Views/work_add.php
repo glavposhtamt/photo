@@ -13,7 +13,7 @@
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <select class="form-control input-lg" id="work-type" name="work-type">
+                                        <select class="form-control input-lg" id="work-type">
                                             <option value="1">Детский сад</option>
                                             <option value="2" selected>Школа</option>
                                             <option value="3">ВУЗ</option>
@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="col-lg-5">
                                     <div class="form-group">
-                                        <select class="form-control input-lg" id="work-city" name="work-city">
+                                        <select class="form-control input-lg" id="work-city">
                                             <option>Город</option>
                                             <?php foreach($school as $value) : ?>
                                                 <option><?=$value->city?></option>
@@ -45,7 +45,7 @@
 
                                 <div class="col-lg-9">
                                     <div class="form-group">
-                                        <select class="form-control input-lg" name="institution" id="work-institution" disabled>
+                                        <select class="form-control input-lg" id="work-institution" name="institution" disabled>
                                             <option>Учебное заведение</option>
                                             <?php for($i = 1; $i <= 2; ++$i) : ?>
                                                 <option><?='ВУЗ ' . $i?></option>
@@ -55,14 +55,14 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <input type="text" class="form-control input-lg" placeholder="Год выпуска" name="work-year">
+                                        <input type="number" class="form-control input-lg" placeholder="Год выпуска" name="work-year" required>
                                     </div>
                                 </div>                                
                             </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <textarea class="form-control input-lg" name="" id="" cols="30" rows="5" name="work-desc" placeholder="Описание"></textarea>
+                                        <textarea class="form-control input-lg" cols="30" rows="5" name="work-desc" placeholder="Описание" required></textarea>
                                     </div>
                                 </div>                                
                             </div>                            

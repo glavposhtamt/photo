@@ -1,23 +1,24 @@
 ymaps.ready(init);
 
-
 function init() {
      navigator.geolocation.getCurrentPosition(showinfo, showerror);
 }
 
 function showinfo(position){
+    
+    var myAddress = [], myHint = [];
 
     var myMap = new ymaps.Map('map', {
         center: [position.coords.latitude, position.coords.longitude],
         zoom: 1
     });
 
-    var myPoint = new ymaps.Placemark([position.coords.latitude, position.coords.longitude], { hintContent: 'Ну давай уже тащи' }, {
+    var myPoint = new ymaps.Placemark([position.coords.latitude, position.coords.longitude], { hintContent: 'Местонахождение' }, {
         preset: 'islands#circleDotIcon',
         iconColor: 'red'
     });
     myPoint.events.add('click', function () {
-        alert('О, событие!');
+        alert('Тут будет переход по ссылке!');
     });
     myMap.geoObjects.add(myPoint);
     
@@ -28,11 +29,22 @@ function showinfo(position){
                 myMap.setBounds(bounds, {
                     checkZoomRange: true
                 });
-            console.log('Текущий город: ',myGeoObject.properties.get(
-                'metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.LocalityName'));
+            var city = myGeoObject.properties.get(
+                'metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.LocalityName');
+            $.post('/geography/', { city: city }, function(data){
+                var arr = jQuery.parseJSON(data);
+                for(var i = 0; i < arr.length; i++) {
+                    myAddress.push(arr[i].address);
+                    myHint.push(arr[i].hint);
+                }
+                set_point(myAddress, myHint);
+                
+                
+            });
     });
-    function set_point(address){
+    function set_point(address, hint){
         for(var i = 0; i < address.length; ++i){
+            iter = address.length;
             ymaps.geocode(address[i], { results: 1 }).then(function (res) {
                 // Выбираем первый результат геокодирования.
                 var firstGeoObject = res.geoObjects.get(0),
@@ -41,12 +53,18 @@ function showinfo(position){
                     // Область видимости геообъекта.
                     bounds = firstGeoObject.properties.get('boundedBy');
                 
-				    // Добавляем первый найденный геообъект на карту.	
-                    myMap.geoObjects.add(new ymaps.Placemark(coords, { hintContent: 'Ну давай уже тащи' }, 
+				    // Добавляем первый найденный геообъект на карту.
+                    var schoolPoint = new ymaps.Placemark(coords, { hintContent: 'Какая-то школа' }, 
                     {
                         preset: 'islands#dotIcon',
                         iconColor: '#1faee9'
-                    }));
+                    });
+                
+                    schoolPoint.events.add('click', function () {
+                        alert('Тут будет переход по ссылке!');
+                    });
+                
+                    myMap.geoObjects.add(schoolPoint);
                 
                 // Масштабируем карту на область видимости геообъекта.
                 myMap.setBounds(bounds, {
@@ -57,7 +75,7 @@ function showinfo(position){
         }
     }
 
-   set_point(['Джанкой, Проезжая 60', 'Джанкой, Маяковского, 72', 'Джанкой, Ярмарочная, 9']);
+
 }
 
 function showerror(error){

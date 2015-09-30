@@ -18,26 +18,14 @@ jQuery( document ).ready(function() {
    $(".remove-link").click(function() {
         var bool = confirm("Подтвердите действие");
         if(!bool) return;
-        var local = window.location.href;
         var that = this;
-        var id = $(this).attr("data-id");
-        $.ajax({
-            url: '/admin/news/delete/' + id,
-            type: 'GET',
-            success: function(result) {
-                console.log(result);
-                $(that).remove();
-                var list = $(".list-group-item");
-                for(var i = 0; i < list.length; ++i) {
-                    if(list[i].href === local + '/' + result) {
-                        list[i].remove();
-                        break;
-                    }
-                }
-            }
-        });
-   });
-   
+        var id = $(that).data("id");
+        var type = $(that).data("type");
+        $.post('/admin/delete/', { type: type, id: id }, function(){
+            $(that).remove();
+            $('#item' + id).remove();            
+        });        
+   });   
 });
 
 /* Menu Toggle Script */
@@ -239,9 +227,10 @@ jQuery(document).ready(function(){
 /* Умная динамичная форма */
 
 jQuery(document).ready(function(){
-    var type, city, createOption = function(val, parent){
+    var type, city, createOption = function(val, text, parent){
         var option = document.createElement('option');
-        option.text = val;
+        option.value = val;
+        option.text = text;
         parent.appendChild(option);
     };
     $("#work-type").change(function(){
@@ -255,9 +244,9 @@ jQuery(document).ready(function(){
                 var arr = jQuery.parseJSON(data);
                 if(arr.length > 0){
                     $("#work-city").children().remove();
-                    createOption('Город', $("#work-city")[0]);
+                    createOption('Город', 'Город', $("#work-city")[0]);
                     for(var i = 0; i < arr.length; ++i){
-                        createOption(arr[i], $("#work-city")[0]);
+                        createOption(arr[i], arr[i], $("#work-city")[0]);
                     }
                     $("#work-city")[0].disabled = false;
                 }else return;
@@ -273,9 +262,10 @@ jQuery(document).ready(function(){
                 $.post("/admin/smartform/", { query: 'institution', type: type, city: city }, function(data){
                     var arr = jQuery.parseJSON(data);
                     $("#work-institution").children().remove();
-                    createOption('Учебное заведение', $("#work-institution")[0]);
-                    for(var i = 0; i < arr.length; ++i){
-                        createOption(arr[i], $("#work-institution")[0]);
+                    createOption('Учебное заведение', 'Учебное заведение', $("#work-institution")[0]);
+                    
+                    for(var prop in arr){ 
+                        createOption(prop, arr[prop], $("#work-institution")[0]); 
                     }
                     $("#work-institution")[0].disabled = false;
                 });

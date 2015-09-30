@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1>Наши работы</h1>
-                        <a class="add-new" href="/admin/work/add/">
+                        <a class="add-new" href="/admin/work/add">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
                             <span class="anchor">Создать работу</span>
                         </a>
@@ -20,11 +20,11 @@
                         <!-- Список новостей -->
                         <div class="list-group">
                             <?php foreach ($list as $value) : ?>
-                                <a href="/admin/news/<?=$value->id?>" class="list-group-item">
+                                <a href="/admin/work/<?=$value->id?>" class="list-group-item" id="item<?=$value->id?>">
                                     <h4 class="list-group-item-heading"><?=$value->title?></h4>
-                                    <p list-group-item-text><?=$value->date?></p>
+                                    <p list-group-item-text><?=$value->city?></p>
                                 </a>
-                                <span class="remove-link" data-id="<?=$value->id?>">
+                                <span class="remove-link" data-id="<?=$value->id?>" data-type="work">
                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 </span>
                             <?php endforeach; ?>

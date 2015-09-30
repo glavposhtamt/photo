@@ -95,6 +95,14 @@ $app->get('/portfolio/', function() use($app){
 });
 
 $app->post('/geography/', function(){
-    die(json_encode(['Привет', 'Мир']));
+    $list = Work::find_by_sql("SELECT title, city, street FROM work INNER JOIN institution ON work.institution = institution.id WHERE city = 'Джанкой'");
+    $arr = []; $i = 0;
+    foreach($list as $value){
+        $obj = new stdClass();
+        $obj->address = $value->city . ', ' . $value->street;
+        $obj->hint = $value->title;
+        $arr[$i++] = $obj;
+    }
+    die(json_encode($arr));
 });
 
