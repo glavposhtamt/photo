@@ -95,7 +95,8 @@ $app->get('/portfolio/', function() use($app){
 });
 
 $app->post('/geography/', function(){
-    $list = Work::find_by_sql("SELECT title, city, street FROM work INNER JOIN institution ON work.institution = institution.id WHERE city = 'Джанкой'");
+    $city = $_POST['city'];
+    $list = Work::find_by_sql("SELECT title, city, street FROM work INNER JOIN institution ON work.institution = institution.id WHERE city = '$city'");
     $arr = []; $i = 0;
     foreach($list as $value){
         $obj = new stdClass();
