@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 30 2015 г., 23:03
+-- Время создания: Окт 04 2015 г., 18:49
 -- Версия сервера: 5.5.44-0ubuntu0.12.04.1
 -- Версия PHP: 5.6.13-1+deb.sury.org~precise+3
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `bind` (
   `news_id` int(11) DEFAULT NULL,
   `work_id` int(11) DEFAULT NULL,
   `position` int(11) DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `files` (
   `url` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` text
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -63,7 +63,15 @@ CREATE TABLE IF NOT EXISTS `institution` (
   `type` enum('Детский сад','Школа','ВУЗ') NOT NULL COMMENT 'Тип заведения',
   `city` varchar(255) DEFAULT NULL COMMENT 'Город',
   `street` varchar(255) DEFAULT NULL COMMENT 'Улица'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица учебных заведений' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица учебных заведений' AUTO_INCREMENT=3 ;
+
+--
+-- Дамп данных таблицы `institution`
+--
+
+INSERT INTO `institution` (`id`, `title`, `type`, `city`, `street`) VALUES
+(1, 'Школа № 7', 'Школа', 'Джанкой', 'Маяковского, 72'),
+(2, 'Аграрка', 'Школа', 'Джанкой', 'Проезжая 60');
 
 -- --------------------------------------------------------
 
@@ -80,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Дата редактирования',
   `thumbnail` varchar(255) DEFAULT NULL COMMENT 'Промежуточная картинка',
   `mini` varchar(255) DEFAULT NULL COMMENT 'Миниатюрка новости'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица страниц сайта' AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица страниц сайта' AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -155,7 +163,14 @@ CREATE TABLE IF NOT EXISTS `work` (
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Ключевые слова',
   `thumbnail` varchar(255) DEFAULT NULL COMMENT 'Промежуточная картинка',
   `mini` varchar(255) DEFAULT NULL COMMENT 'Миниатюрка новости'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица работ' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица работ' AUTO_INCREMENT=7 ;
+
+--
+-- Дамп данных таблицы `work`
+--
+
+INSERT INTO `work` (`id`, `institution`, `school_class`, `year`, `anotation`, `keywords`, `thumbnail`, `mini`) VALUES
+(6, 0, 2, 44636, 'kjk', 'hjkk', '6_2015-07-03 01-57-37 Skrinshot ekrana (5).jpg', NULL);
 
 --
 -- Indexes for dumped tables
@@ -211,22 +226,22 @@ ALTER TABLE `work`
 -- AUTO_INCREMENT for table `bind`
 --
 ALTER TABLE `bind`
-MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `files`
 --
 ALTER TABLE `files`
-MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `institution`
 --
 ALTER TABLE `institution`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID';
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `news`
 --
 ALTER TABLE `news`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=5;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `post`
 --
@@ -236,7 +251,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Код товар�
 -- AUTO_INCREMENT for table `work`
 --
 ALTER TABLE `work`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=4;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=7;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

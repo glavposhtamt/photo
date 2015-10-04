@@ -15,9 +15,9 @@
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <section id="canvasbox">
-                                    <canvas id="canvas">
-                                        В вашем браузере элемент canvas не поддерживается
-                                    </canvas>
+                                    <?php if(!is_null($news->mini)) : ?>
+                                        <img src="/files/crop/<?=$news->mini?>" id="imgCrop" alt="Миниатюра">
+                                    <?php endif; ?>
                                 </section>
                                 <div id="thumbnail-panel">
                                     <button id="release" class="btn btn-danger btn-sm">Убрать выделение</button> 

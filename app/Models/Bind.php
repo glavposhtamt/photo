@@ -2,7 +2,7 @@
 
 class Bind extends ActiveRecord\Model {
     
-    public function getTableId($table, $id){
+    public function setTableId($table, $id){
         if($table === 'work'){
             $this->work_id = (int)$id;
         }

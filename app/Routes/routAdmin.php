@@ -1,5 +1,7 @@
 <?php
 
+define('CROP_PATH', 'files/crop/');
+
 use \Eventviva\ImageResize;
 
 require CLASS_PATH . '/ImageProcessingCollection.php';
@@ -13,24 +15,24 @@ $selectAllImg = function (){
     return $img;
 };
 
-$addImgThumbnail = function($file_name, $news_id) {
+$addImgThumbnail = function($model, $file_name) {
+/*    $model = News::find((int)$model_id, array('select' => 'id, thumbnail'));*/
     if(!is_dir(FILES_PATH . '/mini')){
         if(!mkdir(FILES_PATH . '/mini', 0755)){
             die();
         }
     }
+
+    if($model->id . '_' . $file_name === $model->thumbnail){ return; }
     
-    $news = News::find((int)$news_id, array('select' => 'id, thumbnail'));
-    if($news_id . '_' . $file_name === $news->thumbnail){ return; }
-    
-    if(is_file(FILES_PATH . '/mini/' . $news->thumbnail)){
-        unlink(FILES_PATH . '/mini/' . $news->thumbnail);
+    if(is_file(FILES_PATH . '/mini/' . $model->thumbnail)){
+        unlink(FILES_PATH . '/mini/' . $model->thumbnail);
     }
     $image = new ImageResize(FILES_PATH . "/$file_name");
     $image->resizeToWidth(700);
-    $image->save(FILES_PATH . "/mini/$news_id" . '_' . $file_name);
-    $news->thumbnail = $news_id . '_' . $file_name;
-    $news->save();
+    $image->save(FILES_PATH . "/mini/$model->id" . '_' . $file_name);
+    $model->thumbnail = $model->id . '_' . $file_name;
+    $model->save();
 };
 
 $func = function($route){
@@ -57,11 +59,16 @@ $bindTables = function($table, $id, $addImgThumbnail){
                 $bind = new Bind();
                 $bind->file_name = $value;
                 $bind->file_id = (int)$name;
-                $bind->getTableId($table, $id);
+                $bind->setTableId($table, $id);
                 $bind->position = $i;
                 $bind->save();
                 setcookie ("file[$name]", "", time() - 3600, "/admin/");
-                if($i === 0 && $table === 'news') $addImgThumbnail($bind->file_name, $bind->news_id);
+                if($i === 0){ 
+                    if($table === 'news') $model = News::find((int)$bind->news_id, array('select' => 'id, thumbnail'));
+                    elseif($table === 'work') $model = Work::find((int)$bind->work_id, array('select' => 'id, thumbnail'));
+                    else die("Неверная таблица!");
+                    $addImgThumbnail($model, $bind->file_name); 
+                }
                 $i++;
                 
             }
@@ -137,7 +144,7 @@ $app->post('/admin/news/add', function () use ($app, $addImgThumbnail, $bindTabl
     /*связываем новость и картинки*/
     $bindTables('news', $news->id, $addImgThumbnail);
     
-    $app->redirect('/admin/thumbnail/'. $news->id);
+    $app->redirect('/admin/thumbnail/news/'. $news->id);
 });
 
 $app->get('/admin/news/:id', function ($id) use($app, $selectAllImg) {
@@ -187,11 +194,7 @@ $app->get('/admin/gallery', function() use($app) {
 });
 
 $app->get('/admin/test', function() {
-    $obj = new stdClass();
-    $obj->first = "раз";
-    $link = &$obj->first;
-    $link = "два";
-    var_dump($obj);
+
 });
 
 $app->post('/admin/position/', function() use($addImgThumbnail){
@@ -203,7 +206,10 @@ $app->post('/admin/position/', function() use($addImgThumbnail){
     for($i = 0; $i < count($bind); ++$i){
         $bind[$i]->position = (int)$arr[(int)$bind[$i]->file_id];
         $bind[$i]->save();
-        if($bind[$i]->position === 0) { $addImgThumbnail($bind[$i]->file_name, (int)$pos->id); }
+        if($bind[$i]->position === 0) {
+            $model = News::find((int)$pos->id, array('select' => 'id, thumbnail'));
+            $addImgThumbnail($model, $bind[$i]->file_name);
+        }
     }
 
 });
@@ -226,8 +232,13 @@ $app->post('/admin/removeimg', function(){
     
 });
 
-$app->get('/admin/thumbnail/:id', function($id) use($app) {
-    $thumb = News::find((int)$id, array('select' => 'thumbnail, id'));
+$app->get('/admin/thumbnail/news/:id', function($id) use($app) {
+    $thumb = News::find((int)$id, array('select' => 'thumbnail, id, mini'));
+    $app->render('thumbnail.php', array('news' => $thumb));      
+});
+
+$app->get('/admin/thumbnail/work/:id', function($id) use($app) {
+    $thumb = Work::find((int)$id, array('select' => 'thumbnail, id, mini'));
     $app->render('thumbnail.php', array('news' => $thumb));      
 });
 
@@ -243,14 +254,19 @@ $app->post('/admin/thumbnail/:id', function($id) use($imgCollection) {
     $y1 = $_POST['y1'];
     $y2 = $_POST['y2'];
     $img = $_SERVER["DOCUMENT_ROOT"] . "/" . $_POST['img'];
-    $patch = $_POST['crop'];
-    $full_patch = $_SERVER['DOCUMENT_ROOT'] . "/" . $patch;
+    $full_patch = $_SERVER['DOCUMENT_ROOT'] . "/" . CROP_PATH;
+    
     if(!is_null($thumb->mini)){
         unlink($full_patch . $thumb->mini);
     }
-    $imgCollection->crop( $img, $full_patch . $thumb->thumbnail, array($x1, $y1, $x2, $y2));
-    $thumb->mini = $thumb->thumbnail;
+    
+    $arr = pathinfo($thumb->thumbnail);
+    $cropName = $arr['filename'] . time() . $arr['extension'];
+    
+    $imgCollection->crop( $img, $full_patch . $cropName, array($x1, $y1, $x2, $y2));
+    $thumb->mini = $cropName;
     $thumb->save();
+    die(CROP_PATH . $cropName);
 });
 
 $app->get('/admin/watermark/:id', function($id) use($watermark){
@@ -387,7 +403,7 @@ $app->post('/admin/work/add', function() use($app, $addImgThumbnail, $bindTables
     $work->keywords = $_POST['work-keywords'];
     $work->save();
     $bindTables('work', $work->id, $addImgThumbnail);
-    $app->redirect('/admin/work/');
+    $app->redirect('/admin/thumbnail/work/'. $work->id);
     
 });
 

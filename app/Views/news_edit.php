@@ -87,7 +87,7 @@
                         </div>
                         <div class="container_">                        
                             <h4>Настройка миниатюры:</h4>
-                            <a href="/admin/thumbnail/<?=$news->id?>" target="_blank" class="btn btn-info btn-lg" >Установить миниатюру</a>
+                            <a href="/admin/thumbnail/news/<?=$news->id?>" target="_blank" class="btn btn-info btn-lg" >Установить миниатюру</a>
                         </div>
                         <div class="container_">
                             <h4>Установить водяные знаки:</h4>
