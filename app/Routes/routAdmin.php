@@ -201,16 +201,23 @@ $app->get('/admin/test', function() {
 $app->post('/admin/position/', function() use($addImgThumbnail){
     $pos = json_decode($_POST['position']);
     $arr = get_object_vars($pos);
-    $bind = Bind::find_all_by_news_id((int)$pos->id, array('select' => 'position, file_id, id, file_name'));
     
-        
+    $model = null;
+    if($_POST['type'] === 'news') {
+        $bind = Bind::find_all_by_news_id((int)$pos->id, array('select' => 'position, file_id, id, file_name'));
+        $model = News::find((int)$pos->id, array('select' => 'id, thumbnail'));
+    }
+    elseif($_POST['type'] === 'work') {
+        $bind = Bind::find_all_by_work_id((int)$pos->id, array('select' => 'position, file_id, id, file_name'));
+        $model = Work::find((int)$pos->id, array('select' => 'id, thumbnail'));
+    }
+    else die();
+    
     for($i = 0; $i < count($bind); ++$i){
         $bind[$i]->position = (int)$arr[(int)$bind[$i]->file_id];
         $bind[$i]->save();
-        if($bind[$i]->position === 0) {
-            $model = News::find((int)$pos->id, array('select' => 'id, thumbnail'));
-            $addImgThumbnail($model, $bind[$i]->file_name);
-        }
+        if($bind[$i]->position === 0 && !is_null($model)) $addImgThumbnail($model, $bind[$i]->file_name);
+
     }
 
 });
@@ -219,7 +226,7 @@ $app->post('/admin/bind', function(){
     $bind = new Bind();
     $bind->file_id = (int)$_POST['file_id'];
     $bind->file_name = $_POST['file_name'];
-    $bind->news_id = $_POST['id'];
+    $bind->setTableId($_POST['type'], $_POST['id']);
     $bind->save();
     die(1);
     
@@ -410,6 +417,10 @@ $app->post('/admin/work/add', function() use($app, $addImgThumbnail, $bindTables
     
 });
 
-$app->get('/admin/work/:id', function($id) use($app){
-    $app->render('work_edit.php');
+$app->get('/admin/work/:id', function($id) use($app, $selectAllImg){
+    $school = Institution::find('all', array('select' => 'DISTINCT city', 'conditions' => array('type' => 'Школа')));
+    $work = Work::find((int)$id);
+    $img = Bind::find_all_by_work_id((int)$id, array('order' => 'position'));
+    $gallery = $selectAllImg();
+    $app->render('work_edit.php', array('work' => $work,'school' => $school, 'images' => $img, 'gallery' => $gallery));
 });

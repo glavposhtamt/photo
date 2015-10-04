@@ -57,10 +57,11 @@ function position(message){
         names[$(obj[i]).data("id")] = i;
     }
     names.id = obj.context.URL.split("/").slice(-1)[0];
+    var type = document.location.pathname.split("/").slice(2, -1)[0];
     console.log(names);
     var strImgName = JSON.stringify(names);
         
-    $.post("/admin/position", { position: strImgName }, function(){ message ? alert("Изменено!") : ''; });
+    $.post("/admin/position", { position: strImgName, type: type }, function(){ message ? alert("Изменено!") : ''; });
 }
 
 function removeImg(that) {
@@ -99,14 +100,16 @@ window.addEventListener('load', function(){
             span.dataset.img = $(clone).data("id");
             $(span).bind("click", function(){ var that = this; removeImg(that); });
             var container = document.getElementById("container-img");
+            var type = document.location.pathname.split("/").slice(2, -1)[0];
             container.appendChild(div);
             div.appendChild(clone);
             div.appendChild(span);
             $('.drag').draggable();
-            $.post("/admin/bind", { file_id: $(clone).data("id"), file_name: decodeURI(fileName), id: pageId  }, function(){
-                console.log("Добавлено!");
-                position(false);
-            });
+            $.post("/admin/bind", { file_id: $(clone).data("id"), file_name: decodeURI(fileName), id: pageId, type: type }, 
+                function(){
+                    console.log("Добавлено!");
+                    position(false);
+                });
         }, false);
     }
 
