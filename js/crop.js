@@ -30,15 +30,18 @@ jQuery(document).ready(function(){
                 var img = $('#target').attr('src');
                 img = img.substring(1);
                 var pageId = document.location.pathname.split("/").slice(-1)[0];
-                $.post('/admin/thumbnail/' + pageId, {'x1': coords.x, 'x2': coords.x2, 'y1': coords.y, 'y2': coords.y2, 'img': img }, function(data) {
-                    release();
-                    var img = document.getElementById('imgCrop');
-                    if(img !== null) img.remove();
-                    var newImg = new Image();
-                    newImg.src = 'http://' + document.location.host + '/' + data;
-                    newImg.alt = 'Миниатюра';
-                    newImg.id = 'imgCrop';
-                    $("#canvasbox").append(newImg);
+                var type = document.location.pathname.split("/").slice(3, -1)[0];
+                var url = '/admin/thumbnail/' + pageId;
+                $.post(url, {'x1': coords.x, 'x2': coords.x2, 'y1': coords.y, 'y2': coords.y2, 'img': img, 'type': type },
+                       function(data) {
+                            release();
+                            var img = document.getElementById('imgCrop');
+                            if(img !== null) img.remove();
+                            var newImg = new Image();
+                            newImg.src = 'http://' + document.location.host + '/' + data;
+                            newImg.alt = 'Миниатюра';
+                            newImg.id = 'imgCrop';
+                            $("#canvasbox").append(newImg);
                 });
 
             });

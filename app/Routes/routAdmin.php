@@ -110,17 +110,18 @@ $app->post('/admin/page/:id', function ($id) use($app) {
 
 $app->post('/admin/delete/', function () {
     Bind::deleteRow($_POST['type'], $_POST['id']);
-    if(isset($_POST['type']) && $_POST['type'] === 'news'){
-        $news = News::find((int)$_POST['id']);
-        $news->delete();
-        $file_name1 = FILES_PATH . '/mini/' . $news->thumbnail;
-        $file_name2 = FILES_PATH . '/crop/' . $news->mini;
+    $remove = function($model){
+        $model->delete();
+        $file_name1 = FILES_PATH . '/mini/' . $model->thumbnail;
+        $file_name2 = FILES_PATH . '/crop/' . $model->mini;
         if(is_file($file_name1)) { unlink($file_name1); }
         if(is_file($file_name2)) { unlink($file_name2); }
-    }elseif(isset($_POST['type']) && $_POST['type'] === 'work'){
-        $news = Work::find((int)$_POST['id']);
-        $news->delete();
-    }
+    };
+    if(isset($_POST['type']) && $_POST['type'] === 'news') $model = News::find((int)$_POST['id']);
+    elseif(isset($_POST['type']) && $_POST['type'] === 'work') $model = Work::find((int)$_POST['id']);
+    else die();
+    $remove($model);
+
 });
 
 $app->get('/admin/news/add', function () use($app) {
@@ -234,12 +235,12 @@ $app->post('/admin/removeimg', function(){
 
 $app->get('/admin/thumbnail/news/:id', function($id) use($app) {
     $thumb = News::find((int)$id, array('select' => 'thumbnail, id, mini'));
-    $app->render('thumbnail.php', array('news' => $thumb));      
+    $app->render('thumbnail.php', array('news' => $thumb, 'return' => '/news/' . $thumb->id));      
 });
 
 $app->get('/admin/thumbnail/work/:id', function($id) use($app) {
     $thumb = Work::find((int)$id, array('select' => 'thumbnail, id, mini'));
-    $app->render('thumbnail.php', array('news' => $thumb));      
+    $app->render('thumbnail.php', array('news' => $thumb, 'return' => '/work/' . $thumb->id));      
 });
 
 $app->post('/admin/thumbnail/:id', function($id) use($imgCollection) {
@@ -248,7 +249,9 @@ $app->post('/admin/thumbnail/:id', function($id) use($imgCollection) {
             die();
         }
     }
-    $thumb = News::find((int)$id, array('select' => 'thumbnail, mini, id'));
+    $type = $_POST['type'];
+    if($type === 'news') $thumb = News::find((int)$id, array('select' => 'thumbnail, mini, id'));
+    elseif($type === 'work') $thumb = Work::find((int)$id, array('select' => 'thumbnail, mini, id'));
     $x1 = $_POST['x1'];
     $x2 = $_POST['x2'];
     $y1 = $_POST['y1'];

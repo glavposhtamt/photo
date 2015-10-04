@@ -22,7 +22,7 @@
                                 <div id="thumbnail-panel">
                                     <button id="release" class="btn btn-danger btn-sm">Убрать выделение</button> 
                                     <button id="crop" class="btn btn-info btn-sm">Обрезать</button> 
-                                    <a href="/admin/news/<?=$news->id?>" class="btn btn-warning">Назад</a>
+                                    <a href="/admin<?=$return?>" class="btn btn-warning">Назад</a>
                                 </div>
                             </div>
                         </div>
