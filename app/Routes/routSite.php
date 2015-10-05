@@ -107,3 +107,9 @@ $app->post('/geography/', function(){
     die(json_encode($arr));
 });
 
+$app->get('/ourworks/', function() use($app){
+    $news = Work::find('all', array('select' => 'mini, thumbnail, id, anotation, title'));
+    $news = Work::find_by_sql("SELECT work.id, mini, thumbnail, anotation, title FROM work INNER JOIN institution ON work.institution = institution.id");
+    $app->render('news_list.php', array('news' => $news));
+    
+});

@@ -279,10 +279,14 @@ $app->post('/admin/thumbnail/:id', function($id) use($imgCollection) {
     die(CROP_PATH . $cropName);
 });
 
-$app->get('/admin/watermark/:id', function($id) use($watermark){
-    $img = Bind::find_all_by_news_id((int)$id, array('select' => 'file_name'));
+$app->post('/admin/watermark/:id', function($id) use($watermark){
     $count_img = Bind::num_rows();
-    if($count_img === 0){ die("В этой новости нету картинок!"); }
+    if($_POST['type'] === 'news')
+        $img = Bind::find_all_by_news_id((int)$id, array('select' => 'file_name'));
+    elseif($_POST['type'] === 'work')
+        $img = Bind::find_all_by_work_id((int)$id, array('select' => 'file_name'));
+    else die();
+    if($count_img === 0){ die("Нечего подписывать!"); }
     $count = Watermark::num_rows();
     if($count === 0){ die("Не установлен логотип!"); }
     $water = Watermark::find(1);
@@ -382,7 +386,7 @@ $app->get('/admin/work/add', function() use($app){
 
 $app->post('/admin/smartform/', function(){
     if(isset($_POST['query']) && $_POST['query'] === 'city'){
-        $city = Institution::all(array('select' => 'DISTINCT city', 'conditions' => array('type' => $_POST['type'])));
+        $city = Institution::all(array('select' => 'DISTINCT city', 'conditions' => array('type' => trim($_POST['type']))));
         $arr = []; $i = 0;
         foreach($city as $value){
             $arr[$i] = $value->city;
@@ -392,8 +396,9 @@ $app->post('/admin/smartform/', function(){
     }
     
     if(isset($_POST['query']) && $_POST['query'] === 'institution'){
-        $inst = Institution::all(array('select' => 'id, title', 'conditions' => array('type' => $_POST['type'], 
-                                                                                           'city' => $_POST['city'])));
+        $inst = Institution::all(array('select' => 'id, title',
+                                       'conditions' => array('type' => trim($_POST['type']), 'city' => trim($_POST['city']))));
+        
         $arr = [];
         foreach($inst as $value) $arr[$value->id] = $value->title;
  
@@ -418,9 +423,19 @@ $app->post('/admin/work/add', function() use($app, $addImgThumbnail, $bindTables
 });
 
 $app->get('/admin/work/:id', function($id) use($app, $selectAllImg){
-    $school = Institution::find('all', array('select' => 'DISTINCT city', 'conditions' => array('type' => 'Школа')));
-    $work = Work::find((int)$id);
+    $types = ['Школа', 'ВУЗ', 'Детский сад'];
+    
+    $list = Work::find_by_sql('SELECT work.id, title, school_class, type, year, city, anotation, work.institution, keywords FROM work INNER JOIN institution ON work.institution = institution.id WHERE work.id = ' . $id);
+    
+    $list = $list[0];
+    $city = Institution::find('all', array('select' => 'DISTINCT city', 'conditions' => array('type = ? AND city NOT IN (?)',
+                                                                                              $list->type, $list->city)));
+    $inst = Institution::find('all', array('select' => 'title',
+            'conditions' => array('id NOT IN (?) AND type = ? AND city = ?', $list->institution, $list->type, $list->city )));
+    
     $img = Bind::find_all_by_work_id((int)$id, array('order' => 'position'));
     $gallery = $selectAllImg();
-    $app->render('work_edit.php', array('work' => $work,'school' => $school, 'images' => $img, 'gallery' => $gallery));
+    
+    $app->render('work_edit.php', array('work' => $list,'school' => $city, 'images' => $img, 'gallery' => $gallery, 
+                                        'types' => $types, 'inst' => $inst ));
 });

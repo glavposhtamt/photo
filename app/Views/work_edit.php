@@ -14,18 +14,21 @@
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <select class="form-control input-lg" id="work-type">
-                                            <option value="1">Детский сад</option>
-                                            <option value="2" selected>Школа</option>
-                                            <option value="3">ВУЗ</option>
+                                            <?php for($i = 0, $c = 1; $i < count($types); ++$i) : ?>
+                                               <option value="<?=$c?>" <?=($work->type === $types[$i] ? 'selected' : '') ?> >
+                                                   <?=$types[$i]?>
+                                               </option>
+                                            <?php endfor; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                      <div class="form-group">
-                                        <select class="form-control input-lg" id="work-class" name="work-class">
+                                        <select class="form-control input-lg" id="work-class" 
+                                            style="<?=($work->school_class === 0) ? 'display: none;' : '' ?>" name="work-class">
                                             <option>Класс</option>
                                             <?php for($i = 1; $i <= 11; ++$i) : ?>
-                                                <option><?=$i?></option>
+                                                <option <?=($work->school_class == $i) ? 'selected' : '' ?> ><?=$i?></option>
                                             <?php endfor; ?>
                                         </select>
                                     </div>
@@ -33,6 +36,7 @@
                                 <div class="col-lg-5">
                                     <div class="form-group">
                                         <select class="form-control input-lg" id="work-city">
+                                            <option><?=$work->city ?></option>
                                             <option>Город</option>
                                             <?php foreach($school as $value) : ?>
                                                 <option><?=$value->city?></option>
@@ -45,31 +49,32 @@
 
                                 <div class="col-lg-9">
                                     <div class="form-group">
-                                        <select class="form-control input-lg" id="work-institution" name="institution" disabled>
+                                        <select class="form-control input-lg" id="work-institution" name="institution">
+                                            <option><?=$work->title?></option>
                                             <option>Учебное заведение</option>
-                                            <?php for($i = 1; $i <= 2; ++$i) : ?>
-                                                <option><?='ВУЗ ' . $i?></option>
-                                            <?php endfor; ?>
+                                            <?php foreach($inst as $value) : ?>
+                                                <option><?=$value->title?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <input type="number" class="form-control input-lg" placeholder="Год выпуска" name="work-year" required>
+                                        <input type="number" class="form-control input-lg" placeholder="Год выпуска" name="work-year" value="<?=$work->year?>" required>
                                     </div>
                                 </div>                                
                             </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <textarea class="form-control input-lg" cols="30" rows="5" name="work-desc" placeholder="Описание" required></textarea>
+                                        <textarea class="form-control input-lg" cols="30" rows="5" name="work-desc" placeholder="Описание" required ><?=$work->anotation?></textarea>
                                     </div>
                                 </div>                                
                             </div>                            
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input type="text" class="form-control input-lg" placeholder="Ключевые слова" name="work-keywords">
+                                        <input type="text" class="form-control input-lg" placeholder="Ключевые слова" name="work-keywords" value="<?=$work->keywords?>">
                                     </div>
                                 </div>                                
                             </div>

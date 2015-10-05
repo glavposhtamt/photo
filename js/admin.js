@@ -201,7 +201,8 @@ jQuery(document).ready(function(){
 jQuery(document).ready(function(){
     jQuery('#news-watermark').click(function(){
         var that = this;
-        $.get('/admin/watermark/' + $(that).data('news-id'), function(data){ alert(data); });
+        var type = document.location.pathname.split("/").slice(2, -1)[0];
+        $.post('/admin/watermark/' + $(that).data('news-id'),{ type: type } , function(data){ alert(data); });
     });
 });
 
@@ -238,7 +239,7 @@ jQuery(document).ready(function(){
     };
     $("#work-type").change(function(){
         $("#work-type option:selected").each(function() {
-            type = $(this).text();
+            type = $(this).text().trim();
             $("#work-city")[0].disabled = true;
             $("#work-institution")[0].disabled = true;
             if(type !== 'Школа') $("#work-class").hide(500);
@@ -252,7 +253,7 @@ jQuery(document).ready(function(){
                         createOption(arr[i], arr[i], $("#work-city")[0]);
                     }
                     $("#work-city")[0].disabled = false;
-                }else return;
+                }else $("#work-city")[0].disabled = true;
             });
         });
     });

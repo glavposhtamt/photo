@@ -16,6 +16,7 @@
     <!-- Bower Components -->
     <script src="/bower_components/ckeditor/ckeditor.js"></script>
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/jquery.cookie/jquery.cookie.js"></script>
     <script src="/bower_components/moment/min/moment.min.js"></script>
     <script src="/bower_components/moment/locale/ru.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
