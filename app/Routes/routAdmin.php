@@ -195,7 +195,6 @@ $app->get('/admin/gallery', function() use($app) {
 });
 
 $app->get('/admin/test', function() {
-
 });
 
 $app->post('/admin/position/', function() use($addImgThumbnail){
@@ -422,20 +421,41 @@ $app->post('/admin/work/add', function() use($app, $addImgThumbnail, $bindTables
     
 });
 
-$app->get('/admin/work/:id', function($id) use($app, $selectAllImg){
+$app->get('/admin/work/:id/:succes', function($id, $succes) use($app, $selectAllImg){
     $types = ['Школа', 'ВУЗ', 'Детский сад'];
     
     $list = Work::find_by_sql('SELECT work.id, title, school_class, type, year, city, anotation, work.institution, keywords FROM work INNER JOIN institution ON work.institution = institution.id WHERE work.id = ' . $id);
     
     $list = $list[0];
+    
     $city = Institution::find('all', array('select' => 'DISTINCT city', 'conditions' => array('type = ? AND city NOT IN (?)',
                                                                                               $list->type, $list->city)));
-    $inst = Institution::find('all', array('select' => 'title',
+    $inst = Institution::find('all', array('select' => 'id, title',
             'conditions' => array('id NOT IN (?) AND type = ? AND city = ?', $list->institution, $list->type, $list->city )));
     
     $img = Bind::find_all_by_work_id((int)$id, array('order' => 'position'));
     $gallery = $selectAllImg();
-    
+    if($succes === 'success') $message = 'Работа успешно сохранена!';
+    else $message = '';
     $app->render('work_edit.php', array('work' => $list,'school' => $city, 'images' => $img, 'gallery' => $gallery, 
-                                        'types' => $types, 'inst' => $inst ));
+                                        'types' => $types, 'inst' => $inst, 'message' => $message ));
+});
+
+$app->post('/admin/remove/institution', function(){
+    $inst = Institution::find((int)$_POST['id']);
+    Work::remove((int)$_POST['id']);
+    $inst->delete();
+    die('Успех!');
+});
+
+$app->post('/admin/work/:id/:edit', function($id) use($app) {
+    $work = Work::find((int)$id);
+    if(isset($_POST['institution'])) $work->institution = (int)$_POST['institution'];
+    else return;
+    if(isset($_POST['work-class'])) $work->school_class = $_POST['work-class'];
+    $work->year = $_POST['work-year'];
+    $work->anotation = $_POST['work-desc'];
+    $work->keywords = $_POST['work-keywords'];
+    $work->save();
+    $app->redirect('/admin/work/'. $id . '/success');
 });

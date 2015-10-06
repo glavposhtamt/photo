@@ -9,6 +9,9 @@
                 </h1>
                 <div class="row">
                     <div class="col-lg-8">
+                        <?php if(isset($message)) : ?>
+                            <span class="label label-success"><?=$message?></span>
+                        <?php endif; ?>
                         <form method="POST">
                             <div class="row">
                                 <div class="col-lg-4">
@@ -50,38 +53,44 @@
                                 <div class="col-lg-9">
                                     <div class="form-group">
                                         <select class="form-control input-lg" id="work-institution" name="institution">
-                                            <option><?=$work->title?></option>
+                                            <option value="<?=$work->institution?>"><?=$work->title?></option>
                                             <option>Учебное заведение</option>
                                             <?php foreach($inst as $value) : ?>
-                                                <option><?=$value->title?></option>
+                                                <option value="<?=$value->id?>"><?=$value->title?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <input type="number" class="form-control input-lg" placeholder="Год выпуска" name="work-year" value="<?=$work->year?>" required>
+                                        <input type="number" class="form-control input-lg" placeholder="Год выпуска"
+                                                    name="work-year" value="<?=$work->year?>" required>
+                                                    
                                     </div>
                                 </div>                                
                             </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <textarea class="form-control input-lg" cols="30" rows="5" name="work-desc" placeholder="Описание" required ><?=$work->anotation?></textarea>
+                                        <textarea class="form-control input-lg" cols="30" rows="5" name="work-desc"
+                                                    placeholder="Описание" required ><?=$work->anotation?></textarea>
+                                                    
                                     </div>
                                 </div>                                
                             </div>                            
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input type="text" class="form-control input-lg" placeholder="Ключевые слова" name="work-keywords" value="<?=$work->keywords?>">
+                                        <input type="text" class="form-control input-lg" placeholder="Ключевые слова"
+                                                 name="work-keywords" value="<?=$work->keywords?>">
                                     </div>
+                                    
                                 </div>                                
                             </div>
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <input type="submit" class="btn btn-success btn-lg" value="Создать работу">
+                                        <input type="submit" class="btn btn-success btn-lg" value="Обновить">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -106,7 +115,9 @@
                         <div class="container_">
                           <h4>Загрузка изображений:</h4>
                           <!-- Trigger the modal with a button -->
-                          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Выбрать из галереи</button>
+                          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+                              Выбрать из галереи
+                          </button>
 
                           <!-- Modal -->
                           <div class="modal fade" id="myModal" role="dialog">

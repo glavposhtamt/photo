@@ -15,7 +15,9 @@
                             
                         <form method="POST" action="/admin/institution/">
                             <div class="form-group">
-                                <input type="text" class="form-control input-lg" name="title" placeholder="Название учебного заведения" required>
+                                <input type="text" class="form-control input-lg" name="title"
+                                    placeholder="Название учебного заведения" required>
+                                    
                             </div>
                             <div class="form-group">
                                 <label>Тип учебного заведения:</label>
@@ -35,15 +37,19 @@
                                 </select>
                             </div>
                             <div class="form-group">
-          <input type="<?=$count === 0 ? 'text' : 'hidden' ?>" name="other-city" class="form-control input-lg" id="other-city" placeholder="Введите город" required>
+                              <input type="<?=$count === 0 ? 'text' : 'hidden' ?>"
+                                  name="other-city" class="form-control input-lg" id="other-city"
+                                      placeholder="Введите город" required>
+                                      
                             </div>
                             <div class="form-group">
-                                <input type="text" name="street" class="form-control input-lg" placeholder="Улица, дом" required>
+                                <input type="text" name="street" class="form-control input-lg" placeholder="Улица, дом"
+                                    required>
                             </div>
                             <input type="submit" class="btn btn-success btn-lg" value="Сохранить">
                         </form>
                     </div>
-                    <div class="col-lg-5 col-lg-offset-1">
+                    <div class="col-lg-6">
                         
                         <table class="table table-striped table table-condensed">
                             <thead>
@@ -53,6 +59,7 @@
                                     <th>Название</th>
                                     <th>Город</th>
                                     <th>Улица</th>
+                                    <th>Del.</th>
                                 </tr>                                
                             </thead>
                             <tbody>
@@ -63,6 +70,10 @@
                                         <td><?=$value->title?></td>
                                         <td><?=$value->city?></td>
                                         <td><?=$value->street?></td>
+                                        <td>
+                                            <span class="glyphicon glyphicon-trash" aria-hidden="true" 
+                                                data-id="<?=$value->id?>"></span>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

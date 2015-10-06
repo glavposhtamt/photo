@@ -377,3 +377,7 @@ h1#settings-h1 {
 .container_{
     margin-left: 20px;
 }
+
+td span.glyphicon-trash {
+    cursor: pointer;
+}

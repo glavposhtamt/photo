@@ -277,5 +277,15 @@ jQuery(document).ready(function(){
             
         });
     });
+});
 
+/* Удаление учебных заведений */
+
+jQuery(document).ready(function(){
+    jQuery('td .glyphicon-trash').click(function(){
+        var that = this;
+        $.post('/admin/remove/institution', { id: $(that).data('id') }, function(){
+            $(that).parent().parent().remove();
+        });
+    });
 });

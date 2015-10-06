@@ -9,8 +9,12 @@
                         <span class="label label-success"><?=$message?></span>
                         <?php endif; ?>
                         <form method="POST" role="form" id="edit-pages">
-                            <input name="title" type="text" class="form-control title" value="<?=$news->title?>" placeholder="Заголовок" required>
-                            <textarea name="anotation" class="anotation form-control" placeholder="Анотация"><?=$news->anotation?></textarea>
+                            <input name="title" type="text" class="form-control title" value="<?=$news->title?>"
+                                     placeholder="Заголовок" required>
+                                     
+                            <textarea name="anotation" class="anotation form-control" placeholder="Анотация">
+                                <?=$news->anotation?>
+                            </textarea>
                             <textarea name="editor1" id="editor1" rows="10" cols="80">
                                 <?=$news->news ?>
                             </textarea>

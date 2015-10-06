@@ -13,15 +13,12 @@
     <script src="/js/jquery.blueimp-gallery.min.js"></script>
     <script type="text/javascript" src="http://vk.com/js/api/share.js?90" charset="windows-1251"></script>
     <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
-  <title>Новости</title>
+  <title><?=$title?></title>
   <link href="http://startupfoto.ru/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
 
     <style>
         #b2 {
             background-image: none;
-    /*
-            background: url(/bitrix/templates/sf_services/images/bg400000.jpg) repeat-y 50% 0;
-    */
         }
     </style>
 	</head>
@@ -170,7 +167,9 @@
                         <div class="carousel">
                             <ul>
                                 <?php $count = count($img); for ($c = 0; $c < $count; $c++) : ?>
-                                <li><a href="/files/<?=$img[$c]?>" title="Banana"><img src="/files/<?=$img[$c]?>" width="129" height="97" ></a></li>
+                                <li><a href="/files/<?=$img[$c]?>" title="Banana"><img src="/files/<?=$img[$c]?>" 
+                                        width="129" height="97" ></a></li>
+                                        
                                 <?php endfor; ?>
                             </ul>
                         </div>
@@ -186,7 +185,7 @@
                         </script>
                     </div>
                     <?php endif; ?>
-                    <p><?=$news->news?></p>
+                    <p><?=(isset($news->news)) ? $news->news : ''?></p>
  <!-- Gallery -->                   
 <script>
     document.getElementById('links').onclick = function (event) {

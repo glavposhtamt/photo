@@ -5,7 +5,7 @@
     <link href="/css/kernel_main.css" type="text/css" rel="stylesheet">
     <link href="/css/template.css" type="text/css" data-template-style="true" rel="stylesheet">
 	
-  <title>Новости</title>
+  <title><?=$title?></title>
   <link href="http://startupfoto.ru/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
 
     <style>
@@ -143,7 +143,7 @@
                                 <img src="/files/crop/<?=$value->mini?>" alt="mini">
                             </div>
                             <div class="anotation">
-                                <h1><a href="/news/<?=$value->id?>"><?=$value->title?></a></h1>
+                                <h1><a href="<?=$value->id?>"><?=$value->title?></a></h1>
                                 <div class="anotation-desc">
                                     <?=$value->anotation?>
                                 </div>

@@ -10,4 +10,11 @@ class Work extends ActiveRecord\Model {
         return (int)$obj[0]->num_rows;
     }
     
+    public static function remove($inst){
+        $obj = self::find('all', array('conditions' => array('institution' => $inst)));
+        for($i = 0; $i < count($obj); $i++){
+            $obj[$i]->delete();
+        }
+    }
+    
 }
