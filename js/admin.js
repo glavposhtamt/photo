@@ -56,9 +56,11 @@ function position(message){
     for(var i = 0; i < obj.length; ++i) {
         names[$(obj[i]).data("id")] = i;
     }
-    names.id = obj.context.URL.split("/").slice(-1)[0];
+    var dataH1 = document.querySelector("h1[data-id]");
+    names.id = $(dataH1).data('id');
+    console.log("Тип: %s", names.id);
     var type = document.location.pathname.split("/").slice(2, -1)[0];
-    console.log(names);
+    console.log("Тип %s ", type);
     var strImgName = JSON.stringify(names);
         
     $.post("/admin/position", { position: strImgName, type: type }, function(){ message ? alert("Изменено!") : ''; });
@@ -90,8 +92,9 @@ window.addEventListener('load', function(){
         list[i].addEventListener('click', function(){
             var that = this;
             var clone = that.cloneNode(true);
-            that.remove();            
-            var pageId = document.location.pathname.split("/").slice(-1)[0];
+            that.remove();
+            var dataH1 = document.querySelector("h1[data-id]");
+            var pageId = $(dataH1).data('id');
             var fileName = clone.src.split("/").slice(-1)[0];
             var div = document.createElement("div");
             var span = document.createElement("span");
@@ -106,8 +109,8 @@ window.addEventListener('load', function(){
             div.appendChild(span);
             $('.drag').draggable();
             $.post("/admin/bind", { file_id: $(clone).data("id"), file_name: decodeURI(fileName), id: pageId, type: type }, 
-                function(){
-                    console.log("Добавлено!");
+                function(data){
+                    console.log(data);
                     position(false);
                 });
         }, false);

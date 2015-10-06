@@ -2,7 +2,7 @@
 <?php include_once 'admin.php'; ?>
 <div id="page-content-wrapper">
             <div class="container-fluid">
-                <h1>
+                <h1 data-id="<?=(isset($id)) ? $id : ''?>">
                     Наши работы
                     <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" id="rv"></span>
                     Редактировать работу

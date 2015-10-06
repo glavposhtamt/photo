@@ -152,7 +152,7 @@ $app->get('/admin/news/:id', function ($id) use($app, $selectAllImg) {
     $news = News::find((int)$id);  
     $img = Bind::find_all_by_news_id((int)$id, array('order' => 'position'));
     $gallery = $selectAllImg();
-    $app->render('news_edit.php', array('news' => $news, 'images' => $img, 'gallery' => $gallery));
+    $app->render('news_edit.php', array('news' => $news, 'images' => $img, 'gallery' => $gallery, 'id' => $news->id));
 });
 
 $app->post('/admin/news/:id', function ($id) use($app, $selectAllImg) {
@@ -161,13 +161,14 @@ $app->post('/admin/news/:id', function ($id) use($app, $selectAllImg) {
     $post = News::find((int)$id);
     $post->news = $_POST['editor1'];
     $post->title = $_POST['title'];
-    $post->anotation = $_POST['anotation'];
+    $post->anotation = trim($_POST['anotation']);
     $post->date = date_format($newDate, 'Y-m-d H:i:s');
     $post->keywords = $_POST['keywords'];
     $post->save();
     $img = Bind::find_all_by_news_id((int)$id, array('order' => 'position'));
     $gallery = $selectAllImg();
-    $app->render('news_edit.php', array('news' => $post, 'message' => $message, 'images' => $img, 'gallery' => $gallery));
+    $app->render('news_edit.php', array('news' => $post, 'message' => $message, 'images' => $img, 'gallery' => $gallery,
+                                        'id' => $post->id));
     
 });
 
@@ -227,7 +228,7 @@ $app->post('/admin/bind', function(){
     $bind->file_name = $_POST['file_name'];
     $bind->setTableId($_POST['type'], $_POST['id']);
     $bind->save();
-    die(1);
+    die($_POST['id']);
     
 });
 
@@ -246,7 +247,7 @@ $app->get('/admin/thumbnail/news/:id', function($id) use($app) {
 
 $app->get('/admin/thumbnail/work/:id', function($id) use($app) {
     $thumb = Work::find((int)$id, array('select' => 'thumbnail, id, mini'));
-    $app->render('thumbnail.php', array('news' => $thumb, 'return' => '/work/' . $thumb->id));      
+    $app->render('thumbnail.php', array('news' => $thumb, 'return' => '/work/' . $thumb->id . '/edit'));      
 });
 
 $app->post('/admin/thumbnail/:id', function($id) use($imgCollection) {
@@ -438,7 +439,7 @@ $app->get('/admin/work/:id/:succes', function($id, $succes) use($app, $selectAll
     if($succes === 'success') $message = 'Работа успешно сохранена!';
     else $message = '';
     $app->render('work_edit.php', array('work' => $list,'school' => $city, 'images' => $img, 'gallery' => $gallery, 
-                                        'types' => $types, 'inst' => $inst, 'message' => $message ));
+                                        'types' => $types, 'inst' => $inst, 'message' => $message, 'id' => $list->id ));
 });
 
 $app->post('/admin/remove/institution', function(){

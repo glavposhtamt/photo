@@ -6,7 +6,7 @@ function init() {
 
 function showinfo(position){
     
-    var myAddress = [], myHint = [];
+    var myAddress = [], myHint = [], myId = [];
 
     var myMap = new ymaps.Map('map', {
         center: [position.coords.latitude, position.coords.longitude],
@@ -36,15 +36,16 @@ function showinfo(position){
                 for(var i = 0; i < arr.length; i++) {
                     myAddress.push(arr[i].address);
                     myHint.push(arr[i].hint);
+                    myId.push(arr[i].id);
                 }
-                set_point(myAddress, myHint);
+                set_point(myAddress, myHint, myId);
                 
                 
             });
     });
     function set_point(address, hint){
+        var c = 0, j = 0;
         for(var i = 0; i < address.length; ++i){
-            iter = address.length;
             ymaps.geocode(address[i], { results: 1 }).then(function (res) {
                 // Выбираем первый результат геокодирования.
                 var firstGeoObject = res.geoObjects.get(0),
@@ -52,16 +53,16 @@ function showinfo(position){
                     coords = firstGeoObject.geometry.getCoordinates(),
                     // Область видимости геообъекта.
                     bounds = firstGeoObject.properties.get('boundedBy');
-                
+                    
 				    // Добавляем первый найденный геообъект на карту.
-                    var schoolPoint = new ymaps.Placemark(coords, { hintContent: 'Какая-то школа' }, 
+                    var schoolPoint = new ymaps.Placemark(coords, { hintContent: hint[c++] }, 
                     {
                         preset: 'islands#dotIcon',
                         iconColor: '#1faee9'
                     });
                 
                     schoolPoint.events.add('click', function () {
-                        alert('Тут будет переход по ссылке!');
+                        location.href = 'http://' + location.host + '/ourworks/' + myId[j++];
                     });
                 
                     myMap.geoObjects.add(schoolPoint);
@@ -74,8 +75,6 @@ function showinfo(position){
             });
         }
     }
-
-
 }
 
 function showerror(error){
