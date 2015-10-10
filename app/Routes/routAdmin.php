@@ -1,7 +1,5 @@
 <?php
 
-define('CROP_PATH', 'files/crop/');
-
 use \Eventviva\ImageResize;
 
 require CLASS_PATH . '/ImageProcessingCollection.php';
@@ -17,20 +15,20 @@ $selectAllImg = function (){
 
 $addImgThumbnail = function($model, $file_name) {
 /*    $model = News::find((int)$model_id, array('select' => 'id, thumbnail'));*/
-    if(!is_dir(FILES_PATH . '/mini')){
-        if(!mkdir(FILES_PATH . '/mini', 0755)){
+    if(!is_dir(MINI_PATH)){
+        if(!mkdir(MINI_PATH, 0755)){
             die();
         }
     }
 
     if($model->id . '_' . $file_name === $model->thumbnail){ return; }
     
-    if(is_file(FILES_PATH . '/mini/' . $model->thumbnail)){
-        unlink(FILES_PATH . '/mini/' . $model->thumbnail);
+    if(is_file(MINI_PATH . '/' . $model->thumbnail)){
+        unlink(MINI_PATH . '/' . $model->thumbnail);
     }
     $image = new ImageResize(FILES_PATH . "/$file_name");
     $image->resizeToWidth(700);
-    $image->save(FILES_PATH . "/mini/$model->id" . '_' . $file_name);
+    $image->save(MINI_PATH . "/$model->id" . '_' . $file_name);
     $model->thumbnail = $model->id . '_' . $file_name;
     $model->save();
 };
@@ -112,8 +110,8 @@ $app->post('/admin/delete/', function () {
     Bind::deleteRow($_POST['type'], $_POST['id']);
     $remove = function($model){
         $model->delete();
-        $file_name1 = FILES_PATH . '/mini/' . $model->thumbnail;
-        $file_name2 = FILES_PATH . '/crop/' . $model->mini;
+        $file_name1 = MINI_PATH . '/' . $model->thumbnail;
+        $file_name2 = CROP_PATH . '/' . $model->mini;
         if(is_file($file_name1)) { unlink($file_name1); }
         if(is_file($file_name2)) { unlink($file_name2); }
     };
@@ -190,12 +188,29 @@ $app->get('/admin/settings', function() use($app, $selectAllImg) {
     $app->render('settings.php', array('gallery' => $gallery, 'file_name' => $wi));
 });
 
-$app->get('/admin/gallery', function() use($app) {
+/*$app->get('/admin/gallery', function() use($app) {
 
     $app->render('images.php');
+});*/
+
+$app->get('/admin/gallery', function() use($app) {
+
+    $app->render('galery.php');
 });
 
-$app->get('/admin/test', function() {
+$app->get('/admin/test', function() use($imgCollection) {
+
+// Run the recursive function 
+
+    $response = $imgCollection->scan(FILES_PATH);
+    header('Content-type: application/json');
+
+    echo json_encode(array(
+        "name" => "files",
+        "type" => "folder",
+        "path" => FILES_PATH,
+        "items" => $response
+    ));
 });
 
 $app->post('/admin/position/', function() use($addImgThumbnail){
@@ -251,8 +266,8 @@ $app->get('/admin/thumbnail/work/:id', function($id) use($app) {
 });
 
 $app->post('/admin/thumbnail/:id', function($id) use($imgCollection) {
-    if(!is_dir(FILES_PATH . '/crop')){
-        if(!mkdir(FILES_PATH . '/crop', 0755)){
+    if(!is_dir(CROP_PATH)){
+        if(!mkdir(CROP_PATH, 0755)){
             die();
         }
     }
@@ -264,19 +279,18 @@ $app->post('/admin/thumbnail/:id', function($id) use($imgCollection) {
     $y1 = $_POST['y1'];
     $y2 = $_POST['y2'];
     $img = $_SERVER["DOCUMENT_ROOT"] . "/" . $_POST['img'];
-    $full_patch = $_SERVER['DOCUMENT_ROOT'] . "/" . CROP_PATH;
     
     if(!is_null($thumb->mini)){
-        unlink($full_patch . $thumb->mini);
+        unlink(CROP_PATH . '/' . $thumb->mini);
     }
     
     $arr = pathinfo($thumb->thumbnail);
-    $cropName = $arr['filename'] . time() . $arr['extension'];
+    $cropName = $arr['filename'] . time() . '.' . $arr['extension'];
     
-    $imgCollection->crop( $img, $full_patch . $cropName, array($x1, $y1, $x2, $y2));
+    $imgCollection->crop( $img, CROP_PATH . '/' . $cropName, array($x1, $y1, $x2, $y2));
     $thumb->mini = $cropName;
     $thumb->save();
-    die(CROP_PATH . $cropName);
+    die( 'files/.crop/' . $cropName);
 });
 
 $app->post('/admin/watermark/:id', function($id) use($watermark){
@@ -290,8 +304,8 @@ $app->post('/admin/watermark/:id', function($id) use($watermark){
     $count = Watermark::num_rows();
     if($count === 0){ die("Не установлен логотип!"); }
     $water = Watermark::find(1);
-    if(!is_dir(FILES_PATH . '/water')){
-        if(!mkdir(FILES_PATH . '/water', 0755)){
+    if(!is_dir( WATER_PATH )){
+        if(!mkdir(WATER_PATH , 0755)){
             die("Не могу создать папку!");
         }
     }
@@ -299,8 +313,8 @@ $app->post('/admin/watermark/:id', function($id) use($watermark){
             $water->delete();
             die("Логотип был удалён!");
     }
-    $img_path = $_SERVER['DOCUMENT_ROOT'] . '/files/';
-    $img_water_path = $_SERVER['DOCUMENT_ROOT'] . '/files/water/';
+    $img_path = FILES_PATH  . '/';
+    $img_water_path = WATER_PATH . '/';
     foreach ($img as $file_name){
         $arr = explode('.', $file_name->file_name);
         array_pop($arr);

@@ -36,7 +36,7 @@
                                             </div>
                                             <div class="modal-body" id="modal-water-list">
                                                 <?php foreach ($gallery as $value) : ?>
-                                                <img src="/files/thumbail/<?=$value->name?>" alt="Выберите изображение" data-id="<?=$value->id?>">
+                                                <img src="/files/.thumbail/<?=$value->name?>" alt="Выберите изображение" data-id="<?=$value->id?>">
                                                 <?php endforeach; ?>
                                             </div>
                                             <div class="modal-footer">

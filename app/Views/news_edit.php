@@ -52,7 +52,7 @@
                             <div id="container-img">
                                 <?php foreach ($images as $value) : ?>
                                     <div class="drag">
-                                        <img src="/files/thumbail/<?=$value->file_name?>" data-id="<?=$value->file_id?>" />
+                                        <img src="/files/.thumbail/<?=$value->file_name?>" data-id="<?=$value->file_id?>" />
                                         <span class="glyphicon glyphicon-trash" data-img="<?=$value->file_id?>"></span>
                                     </div>
                                 <?php endforeach; ?>
@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="modal-body" id="modal-img-list">
                                     <?php foreach ($gallery as $value) : ?>
-                                    <img src="/files/thumbail/<?=$value->name?>" alt="Выберите изображение" data-id="<?=$value->id?>">
+                                    <img src="/files/.thumbail/<?=$value->name?>" alt="Выберите изображение" data-id="<?=$value->id?>">
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="modal-footer">

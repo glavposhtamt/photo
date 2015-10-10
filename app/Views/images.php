@@ -66,8 +66,10 @@
                             <a class="play-pause"></a>
                             <ol class="indicator"></ol>
                         </div>
+                        <script>
+                        </script>
                         <script id="template-upload" type="text/x-tmpl">
-                            {% for (var i=0, file; file=o.files[i]; i++) { %}
+                            {% for (var i=0, file; file=o.files[i]; i++) { console.log(file); %}
                                 <tr class="template-upload fade">
                                     <td>
                                         <span class="preview"></span>
@@ -99,7 +101,7 @@
                         </script>
                             <!-- The template to display files available for download -->
                         <script id="template-download" type="text/x-tmpl">
-                            {% for (var i=0, file; file=o.files[i]; i++) { %}
+                            {% for (var i=0, file; file=o.files[i]; i++) { console.log(file); %}
                                 <tr class="template-download fade">
                                     <td>
                                         <span class="preview">
