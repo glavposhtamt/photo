@@ -79,7 +79,7 @@ class ImageProcessingCollection {
                     $files[] = array(
                         "name" => $f,
                         "type" => "folder",
-                        "path" => $dir . '/' . $f,
+                        "path" => $this->getShortPath($dir . '/' . $f),
                         "items" => $this->scan($dir . '/' . $f) // Recursively get the contents of the folder
                     );
                 }
@@ -91,7 +91,7 @@ class ImageProcessingCollection {
                     $files[] = array(
                         "name" => $f,
                         "type" => "file",
-                        "path" => $dir . '/' . $f,
+                        "path" => $this->getShortPath($dir . '/' . $f),
                         "size" => filesize($dir . '/' . $f) // Gets the size of this file
                     );
                 }
@@ -100,6 +100,22 @@ class ImageProcessingCollection {
         }
 
         return $files;
+    }
+    
+    public function getShortPath($fullPath){
+        $cut = [];
+        $arr = explode('/', $fullPath);
+        for($i = 0; $i < count($arr); $i++){
+            if($arr[$i] === 'files') {
+                for($j = 0; $i < count($arr); $i++){
+                        $cut[++$j] = $arr[$i];
+                }
+            }
+
+        }
+            
+       return implode('/', $cut);
+        
     }
     
 }

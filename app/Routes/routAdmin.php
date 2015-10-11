@@ -201,7 +201,7 @@ $app->get('/admin/gallery', function() use($app) {
 $app->get('/admin/test', function() use($imgCollection) {
 
 // Run the recursive function 
-
+    
     $response = $imgCollection->scan(FILES_PATH);
     $files = Files::find('all', array( 'select' => 'id, name' ));
     $arr = [];
@@ -215,7 +215,7 @@ $app->get('/admin/test', function() use($imgCollection) {
             $response[$key]['id'] = $id;
         }
     }
-        
+    
     header('Content-type: application/json');
 
     echo json_encode(array(
@@ -486,8 +486,4 @@ $app->post('/admin/work/:id/:edit', function($id) use($app) {
     $work->keywords = $_POST['work-keywords'];
     $work->save();
     $app->redirect('/admin/work/'. $id . '/success');
-});
-
-$app->post('/admin/newfolder', function(){
-    if(!is_dir(FILES_PATH . $_POST['name'])){ mkdir(FILES_PATH . $_POST['name']); }
 });

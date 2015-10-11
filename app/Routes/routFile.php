@@ -46,3 +46,11 @@ $app->post('/admin/attache', function(){
     $files->save();
 });
 
+$app->post('/admin/newfolder', function(){
+    if(!is_dir(FILES_PATH . $_POST['name'])){ mkdir(FILES_PATH . $_POST['name']); }
+});
+
+$app->post('/admin/rename', function(){
+    die('success!');
+});
+

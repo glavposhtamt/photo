@@ -332,12 +332,15 @@ var scanDir = function(){
 
 					fileType = fileType[fileType.length-1];
 
-					//icon = '<span class="icon file f-'+fileType+'">.'+fileType+'</span>';
                     var href = 'http://photo.local/files/.thumbail/' + name;
-                    //icon = '<span class="icon thumbnail"><img src="'+ decodeURI(href) + '" ></span>';
                     icon = '<img class="icon thumbnail" src="'+ decodeURI(href) + '" >';
-					var file = $('<li id="li'+ id +'" data-id="' + id + '" class="files"><a href="'+ f.path+'" title="'+ f.path +
-                                 '" class="files">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');
+					var file = $('<li id="li'+ id +'" data-id="' + id + '" class="files">' + 
+                                    '<a href="'+ decodeURI(href) + '" class="files">' + 
+                                        icon + 
+                                        '<span class="name" data-path="' + f.path + '">' + name + '</span>' + 
+                                        '<span class="details">'+fileSize+'</span>' + 
+                                    '</a>' + 
+                                 '</li>');
 					file.appendTo(fileList);
 				});
 
@@ -407,16 +410,38 @@ var scanDir = function(){
             var id = $(event.originalEvent.target.parentNode).data('id');
             event.originalEvent.dataTransfer.setData('id', id);
         });
+        
         $('li.folders').on('drop', function(event){
+            
             event.originalEvent.preventDefault();
-            console.log(event.originalEvent.target.parentNode);
+            
+            var some = event.originalEvent.target.parentNode;
+            var folderName = some.getElementsByClassName('name')[0].textContent;
+            
+            
             var id = event.originalEvent.dataTransfer.getData('id');
             var selector = '#li' + id;
-            $(selector).remove();
+            var $li = $(selector);
+            if($li.length > 0) {
+                var elem = $li[0].getElementsByClassName('name')[0];
+                var imgName = elem.textContent;
+                var imgPath = $(elem).data('path');
+                console.log(imgName);
+                console.log(imgPath);
+                console.log(folderName);
+                $.post('/admin/rename', { path: imgPath, newPath: folderName + '/' + imgName }, function(data){
+                    alert(data);
+                });
+                $li.remove();
+            }
+            else return;
+            
         });
+        
         $('li.folders').on('dragover', function(event){
             event.originalEvent.preventDefault();
         });
+        
         $('li.folders').on('dragenter', function(event){
             event.originalEvent.preventDefault();
         });
