@@ -551,3 +551,11 @@ footer #tzine-actions iframe{
 @media (max-width: 1024px) {
 	#bsaHolder, footer{ display:none;}
 }
+
+/*-------------------------
+	New Folder
+-------------------------*/
+
+.new-folder i {
+    cursor: pointer;
+}

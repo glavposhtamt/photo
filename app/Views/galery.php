@@ -9,15 +9,23 @@
 
 	<!-- Include our stylesheet -->
 
+    <link rel="stylesheet" href="/bower_components/fontawesome/css/font-awesome.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="stylesheet" href="/bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css">
+    <script src="/bower_components/jQuery-contextMenu/src/jquery.contextMenu.js"></script>
+    <!-- Include our stylesheet -->
 
 </head>
 <body>
 
 	<div class="filemanager">
-
+        <div class="new-folder">
+            <i class="fa fa-folder-open-o fa-4x"></i>
+        </div>
 		<div class="search">
 			<input type="search" placeholder="Find a file.." />
 		</div>
+
 
 		<div class="breadcrumbs"></div>
 
@@ -29,15 +37,21 @@
 		</div>
 
 	</div>
-
-	<footer>
-        <a class="tz" href="http://tutorialzine.com/2014/09/cute-file-browser-jquery-ajax-php/">Cute File Browser with jQuery, AJAX and PHP</a>
-        <div id="tzine-actions"></div>
-        <span class="close"></span>
-    </footer>
+	<script>
+        $.contextMenu({
+    // define which elements trigger this menu
+    selector: "ul li",
+    // define the elements of the menu
+    items: {
+        foo: {name: "Foo", callback: function(key, opt){ alert("Foo!"); }},
+        bar: {name: "Bar", callback: function(key, opt){ alert("Bar!") }}
+    }
+    // there's more, have a look at the demos and docs...
+});
+    </script>
 
 	<!-- Include our script files -->
-	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	
 	<script src="/js/folders.js"></script>
 
 </body>

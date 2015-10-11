@@ -1,4 +1,4 @@
-$(function(){
+var scanDir = function(){
 
 	var filemanager = $('.filemanager'),
 		breadcrumbs = $('.breadcrumbs'),
@@ -396,4 +396,29 @@ $(function(){
 		}
 
 	});
+};
+scanDir();
+
+/*-------------------------
+	New Folder
+-------------------------*/
+
+jQuery(document).ready(function(){
+    $('.new-folder i').click(function(){
+        var folderName = prompt('Введите название папки');
+        if(folderName){
+            $.post('/admin/newfolder', { name: '/' + folderName}, function(){
+                scanDir();
+            });
+        }
+    });
+});
+
+/*-------------------------
+	Replace File
+-------------------------*/
+
+jQuery(document).ready(function(){
+
+    /*http://www.trendskitchens.co.nz/jquery/contextmenu/*/
 });

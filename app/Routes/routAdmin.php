@@ -474,3 +474,7 @@ $app->post('/admin/work/:id/:edit', function($id) use($app) {
     $work->save();
     $app->redirect('/admin/work/'. $id . '/success');
 });
+
+$app->post('/admin/newfolder', function(){
+    if(!is_dir(FILES_PATH . $_POST['name'])){ mkdir(FILES_PATH . $_POST['name']); }
+});
