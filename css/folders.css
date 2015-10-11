@@ -559,3 +559,12 @@ footer #tzine-actions iframe{
 .new-folder i {
     cursor: pointer;
 }
+
+/*-------------------------
+	Image Thumbnail
+-------------------------*/
+
+.icon.thumbnail {
+    margin: 1.3em;
+    border-radius: 3px;
+}

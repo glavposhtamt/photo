@@ -10,7 +10,7 @@
 	<!-- Include our stylesheet -->
 
     <link rel="stylesheet" href="/bower_components/fontawesome/css/font-awesome.min.css">
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="/js/jquery-1.11.0.min.js"></script>
     <link rel="stylesheet" href="/bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css">
     <script src="/bower_components/jQuery-contextMenu/src/jquery.contextMenu.js"></script>
     <!-- Include our stylesheet -->
@@ -40,10 +40,10 @@
 	<script>
         $.contextMenu({
     // define which elements trigger this menu
-    selector: "ul li",
+    selector: "footer",
     // define the elements of the menu
     items: {
-        foo: {name: "Foo", callback: function(key, opt){ alert("Foo!"); }},
+        foo: {name: "Foo", callback: function(key, opt){ alert("Foo!"); console.log(key); console.log(opt.$trigger); }},
         bar: {name: "Bar", callback: function(key, opt){ alert("Bar!") }}
     }
     // there's more, have a look at the demos and docs...

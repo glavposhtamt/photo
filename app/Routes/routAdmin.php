@@ -203,6 +203,19 @@ $app->get('/admin/test', function() use($imgCollection) {
 // Run the recursive function 
 
     $response = $imgCollection->scan(FILES_PATH);
+    $files = Files::find('all', array( 'select' => 'id, name' ));
+    $arr = [];
+    foreach($files as $key => $value){
+        $arr[$value->name] = $value->id;
+    }
+    
+    foreach($response as $key => $value){
+        if($value['type'] !== 'folder'){
+            $id = $arr[$value['name']];
+            $response[$key]['id'] = $id;
+        }
+    }
+        
     header('Content-type: application/json');
 
     echo json_encode(array(

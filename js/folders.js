@@ -327,13 +327,17 @@ var scanDir = function(){
 					var fileSize = bytesToSize(f.size),
 						name = escapeHTML(f.name),
 						fileType = name.split('.'),
-						icon = '<span class="icon file"></span>';
+						icon = '<span class="icon file"></span>',
+                        id = f.id;
 
 					fileType = fileType[fileType.length-1];
 
-					icon = '<span class="icon file f-'+fileType+'">.'+fileType+'</span>';
-
-					var file = $('<li class="files"><a href="'+ f.path+'" title="'+ f.path +'" class="files">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');
+					//icon = '<span class="icon file f-'+fileType+'">.'+fileType+'</span>';
+                    var href = 'http://photo.local/files/.thumbail/' + name;
+                    //icon = '<span class="icon thumbnail"><img src="'+ decodeURI(href) + '" ></span>';
+                    icon = '<img class="icon thumbnail" src="'+ decodeURI(href) + '" >';
+					var file = $('<li id="li'+ id +'" data-id="' + id + '" class="files"><a href="'+ f.path+'" title="'+ f.path +
+                                 '" class="files">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');
 					file.appendTo(fileList);
 				});
 
@@ -394,9 +398,31 @@ var scanDir = function(){
 			var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
 			return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 		}
-
+            
+/*-------------------------
+	Replace File
+-------------------------*/
+        
+        $('li.files').on('dragstart', function (event) {
+            var id = $(event.originalEvent.target.parentNode).data('id');
+            event.originalEvent.dataTransfer.setData('id', id);
+        });
+        $('li.folders').on('drop', function(event){
+            event.originalEvent.preventDefault();
+            console.log(event.originalEvent.target.parentNode);
+            var id = event.originalEvent.dataTransfer.getData('id');
+            var selector = '#li' + id;
+            $(selector).remove();
+        });
+        $('li.folders').on('dragover', function(event){
+            event.originalEvent.preventDefault();
+        });
+        $('li.folders').on('dragenter', function(event){
+            event.originalEvent.preventDefault();
+        });
 	});
 };
+
 scanDir();
 
 /*-------------------------
@@ -412,13 +438,4 @@ jQuery(document).ready(function(){
             });
         }
     });
-});
-
-/*-------------------------
-	Replace File
--------------------------*/
-
-jQuery(document).ready(function(){
-
-    /*http://www.trendskitchens.co.nz/jquery/contextmenu/*/
 });
