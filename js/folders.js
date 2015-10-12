@@ -6,7 +6,7 @@ var scanDir = function(){
 
 	// Start by fetching the file data from scan.php with an AJAX request
 
-	$.get('/admin/test', function(data) {
+	$.get('/admin/scan', function(data) {
         data = jQuery.parseJSON(data);
         console.log(data);
 
@@ -280,8 +280,7 @@ var scanDir = function(){
 
 			}
 
-
-			// Empty the old result and make the new one
+            // Empty the old result and make the new one
 
 			fileList.empty().hide();
 
@@ -337,7 +336,7 @@ var scanDir = function(){
 					var file = $('<li id="li'+ id +'" data-id="' + id + '" class="files">' + 
                                     '<a href="'+ decodeURI(href) + '" class="files">' + 
                                         icon + 
-                                        '<span class="name" data-path="' + f.path + '">' + name + '</span>' + 
+                                        '<span class="name" data-path="' + f.short + '">' + name + '</span>' + 
                                         '<span class="details">'+fileSize+'</span>' + 
                                     '</a>' + 
                                  '</li>');
@@ -429,8 +428,9 @@ var scanDir = function(){
                 console.log(imgName);
                 console.log(imgPath);
                 console.log(folderName);
-                $.post('/admin/rename', { path: imgPath, newPath: folderName + '/' + imgName }, function(data){
-                    alert(data);
+                $.post('/admin/rename', { id: id, path: imgPath, newPath: folderName + '/' + imgName, name: imgName }, 
+                function(data){
+                    scanDir();
                 });
                 $li.remove();
             }

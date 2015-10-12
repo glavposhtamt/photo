@@ -46,11 +46,47 @@ $app->post('/admin/attache', function(){
     $files->save();
 });
 
+$app->get('/admin/scan', function() use($imgCollection) {
+
+// Run the recursive function 
+    
+    $response = $imgCollection->scan(FILES_PATH);
+    $files = Files::find('all', array( 'select' => 'id, name' ));
+    $arr = [];
+    foreach($files as $key => $value){
+        $arr[$value->name] = $value->id;
+    }
+    
+    foreach($response as $key => $value){
+        if($value['type'] !== 'folder'){
+            $id = $arr[$value['name']];
+            $response[$key]['id'] = $id;
+        }
+    }
+    //var_dump($response);
+    
+    header('Content-type: application/json');
+
+    echo json_encode(array(
+        "name" => "files",
+        "type" => "folder",
+        "path" => FILES_PATH,
+        "items" => $response,
+        "short" => $imgCollection->getShortPath(FILES_PATH)
+    ));
+});
+
 $app->post('/admin/newfolder', function(){
     if(!is_dir(FILES_PATH . $_POST['name'])){ mkdir(FILES_PATH . $_POST['name']); }
 });
 
 $app->post('/admin/rename', function(){
-    die('success!');
-});
 
+    if(is_file(FILES_PATH . '/' . $_POST['path'])){
+        $file = Files::find_by_name($_POST['name']);
+        $file->url =  $_POST['newPath'];
+        $file->save();
+        rename(FILES_PATH . '/' . $_POST['path'], FILES_PATH . '/' . $_POST['newPath']);
+    }
+
+});
