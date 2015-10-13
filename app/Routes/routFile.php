@@ -63,7 +63,6 @@ $app->get('/admin/scan', function() use($imgCollection) {
             $response[$key]['id'] = $id;
         }
     }
-    //var_dump($response);
     
     header('Content-type: application/json');
 

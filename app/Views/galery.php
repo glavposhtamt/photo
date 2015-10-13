@@ -38,13 +38,28 @@
 
 	</div>
 	<script>
+        /*$.post("/admin/images?file=Bob%20Marley.jpg&_method=DELETE");*/
         $.contextMenu({
     // define which elements trigger this menu
-    selector: "footer",
+    selector: "ul li.files",
     // define the elements of the menu
     items: {
-        foo: {name: "Foo", callback: function(key, opt){ alert("Foo!"); console.log(key); console.log(opt.$trigger); }},
-        bar: {name: "Bar", callback: function(key, opt){ alert("Bar!") }}
+        delete: {name: "Удалить", callback: function(key, opt){ 
+            //console.log(key);
+            var span = opt.$trigger[0].getElementsByClassName('name')[0],
+                name = span.textContent,
+                path = jQuery(span).data('path');
+            if(window.location.hash){
+                alert();
+            } else {
+                $.post("/admin/images?file=" + '/' + encodeURI(name) + "&_method=DELETE", {}, function(data){
+                    var resp = jQuery.parseJSON(data);
+                    if(resp[name]) jQuery(opt.$trigger[0]).hide(500);
+                });
+            }
+                        
+        }},
+        /*bar: {name: "Bar", callback: function(key, opt){ alert("Bar!") }}*/
     }
     // there's more, have a look at the demos and docs...
 });

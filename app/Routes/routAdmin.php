@@ -188,12 +188,12 @@ $app->get('/admin/settings', function() use($app, $selectAllImg) {
     $app->render('settings.php', array('gallery' => $gallery, 'file_name' => $wi));
 });
 
-/*$app->get('/admin/gallery', function() use($app) {
+$app->get('/admin/gallery', function() use($app) {
 
     $app->render('images.php');
-});*/
+});
 
-$app->get('/admin/gallery', function() use($app) {
+$app->get('/admin/folder', function() use($app) {
 
     $app->render('galery.php');
 });
