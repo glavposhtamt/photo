@@ -38,14 +38,12 @@
 
 	</div>
 	<script>
-        /*$.post("/admin/images?file=Bob%20Marley.jpg&_method=DELETE");*/
         $.contextMenu({
     // define which elements trigger this menu
     selector: "ul li.files",
     // define the elements of the menu
     items: {
         delete: {name: "Удалить", callback: function(key, opt){ 
-            //console.log(key);
             var span = opt.$trigger[0].getElementsByClassName('name')[0],
                 name = span.textContent,
                 path = jQuery(span).data('path');
@@ -59,7 +57,6 @@
             }
                         
         }},
-        /*bar: {name: "Bar", callback: function(key, opt){ alert("Bar!") }}*/
     }
     // there's more, have a look at the demos and docs...
 });
