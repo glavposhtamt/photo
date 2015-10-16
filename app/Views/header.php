@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="bx-no-touch bx-no-retina bx-firefox bx-boxshadow bx-borderradius bx-flexwrap bx-boxdirection bx-transition bx-transform">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
         <meta name="robots" content="index, follow">
         <link href="/css/kernel_main.css" type="text/css" rel="stylesheet">
         <link href="/css/template.css" type="text/css" data-template-style="true" rel="stylesheet">
