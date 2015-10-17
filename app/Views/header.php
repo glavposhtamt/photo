@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html class="bx-no-touch bx-no-retina bx-firefox bx-boxshadow bx-borderradius bx-flexwrap bx-boxdirection bx-transition bx-transform">
+<html>
     <head>
         <meta charset="UTF-8">
-        <meta name="robots" content="index, follow">
         <link href="/css/kernel_main.css" type="text/css" rel="stylesheet">
-        <link href="/css/template.css" type="text/css" data-template-style="true" rel="stylesheet">
+        <link href="/css/template.css" type="text/css" rel="stylesheet">
         <title><?php if(!isset($title)) $title = 'Главная страница - StartUP'; echo $title;?></title>
 
       <link href="http://startupfoto.ru/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">

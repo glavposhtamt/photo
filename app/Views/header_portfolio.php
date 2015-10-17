@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="robots" content="index, follow">
+        <meta charset="UTF-8">
         <link href="/css/kernel_main.css" type="text/css" rel="stylesheet">
-        <link href="/css/template.css" type="text/css" data-template-style="true" rel="stylesheet">
+        <link href="/css/template.css" type="text/css" rel="stylesheet">
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
         <script src="/js/ymaps.js" ></script>
