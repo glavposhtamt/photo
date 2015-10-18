@@ -40,21 +40,27 @@
 	<script>
         $.contextMenu({
     // define which elements trigger this menu
-    selector: "ul li.files",
+    selector: "footer",
     // define the elements of the menu
     items: {
         delete: {name: "Удалить", callback: function(key, opt){ 
             var span = opt.$trigger[0].getElementsByClassName('name')[0],
                 name = span.textContent,
                 path = jQuery(span).data('path');
-            if(window.location.hash){
+            
+/*            if(window.location.hash){
                 alert();
             } else {
                 $.post("/admin/images?file=" + '/' + encodeURI(name) + "&_method=DELETE", {}, function(data){
                     var resp = jQuery.parseJSON(data);
                     if(resp[name]) jQuery(opt.$trigger[0]).hide(500);
                 });
-            }
+            }*/
+/*            
+            $.post("/admin/drop", { path: path, name: name }, function(){
+                
+                alert('Success!');
+            });*/
                         
         }},
     }

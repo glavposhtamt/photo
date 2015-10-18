@@ -455,12 +455,29 @@ scanDir();
 -------------------------*/
 
 jQuery(document).ready(function(){
+    var hashParse = function(){
+        var hash = decodeURIComponent(location.hash).split('/'),
+            path = '';
+        for(var i = 0; i < hash.length; ++i){
+            if(hash[i] === 'files'){
+                ++i;
+                for(; i < hash.length; i++){
+                    path += ( hash[i] + '/' );
+                }
+            }
+        }
+        
+       return path; 
+    }
+    
     $('.new-folder i').click(function(){
-        var folderName = prompt('Введите название папки');
+/*        var folderName = prompt('Введите название папки');
         if(folderName){
             $.post('/admin/newfolder', { name: '/' + folderName}, function(){
                 scanDir();
             });
-        }
+        }*/
+
+        console.log(hashParse());
     });
 });
