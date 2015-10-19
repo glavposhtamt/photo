@@ -121,7 +121,6 @@ var scanDir = function(){
 
 			window.location.hash = encodeURIComponent(nextDir);
 			currentPath = nextDir;
-            scanDir.replaceFile();
 		});
 
 
@@ -382,6 +381,8 @@ var scanDir = function(){
 			// Show the generated elements
 
 			fileList.animate({'display':'inline-block'});
+            
+            scanDir.replaceFile();
 
 		}
 
@@ -401,12 +402,10 @@ var scanDir = function(){
 			var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
 			return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 		}
-        scanDir.replaceFile();
             
 	});
 };
 
-scanDir();
 
 /*-------------------------
 	Parse Hash
@@ -433,8 +432,7 @@ scanDir.hashParse = function() {
 -------------------------*/
 
 scanDir.replaceFile = function(){
-        console.log("Файлов: %s", $('li.files').length);
-        console.log("Папок: %s", $('li.folders').length);
+
         $('li.files').on('dragstart', function (event) {
             var id = $(event.originalEvent.target.parentNode).data('id');
             event.originalEvent.dataTransfer.setData('id', id);
@@ -472,6 +470,8 @@ scanDir.replaceFile = function(){
             event.originalEvent.preventDefault();
         });
 };
+
+scanDir();
 
 /*-------------------------
 	New Folder
