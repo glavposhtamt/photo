@@ -121,6 +121,7 @@ var scanDir = function(){
 
 			window.location.hash = encodeURIComponent(nextDir);
 			currentPath = nextDir;
+            scanDir.replaceFile();
 		});
 
 
@@ -336,7 +337,7 @@ var scanDir = function(){
 					var file = $('<li id="li'+ id +'" data-id="' + id + '" class="files">' + 
                                     '<a href="'+ decodeURI(href) + '" class="files">' + 
                                         icon + 
-                                        '<span class="name" data-path="' + f.short + '">' + name + '</span>' + 
+                                        '<span class="name">' + name + '</span>' + 
                                         '<span class="details">'+fileSize+'</span>' + 
                                     '</a>' + 
                                  '</li>');
@@ -400,11 +401,40 @@ var scanDir = function(){
 			var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
 			return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 		}
+        scanDir.replaceFile();
             
+	});
+};
+
+scanDir();
+
+/*-------------------------
+	Parse Hash
+-------------------------*/
+
+scanDir.hashParse = function() {
+        
+        var hash = decodeURIComponent(location.hash).split('/'),
+            path = '';
+        for(var i = 0; i < hash.length; ++i){
+            if(hash[i] === 'files'){
+                ++i;
+                for(; i < hash.length; i++){
+                    path += ( hash[i] + '/' );
+                }
+            }
+        }
+        
+       return path; 
+    };
+
 /*-------------------------
 	Replace File
 -------------------------*/
-        
+
+scanDir.replaceFile = function(){
+        console.log("Файлов: %s", $('li.files').length);
+        console.log("Папок: %s", $('li.folders').length);
         $('li.files').on('dragstart', function (event) {
             var id = $(event.originalEvent.target.parentNode).data('id');
             event.originalEvent.dataTransfer.setData('id', id);
@@ -414,20 +444,16 @@ var scanDir = function(){
             
             event.originalEvent.preventDefault();
             
-            var some = event.originalEvent.target.parentNode;
-            var folderName = some.getElementsByClassName('name')[0].textContent;
+            var some = event.originalEvent.target.parentNode,
+                folderName = scanDir.hashParse() + some.getElementsByClassName('name')[0].textContent,                      
+                id = event.originalEvent.dataTransfer.getData('id'),
+                selector = '#li' + id,
+                $li = $(selector);
             
-            
-            var id = event.originalEvent.dataTransfer.getData('id');
-            var selector = '#li' + id;
-            var $li = $(selector);
             if($li.length > 0) {
-                var elem = $li[0].getElementsByClassName('name')[0];
-                var imgName = elem.textContent;
-                var imgPath = $(elem).data('path');
-                console.log(imgName);
-                console.log(imgPath);
-                console.log(folderName);
+                var elem = $li[0].getElementsByClassName('name')[0],
+                    imgName = elem.textContent,
+                    imgPath = scanDir.hashParse() + imgName;
                 $.post('/admin/rename', { id: id, path: imgPath, newPath: folderName + '/' + imgName, name: imgName }, 
                 function(data){
                     scanDir();
@@ -445,39 +471,21 @@ var scanDir = function(){
         $('li.folders').on('dragenter', function(event){
             event.originalEvent.preventDefault();
         });
-	});
 };
-
-scanDir();
 
 /*-------------------------
 	New Folder
 -------------------------*/
 
 jQuery(document).ready(function(){
-    var hashParse = function(){
-        var hash = decodeURIComponent(location.hash).split('/'),
-            path = '';
-        for(var i = 0; i < hash.length; ++i){
-            if(hash[i] === 'files'){
-                ++i;
-                for(; i < hash.length; i++){
-                    path += ( hash[i] + '/' );
-                }
-            }
-        }
-        
-       return path; 
-    }
     
     $('.new-folder i').click(function(){
-/*        var folderName = prompt('Введите название папки');
+        var folderName = prompt('Введите название папки');
         if(folderName){
-            $.post('/admin/newfolder', { name: '/' + folderName}, function(){
+            $.post('/admin/newfolder', { name: '/' + scanDir.hashParse() + folderName}, function(){
                 scanDir();
             });
-        }*/
+        }
 
-        console.log(hashParse());
     });
 });

@@ -80,8 +80,7 @@ class ImageProcessingCollection {
                         "name" => $f,
                         "type" => "folder",
                         "path" => $dir . '/' . $f,
-                        "items" => $this->scan($dir . '/' . $f, $arr), // Recursively get the contents of the folder
-                        "short" => $this->getShortPath($dir . '/' . $f)
+                        "items" => $this->scan($dir . '/' . $f, $arr) // Recursively get the contents of the folder
                     );
                 }
 
@@ -94,7 +93,6 @@ class ImageProcessingCollection {
                         "type" => "file",
                         "path" => $dir . '/' . $f,
                         "size" => filesize($dir . '/' . $f), // Gets the size of this file
-                        "short" => $this->getShortPath($dir . '/' . $f),
                         "id" => $arr[$f]
                     );
                 }

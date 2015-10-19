@@ -65,7 +65,6 @@ $app->get('/admin/scan', function() use($imgCollection) {
         "type" => "folder",
         "path" => FILES_PATH,
         "items" => $response,
-        "short" => $imgCollection->getShortPath(FILES_PATH)
     ));
 });
 
