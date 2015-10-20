@@ -8,7 +8,6 @@ var scanDir = function(){
 
 	$.get('/admin/scan', function(data) {
         data = jQuery.parseJSON(data);
-        console.log(data);
 
 		var response = [data],
 			currentPath = '',
