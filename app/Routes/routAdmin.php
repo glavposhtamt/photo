@@ -1,4 +1,4 @@
-<?php
+$files = Files::find_all('');<?php
 
 use \Eventviva\ImageResize;
 
@@ -199,8 +199,8 @@ $app->get('/admin/folder', function() use($app) {
 });
 
 $app->get('/admin/test', function() use($imgCollection) {
-    $file = Files::find_by_name('Bob Marley.jpg', array('select' => 'url'));
-    var_dump($file);
+    /*$file = Files::find('all', array('select' => 'id, url', 'conditions' => array("url LIKE '?%'", 'test/')));
+    var_dump($file);*/
 
 });
 
