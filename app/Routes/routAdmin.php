@@ -1,4 +1,4 @@
-$files = Files::find_all('');<?php
+<?php
 
 use \Eventviva\ImageResize;
 
