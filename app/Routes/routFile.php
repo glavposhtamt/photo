@@ -16,6 +16,22 @@ $options = array(
     'bind' => 'bind'
 );
 
+$delTree = function ($dirPath) use(&$delTree) {
+
+    if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+        $dirPath .= '/';
+    }
+    $files = glob($dirPath . '*', GLOB_MARK);
+    foreach ($files as $file) {
+        if (is_dir($file)) {
+            $delTree($file);
+        } else {
+            unlink($file);
+        }
+    }
+    rmdir($dirPath);
+  };
+
 
 $upload_handler = new MysqlUploadHandler($options, FALSE);
 
@@ -83,7 +99,41 @@ $app->post('/admin/rename', function(){
 
 });
 
-$app->post('/admin/dropfile', function(){
-    
+$app->post('/admin/dropfile', function() use($upload_handler, $delTree){
+    if($_POST['type'] === 'folders') {
+        $ids = [];
+        $full_path = $_POST['path'] . $_POST['name'] . '/';
+        $file = Files::find('all', array('select' => 'id, url, name', 'conditions' => array('url LIKE ?', $full_path . '%')));
+        
+        for($i = 0; $i < count($file); $i++) { 
+            array_push($ids, $file[$i]->id);
+            $upload_handler->remove_image_water($file[$i]->name);
+            $file[$i]->delete();
+        }
+        
+        $binds = Bind::find_all_by_file_id($ids);
+        
+        for($i = 0; $i < count($binds); $i++) $binds[$i]->delete();
+            
+        if(is_dir(FILES_PATH . '/' . $full_path)){
+            $delTree(FILES_PATH . '/' . $full_path);
+        }
+        
+    } elseif($_POST['type'] === 'files'){
+        $full_path = $_POST['path'] . $_POST['name'];
+        
+        $file = Files::find_by_url($full_path, array('select' => 'id, url, name'));
+        
+        $bind = Bind::find_by_file_id($file->id);
+        
+        $upload_handler->remove_image_water($file->name);
+        
+        $file->delete();
+        
+        if(is_file(FILES_PATH . '/' . $full_path)){
+            unlink(FILES_PATH . '/' . $full_path);
+        }
+    }
+    die('Успех!');
     
 });

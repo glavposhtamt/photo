@@ -17,8 +17,8 @@ $.contextMenu({
             
             console.log("Имя %s Путь %s ", name, path);
             
-            $.post("/admin/dropfile", { path: path, name: name, type: type }, function(){
-                
+            $.post("/admin/dropfile", { path: path, name: name, type: type }, function(data){
+                alert(data);
             });
                       
         }},

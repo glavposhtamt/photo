@@ -22,6 +22,6 @@ class Bind extends ActiveRecord\Model {
         $obj = self::find('all', array('select' => 'count(*) AS num_rows'));
         return (int)$obj[0]->num_rows;
     }
-        
+            
 }
 

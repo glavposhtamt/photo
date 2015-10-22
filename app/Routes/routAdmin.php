@@ -198,11 +198,6 @@ $app->get('/admin/folder', function() use($app) {
     $app->render('galery.php');
 });
 
-$app->get('/admin/test', function() use($imgCollection) {
-    /*$file = Files::find('all', array('select' => 'id, url', 'conditions' => array("url LIKE '?%'", 'test/')));
-    var_dump($file);*/
-
-});
 
 $app->post('/admin/position/', function() use($addImgThumbnail){
     $pos = json_decode($_POST['position']);

@@ -97,7 +97,7 @@ class MysqlUploadHandler extends UploadHandler {
         return $this->generate_response($response, $print_response);
     }
     
-    private function remove_image_water($file_name){
+    public function remove_image_water($file_name){
         $file_path = null;
         $arr = explode('.', $file_name);
         array_pop($arr);
