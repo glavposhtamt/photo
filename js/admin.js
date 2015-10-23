@@ -171,29 +171,33 @@ jQuery(document).ready(function(){
     $("#modal-water-list img").click(function(){
         var that = this;
         var clone = that.cloneNode(true);
+        console.log(clone.src);
         var imgName = decodeURI(clone.src.split("/").slice(-1)[0]);
         var parts, ext = ( parts = imgName.split("/").pop().split(".") ).length > 1 ? parts.pop() : "";
         if(ext !== 'png'){
             alert('Необходимо загрузить картинку формата png');
             return;
         }
-        var img = new Image();
-        img.src = 'http://' + window.location.host + '/files/' + imgName;
-        img.id = "water-img";
-        img.display = 'none';
-        $("#water-zone").append(img);
-        var dimensions = getDimensions(img);
-        if( dimensions.width > 200 && dimensions.height > 200 ){
-            $(img).remove();
-            alert('Максимальный размер картинки 200 × 200');
-            return;
-        }
-        if($("#water-zone").children().length === 2 &&
-                $("#water-zone").children()[0].display !== 'none'){
-            $("#water-zone").children()[0].remove();
-        }
-        img.display = 'block';
-        $.post("/admin/setwatermark/", { file_id: $(clone).data('id'), file_name: imgName  });
+        $.get('/admin/getwatername', { id: $(clone).data('id') }, function(data){
+            var img = new Image(),
+                path = (data) ? data : imgName;
+            img.src = 'http://' + window.location.host + '/files/' + path;
+            img.id = "water-img";
+            img.display = 'none';
+            $("#water-zone").append(img);
+            var dimensions = getDimensions(img);
+            if( dimensions.width > 200 && dimensions.height > 200 ){
+                $(img).remove();
+                alert('Максимальный размер картинки 200 × 200');
+                return;
+            }
+            if($("#water-zone").children().length === 2 &&
+                    $("#water-zone").children()[0].display !== 'none'){
+                $("#water-zone").children()[0].remove();
+            }
+            img.display = 'block';
+            $.post("/admin/setwatermark/", { file_id: $(clone).data('id'), file_name: imgName  }); 
+        });
 
     });
 

@@ -26,7 +26,9 @@ $addImgThumbnail = function($model, $file_name) {
     if(is_file(MINI_PATH . '/' . $model->thumbnail)){
         unlink(MINI_PATH . '/' . $model->thumbnail);
     }
-    $image = new ImageResize(FILES_PATH . "/$file_name");
+    $url = Files::find_by_name($file_name, array('select' => 'url'));
+    $path = ($url->url) ? FILES_PATH . '/' . $url->url : FILES_PATH . "/$file_name";
+    $image = new ImageResize($path);
     $image->resizeToWidth(700);
     $image->save(MINI_PATH . "/$model->id" . '_' . $file_name);
     $model->thumbnail = $model->id . '_' . $file_name;
@@ -174,12 +176,17 @@ $app->get('/admin/settings', function() use($app, $selectAllImg) {
     $gallery = $selectAllImg();
     $count = Watermark::num_rows();
     if($count === 1){ 
+        
         $water = Watermark::find(1);
-        if(!is_file(FILES_PATH . '/' . $water->file_name)){
+        
+        $url = Files::find_by_id($water->file_id, array('select' => 'url'));
+        $path = ($url->url) ? FILES_PATH . '/' . $url->url : FILES_PATH . "/$water->file_name";
+            
+        if(!is_file($path)){
             $water->delete();
             $wi = FALSE;
         }else {
-            $wi = $water->file_name;
+            $wi = ($url->url) ? $url->url : $water->file_name;
         }
     }  else {
         $wi = FALSE;
@@ -301,13 +308,23 @@ $app->post('/admin/watermark/:id', function($id) use($watermark){
     }
     $img_path = FILES_PATH  . '/';
     $img_water_path = WATER_PATH . '/';
+    
+    $files = Files::find('all', array('select' => 'name, url'));
+    $fNames = [];
+    
+    foreach($files as $value){
+        $fNames[$value->name] = $value->url;
+    }
+
+    $wi = $img_path . $water->file_name;
+    $wi = ($fNames[$water->file_name]) ? $img_path . $fNames[$file_name->file_name] : $img_path . $water->file_name;
+    
     foreach ($img as $file_name){
         $arr = explode('.', $file_name->file_name);
         array_pop($arr);
         $water_str = implode('.', $arr);
         $img_full_water_name = $img_water_path . $water_str . '.jpg';
-        $img_full_name = $img_path . $file_name->file_name;
-        $wi = $img_path . $water->file_name;
+        $img_full_name = ($fNames[$file_name->file_name]) ? $img_path . $fNames[$file_name->file_name] : $img_path . $file_name->file_name;
         $watermark->apply($img_full_name, $img_full_water_name, $wi, 3);
     }
     die("Водяные знаки успешно установлены!");
@@ -331,6 +348,16 @@ $app->post('/admin/setwatermark/', function(){
     } else {
         die(-1);
     } 
+});
+
+$app->get('/admin/getwatername', function(){
+    try{
+        $name = Files::find((int)$_GET['id']);
+    }
+    catch (Exception $e){
+        die('Ошибка!');
+    }
+    die($name->url);
 });
 
 $app->get('/admin/work/', function() use($app) {
