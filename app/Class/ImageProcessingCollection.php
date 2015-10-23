@@ -93,7 +93,7 @@ class ImageProcessingCollection {
                         "type" => "file",
                         "path" => $dir . '/' . $f,
                         "size" => filesize($dir . '/' . $f), // Gets the size of this file
-                        "id" => $arr[$f]
+                        "id" => isset($arr[$f]) ? $arr[$f] : ''
                     );
                 }
             }

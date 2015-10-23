@@ -32,6 +32,12 @@ $delTree = function ($dirPath) use(&$delTree) {
     rmdir($dirPath);
   };
 
+$removeThumbnail = function($fileName){
+    if(is_file(THUMBAIL_PATH . '/' . $fileName)){
+        unlink(THUMBAIL_PATH . '/' . $fileName);
+    }
+};
+
 
 $upload_handler = new MysqlUploadHandler($options, FALSE);
 
@@ -99,7 +105,7 @@ $app->post('/admin/rename', function(){
 
 });
 
-$app->post('/admin/dropfile', function() use($upload_handler, $delTree){
+$app->post('/admin/dropfile', function() use($upload_handler, $delTree, $removeThumbnail){
     if($_POST['type'] === 'folders') {
         $ids = [];
         $full_path = $_POST['path'] . $_POST['name'] . '/';
@@ -108,10 +114,17 @@ $app->post('/admin/dropfile', function() use($upload_handler, $delTree){
         for($i = 0; $i < count($file); $i++) { 
             array_push($ids, $file[$i]->id);
             $upload_handler->remove_image_water($file[$i]->name);
+            $removeThumbnail($file[$i]->name);
             $file[$i]->delete();
         }
         
-        $binds = Bind::find_all_by_file_id($ids);
+        try {
+            $binds = Bind::find_all_by_file_id($ids);
+        } catch (Exception $e) {
+            if(is_dir(FILES_PATH . '/' . $full_path)) $delTree(FILES_PATH . '/' . $full_path);
+            die('Успех!');
+        }
+        
         
         for($i = 0; $i < count($binds); $i++) $binds[$i]->delete();
             
@@ -120,13 +133,23 @@ $app->post('/admin/dropfile', function() use($upload_handler, $delTree){
         }
         
     } elseif($_POST['type'] === 'files'){
-        $full_path = $_POST['path'] . $_POST['name'];
-        
-        $file = Files::find_by_url($full_path, array('select' => 'id, url, name'));
-        
-        $bind = Bind::find_by_file_id($file->id);
+        $full_path = ($_POST['path']) ? $_POST['path'] . $_POST['name'] : $_POST['name'];
+
+        $file = Files::find_by_name($_POST['name'], array('select' => 'id, url, name', 
+                                                          'conditions' => array('url' => ($_POST['path']) ? $_POST['path'] : NULL)));
         
         $upload_handler->remove_image_water($file->name);
+        $removeThumbnail($file->name);
+        
+        try {
+            $bind = Bind::find_all_by_file_id($file->id);
+        } catch (Exception $e) {
+            if(is_file(FILES_PATH . '/' . $full_path)) unlink(FILES_PATH . '/' . $full_path);
+            $file->delete();
+            die('Успех!');
+        }   
+        
+        for($i = 0; $i < count($bind); $i++) $bind[$i]->delete();
         
         $file->delete();
         
@@ -136,4 +159,10 @@ $app->post('/admin/dropfile', function() use($upload_handler, $delTree){
     }
     die('Успех!');
     
+});
+
+$app->get('/admin/test', function(){
+            $file = Files::find_by_name('IDE-logo.png', array('select' => 'id, url, name', 
+                                                          'conditions' => array('url' => (NULL) ? 'sdf' : NULL)));
+    var_dump($file);
 });
