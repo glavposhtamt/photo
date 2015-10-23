@@ -22,6 +22,15 @@ function routes($route, $app) {
     else {echo "ЧТо-то пошло не так"; }
 }
 
+$nameUrl = function(){
+    $fName = [];
+    $url = Files::find('all', array('select' => 'url, name'));    
+    foreach($url as $value){
+        $fName[$value->name] = $value->url;
+    }
+    return $fName;
+};
+
 $app->get('/', function() use($app) {	$app->render('index.php'); });
 
 $app->get('/kids/', function() use($app) { routes('kids', $app); });
@@ -74,16 +83,19 @@ $app->get('/news/', function() use($app) {
 
 });
 
-$app->get('/news/:id', function($id) use($app){
+$app->get('/news/:id', function($id) use($app, $nameUrl){
     $news = News::find((int)$id);
     $img = Bind::find_all_by_news_id((int)$id, array('order' => 'position'));
+    
+    $fName = $nameUrl();
+    
     $img_arr = []; $i = 0;
     foreach ($img as $value){
         $arr = explode('.', $value->file_name);
         array_pop($arr);
         $water = implode('.', $arr);
-        $file_water_path = FILES_PATH . '/water/' . $water . '.jpg';
-        $img_arr[$i] = is_file($file_water_path) ? '/water/' . $water . '.jpg' : $value->file_name;
+        $file_water_path = FILES_PATH . '/.water/' . $water . '.jpg';
+        $img_arr[$i] = is_file($file_water_path) ? '/.water/' . $water . '.jpg' : $fName[$value->file_name];
         $i++;
     }
     $app->render('news_open.php', array('news' => $news, 'img' => $img_arr, 'id' => $id, 'title' => 'Новости'));
@@ -118,9 +130,11 @@ $app->get('/ourworks/', function() use($app){
     
 });
 
-$app->get('/ourworks/:id', function($id) use($app){
+$app->get('/ourworks/:id', function($id) use($app, $nameUrl){
     $work = Work::find_by_sql("SELECT work.id, anotation, title FROM work 
                                 INNER JOIN institution ON work.institution = institution.id WHERE work.id = $id");
+    
+    $fName = $nameUrl();
     
     $work = $work[0];
     $img = Bind::find_all_by_work_id((int)$id, array('order' => 'position'));
@@ -129,8 +143,8 @@ $app->get('/ourworks/:id', function($id) use($app){
         $arr = explode('.', $value->file_name);
         array_pop($arr);
         $water = implode('.', $arr);
-        $file_water_path = FILES_PATH . '/water/' . $water . '.jpg';
-        $img_arr[$i] = is_file($file_water_path) ? '/water/' . $water . '.jpg' : $value->file_name;
+        $file_water_path = FILES_PATH . '/.water/' . $water . '.jpg';
+        $img_arr[$i] = is_file($file_water_path) ? '/.water/' . $water . '.jpg' : $fName[$value->file_name];
         $i++;
     }
     $app->render('news_open.php', array('news' => $work, 'img' => $img_arr, 'id' => $id, 'title' => 'Наши работы'));

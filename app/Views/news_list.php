@@ -140,7 +140,7 @@
                         <?php foreach ($news as $value) : ?>
                         <div class="news-wrapper">
                             <div class="mini-img">
-                                <img src="/files/crop/<?=$value->mini?>" alt="mini">
+                                <img src="/files/.crop/<?=$value->mini?>" alt="mini">
                             </div>
                             <div class="anotation">
                                 <h1><a href="<?=$value->id?>"><?=$value->title?></a></h1>

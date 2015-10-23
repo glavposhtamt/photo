@@ -355,7 +355,7 @@ $app->get('/admin/getwatername', function(){
         $name = Files::find((int)$_GET['id']);
     }
     catch (Exception $e){
-        die('Ошибка!');
+        die();
     }
     die($name->url);
 });
