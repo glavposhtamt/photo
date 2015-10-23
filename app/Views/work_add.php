@@ -1,4 +1,5 @@
 <?php include_once 'admin-header-default.php'; ?>
+</head>
 <?php include_once 'admin.php'; ?>
 <div id="page-content-wrapper">
             <div class="container-fluid">

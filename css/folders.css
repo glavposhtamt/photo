@@ -16,7 +16,7 @@
 -------------------------*/
 
 body {
-	background-color: #23232e;
+	/*background-color: #23232e;*/
 	font: 14px normal Arial, Helvetica, sans-serif;
 	z-index: -4;
 }
@@ -56,7 +56,7 @@ body {
 }
 
 .filemanager .breadcrumbs a:link, .breadcrumbs a:visited {
-	color: #ffffff;
+	color: #333;
 	text-decoration: none;
 }
 
@@ -83,7 +83,7 @@ body {
 	cursor: pointer;
 	right: 0;
 	font-size: 17px;
-	color: #ffffff;
+	color: #333;
 	display: block;
 	width: 40px;
 	height: 40px;
@@ -96,7 +96,7 @@ body {
 	width: 10px;
 	height: 11px;
 	border-radius: 50%;
-	border: 2px solid #ffffff;
+	border: 2px solid #333;
 	right: 8px;
 }
 
@@ -104,7 +104,7 @@ body {
 	content: '';
 	width: 3px;
 	height: 10px;
-	background-color: #ffffff;
+	background-color: #333;
 	border-radius: 2px;
 	position: absolute;
 	top: 23px;
@@ -164,7 +164,8 @@ body {
 
 .filemanager .data li {
 	border-radius: 3px;
-	background-color: #373743;
+	/*background-color: #373743;*/
+    background-color: #F5F5F5;
 	width: 307px;
 	height: 118px;
 	list-style-type: none;
@@ -180,7 +181,7 @@ body {
 }
 
 .filemanager .data li:hover {
-	background-color: #42424E;
+	background-color: #D6D6C2;
 
 }
 
@@ -193,7 +194,8 @@ body {
 }
 
 .filemanager .data li .name {
-	color: #ffffff;
+	/*color: #ffffff;*/
+    color: #333;
 	font-size: 15px;
 	font-weight: 700;
 	line-height: 20px;
@@ -219,7 +221,7 @@ body {
 }
 
 .filemanager .nothingfound {
-	background-color: #373743;
+	background-color: #F5F5F5;
 	width: 23em;
 	height: 21em;
 	margin: 0 auto;
@@ -250,7 +252,7 @@ body {
 
 .filemanager .nothingfound span {
 	margin: 0 auto auto 6.8em;
-	color: #ffffff;
+	color: #333;
 	font-size: 16px;
 	font-weight: 700;
 	line-height: 20px;
@@ -560,6 +562,11 @@ footer #tzine-actions iframe{
     cursor: pointer;
 }
 
+.new-folder a {
+    color: #333;
+    margin-left: 50px;
+}
+
 /*-------------------------
 	Image Thumbnail
 -------------------------*/
@@ -567,4 +574,6 @@ footer #tzine-actions iframe{
 .icon.thumbnail {
     margin: 1.3em;
     border-radius: 3px;
+    display: inline-block;
+    
 }

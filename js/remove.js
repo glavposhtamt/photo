@@ -2,7 +2,7 @@
 $.contextMenu({
 
     //selector: "footer",
-    selector: "ul li",
+    selector: ".filemanager ul li",
 
     items: {
         delete: { name: "Удалить", callback: function(key, opt){
@@ -17,9 +17,7 @@ $.contextMenu({
             
             console.log("Имя %s Путь %s ", name, path);
             
-            $.post("/admin/dropfile", { path: path, name: name, type: type }, function(data){
-                alert(data);
-            });
+            $.post("/admin/dropfile", { path: path, name: name, type: type });
                       
         }},
     }

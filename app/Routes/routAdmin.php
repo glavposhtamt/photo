@@ -190,12 +190,12 @@ $app->get('/admin/settings', function() use($app, $selectAllImg) {
 
 $app->get('/admin/gallery', function() use($app) {
 
-    $app->render('images.php');
+    $app->render('gallery.php');
 });
 
-$app->get('/admin/folder', function() use($app) {
+$app->get('/admin/upload', function() use($app) {
 
-    $app->render('galery.php');
+    $app->render('images.php');
 });
 
 
