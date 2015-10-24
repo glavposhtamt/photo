@@ -7,4 +7,4 @@ $connection = array(
 );
 
 
-$config_db = array( 'development' => 'mysql://' . $connection['user'] .':' . $connection['password'] . '@' . $connection['host'] .'/' . $connection['db'] .';charset=utf8');
+$config_db = array( 'development' => 'mysql://' . $connection['user'] .':' . $connection['password'] . '@' . $connection['host'] .'/' . $connection['db'] .';charset=utf8;collation=utf8_general_ci');
