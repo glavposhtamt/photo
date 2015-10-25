@@ -161,8 +161,6 @@ $app->post('/admin/dropfile', function() use($upload_handler, $delTree, $removeT
     
 });
 
-$app->get('/admin/test', function(){
-            $file = Files::find_by_name('IDE-logo.png', array('select' => 'id, url, name', 
-                                                          'conditions' => array('url' => (NULL) ? 'sdf' : NULL)));
-    var_dump($file);
+$app->get('/admin/test', function() use($upload_handler){
+    $upload_handler->remove_image_water('HTML5_sticker.jpg');
 });

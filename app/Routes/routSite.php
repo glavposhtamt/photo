@@ -26,7 +26,7 @@ $nameUrl = function(){
     $fName = [];
     $url = Files::find('all', array('select' => 'url, name'));    
     foreach($url as $value){
-        $fName[$value->name] = $value->url;
+        $fName[$value->name] = ( !is_null($value->url) ) ? $value->url : FILES_PATH . '/' . $value->name;
     }
     return $fName;
 };

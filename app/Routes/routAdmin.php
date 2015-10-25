@@ -180,7 +180,9 @@ $app->get('/admin/settings', function() use($app, $selectAllImg) {
         $water = Watermark::find(1);
         
         $url = Files::find_by_id($water->file_id, array('select' => 'url'));
-        $path = ($url->url) ? FILES_PATH . '/' . $url->url : FILES_PATH . "/$water->file_name";
+        if(!empty($url)) $path = ($url->url) ? FILES_PATH . '/' . $url->url : FILES_PATH . "/$water->file_name";
+        else $path = '';
+        
             
         if(!is_file($path)){
             $water->delete();
