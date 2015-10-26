@@ -3,18 +3,14 @@ require __DIR__ . '/../Class/MysqlUploadHandler.php';
 
 $connect = $app->config('config_db');
 
-$options = array(
-    'delete_type' => 'POST',
-    'db_host' => $connect['host'],
-    'db_user' => $connect['user'],
-    'db_pass' => $connect['password'],
-    'db_name' => $connect['db'],
-    'script_url' => 'http://'. $_SERVER['HTTP_HOST'] . '/admin/images',
-    'db_table' => 'files',
-    'upload_url' => '/files/',
-    'upload_dir' => $_SERVER['DOCUMENT_ROOT'] . '/files/',
-    'bind' => 'bind'
-);
+function setUploadOptions($opt){
+    if(isset($_COOKIE['path']) && $_COOKIE['path'] !== '' && is_dir(FILES_PATH . '/' . $_COOKIE['path'])){
+        $opt['upload_dir'] = FILES_PATH . '/' . $_COOKIE['path'];
+        $opt['upload_url'] .= $_COOKIE['path'];
+        setcookie ('path', '', time() - 3600);
+    }
+    return $opt;    
+}
 
 $delTree = function ($dirPath) use(&$delTree) {
 
@@ -38,7 +34,7 @@ $removeThumbnail = function($fileName){
     }
 };
 
-
+$options = setUploadOptions($app->config('upload_options'));
 $upload_handler = new MysqlUploadHandler($options, FALSE);
 
 
@@ -162,5 +158,13 @@ $app->post('/admin/dropfile', function() use($upload_handler, $delTree, $removeT
     
 });
 
-$app->get('/admin/test', function() use($imgCollection){
+$app->get('/admin/test', function() use($app){
+    $opt = $app->config('upload_options');
+   if(isset($_COOKIE['path']) && $_COOKIE['path'] !== '' && is_dir(FILES_PATH . '/' . $_COOKIE['path'])){
+        $opt['upload_dir'] = FILES_PATH . '/' . $_COOKIE['path'];
+       $opt['upload_url'] .= $_COOKIE['path'];
+        setcookie ('path', '', time() - 3600);
+    }
+    var_dump($opt);
+    
 });

@@ -383,6 +383,7 @@ var scanDir = function(){
 			fileList.animate({'display':'inline-block'});
             
             scanDir.replaceFile();
+            scanDir.setUploadPath();
 
 		}
 
@@ -489,3 +490,11 @@ jQuery(document).ready(function(){
 
     });
 });
+
+/*-------------------------
+	Upload Files
+-------------------------*/
+scanDir.setUploadPath = function(){
+    $.cookie('path', scanDir.hashParse(), {'path': '/admin/test'});
+};
+

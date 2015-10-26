@@ -6,7 +6,8 @@
 	<!-- Include our stylesheet -->
 
     <link rel="stylesheet" href="/bower_components/fontawesome/css/font-awesome.min.css">
-    <script src="/js/jquery-1.11.0.min.js"></script>
     <link rel="stylesheet" href="/css/blueimp-gallery.min.css">
     <link rel="stylesheet" href="/bower_components/jQuery-contextMenu/dist/jquery.contextMenu.min.css">
+    <script src="/js/jquery-1.11.0.min.js"></script>
     <script src="/bower_components/jQuery-contextMenu/src/jquery.contextMenu.js"></script>
+    <script src="/bower_components/jquery.cookie/jquery.cookie.js"></script>
