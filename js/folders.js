@@ -330,7 +330,7 @@ var scanDir = function(){
 
 					fileType = fileType[fileType.length-1];
 
-                    var href = 'http://photo.local/files/.thumbail/' + name;
+                    var href = 'http://' + location.hostname +'/files/.thumbail/' + name;
                     icon = '<img class="icon thumbnail" src="'+ decodeURI(href) + '" >';
 					var file = $('<li id="li'+ id +'" data-id="' + id + '" class="files">' + 
                                     '<a href="'+ decodeURI(href) + '" class="files">' + 
