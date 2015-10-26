@@ -58,7 +58,7 @@ class ImageProcessingCollection {
         imagedestroy($img_o);
     }
     
-    public function scan($dir, $arr){
+    public function scan($dir, $id, $url){
 
         $files = array();
 
@@ -80,7 +80,7 @@ class ImageProcessingCollection {
                         "name" => $f,
                         "type" => "folder",
                         "path" => $dir . '/' . $f,
-                        "items" => $this->scan($dir . '/' . $f, $arr) // Recursively get the contents of the folder
+                        "items" => $this->scan($dir . '/' . $f, $id, $url) // Recursively get the contents of the folder
                     );
                 }
 
@@ -93,7 +93,8 @@ class ImageProcessingCollection {
                         "type" => "file",
                         "path" => $dir . '/' . $f,
                         "size" => filesize($dir . '/' . $f), // Gets the size of this file
-                        "id" => isset($arr[$f]) ? $arr[$f] : ''
+                        "id" => isset($id[$f]) ? $id[$f] : '',
+                        "url" => isset($url[$f]) ? $url[$f] : ''
                     );
                 }
             }
@@ -108,7 +109,7 @@ class ImageProcessingCollection {
         $arr = explode('/', $fullPath);
         for($i = 0; $i < count($arr); $i++){
             if($arr[$i] === 'files') {
-                ++$i;
+
                 for($j = 0; $i < count($arr); $i++){
                     $cut[++$j] = $arr[$i];
                 }

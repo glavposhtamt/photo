@@ -326,14 +326,15 @@ var scanDir = function(){
 						name = escapeHTML(f.name),
 						fileType = name.split('.'),
 						icon = '<span class="icon file"></span>',
-                        id = f.id;
+                        id = f.id,
+                        url = 'http://' + location.hostname + '/' + decodeURI(f.url);
 
 					fileType = fileType[fileType.length-1];
 
                     var href = 'http://' + location.hostname +'/files/.thumbail/' + name;
                     icon = '<img class="icon thumbnail" src="'+ decodeURI(href) + '" >';
 					var file = $('<li id="li'+ id +'" data-id="' + id + '" class="files">' + 
-                                    '<a href="'+ decodeURI(href) + '" class="files">' + 
+                                    '<a href="'+ url + '" class="files">' + 
                                         icon + 
                                         '<span class="name">' + name + '</span>' + 
                                         '<span class="details">'+fileSize+'</span>' + 

@@ -72,13 +72,14 @@ $app->get('/admin/scan', function() use($imgCollection) {
 
 // Run the recursive function 
     
-    $files = Files::find('all', array( 'select' => 'id, name' ));
-    $arr = [];
+    $files = Files::find('all', array( 'select' => 'id, name, url' ));
+    $id = []; $url = [];
     foreach($files as $key => $value){
-        $arr[$value->name] = $value->id;
+        $id[$value->name] = $value->id;
+        $url[$value->name] = is_null($value->url) ? $imgCollection->getShortPath(FILES_PATH . '/' . $value->name) : 'files/' . $value->url;
     }
         
-    $response = $imgCollection->scan(FILES_PATH, $arr);
+    $response = $imgCollection->scan(FILES_PATH, $id, $url);
 
     header('Content-type: application/json');
 
@@ -161,6 +162,5 @@ $app->post('/admin/dropfile', function() use($upload_handler, $delTree, $removeT
     
 });
 
-$app->get('/admin/test', function() use($upload_handler){
-    $upload_handler->remove_image_water('HTML5_sticker.jpg');
+$app->get('/admin/test', function() use($imgCollection){
 });

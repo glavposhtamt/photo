@@ -6,6 +6,13 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
+                        <!-- Управление галереей -->
+                        <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+                            <div class="slides"></div>
+                            <a class="prev">‹</a>
+                            <a class="next">›</a>
+                            <a class="close">×</a>
+                        </div>
                         <div class="filemanager">
                             <div class="new-folder">
                                 <i class="fa fa-folder-open-o fa-4x new-f"></i>
@@ -18,7 +25,7 @@
 
                              <div class="breadcrumbs"></div>
 
-                                 <ul class="data"></ul>
+                                 <ul class="data" id="links"></ul>
 
                               <div class="nothingfound">
                                    <div class="nofiles"></div>
@@ -31,7 +38,19 @@
 
                          <script src="/js/folders.js"></script>
                          <script src="/js/remove.js"></script>
-
+                         <script>
+                            document.getElementById('links').onclick = function (event) {
+                                event = event || window.event;
+                                var target = event.target || event.srcElement,
+                                    link = target.src ? target.parentNode : target,
+                                    options = {index: link, event: event},
+                                    links = this.querySelectorAll('a.files'),
+                                    node = target.nodeName === 'a' ? target : target.parentNode; 
+                                
+                                node.className === 'files' ? blueimp.Gallery(links, options) : null;
+                            };
+                        </script>
+                        <script src="/js/jquery.blueimp-gallery.min.js"></script>
                     </div>
                 </div>
             </div>
