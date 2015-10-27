@@ -4,12 +4,13 @@ require __DIR__ . '/../Class/MysqlUploadHandler.php';
 $connect = $app->config('config_db');
 
 function setUploadOptions($opt){
-    if(isset($_COOKIE['path']) && $_COOKIE['path'] !== '' && is_dir(FILES_PATH . '/' . $_COOKIE['path'])){
+
+    if(isset($_COOKIE['path']) && $_COOKIE['path'] !== '' && is_dir(FILES_PATH . '/' . $_COOKIE['path'])){        
         $opt['upload_dir'] = FILES_PATH . '/' . $_COOKIE['path'];
         $opt['upload_url'] .= $_COOKIE['path'];
-        setcookie ('path', '', time() - 3600);
+        //setcookie ('path', '', time() - 3600);
     }
-    return $opt;    
+    return $opt;
 }
 
 $delTree = function ($dirPath) use(&$delTree) {
@@ -34,18 +35,18 @@ $removeThumbnail = function($fileName){
     }
 };
 
-$options = setUploadOptions($app->config('upload_options'));
-$upload_handler = new MysqlUploadHandler($options, FALSE);
 
 
-$app->get('/admin/images', function() use($app, $upload_handler) {
-
+$app->get('/admin/images', function() use($app) {
+    $options = setUploadOptions($app->config('upload_options'));
+    $upload_handler = new MysqlUploadHandler($options, FALSE);
     $upload_handler->listen();
     
 });
 
 $app->post('/admin/images', function() use($app, $upload_handler) {
-
+    $options = setUploadOptions($app->config('upload_options'));
+    $upload_handler = new MysqlUploadHandler($options, FALSE);
     $upload_handler->listen();
     
 });
@@ -159,12 +160,8 @@ $app->post('/admin/dropfile', function() use($upload_handler, $delTree, $removeT
 });
 
 $app->get('/admin/test', function() use($app){
-    $opt = $app->config('upload_options');
-   if(isset($_COOKIE['path']) && $_COOKIE['path'] !== '' && is_dir(FILES_PATH . '/' . $_COOKIE['path'])){
-        $opt['upload_dir'] = FILES_PATH . '/' . $_COOKIE['path'];
-       $opt['upload_url'] .= $_COOKIE['path'];
-        setcookie ('path', '', time() - 3600);
-    }
-    var_dump($opt);
-    
+    $options = $app->config('upload_options');
+    $opt = setUploadOptions($options);
+    var_dump($opt);   
+
 });

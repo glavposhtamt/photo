@@ -495,6 +495,6 @@ jQuery(document).ready(function(){
 	Upload Files
 -------------------------*/
 scanDir.setUploadPath = function(){
-    $.cookie('path', scanDir.hashParse(), {'path': '/admin/test'});
+    $.cookie('path', scanDir.hashParse(), {'path': '/admin/upload'});
 };
 

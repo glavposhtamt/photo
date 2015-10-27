@@ -20,4 +20,4 @@ $app = new \Slim\Slim(array(
 require "$projectDir/routes.php";       //include the file which contains all the routes/route inclusions
 
 
-$app->run();                            //load the application
+$app->run();                          //load the application
