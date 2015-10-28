@@ -41,18 +41,13 @@ $app->get('/admin/images', function() use($app) {
     $options = setUploadOptions($app->config('upload_options'));
     $upload_handler = new MysqlUploadHandler($options, FALSE);
     $upload_handler->listen();
+    var_dump($options);
     
 });
 
-$app->post('/admin/images', function() use($app, $upload_handler) {
+$app->post('/admin/images', function() use($app) {
     $options = setUploadOptions($app->config('upload_options'));
     $upload_handler = new MysqlUploadHandler($options, FALSE);
-    $upload_handler->listen();
-    
-});
-
-$app->delete('/admin/images', function() use($app, $upload_handler) {
-
     $upload_handler->listen();
     
 });
@@ -103,7 +98,9 @@ $app->post('/admin/rename', function(){
 
 });
 
-$app->post('/admin/dropfile', function() use($upload_handler, $delTree, $removeThumbnail){
+$app->post('/admin/dropfile', function() use($delTree, $removeThumbnail, $app){
+    $upload_handler = new MysqlUploadHandler($app->config('upload_options'), FALSE);
+    
     if($_POST['type'] === 'folders') {
         $ids = [];
         $full_path = $_POST['path'] . $_POST['name'] . '/';
@@ -136,8 +133,15 @@ $app->post('/admin/dropfile', function() use($upload_handler, $delTree, $removeT
         $file = Files::find_by_name($_POST['name'], array('select' => 'id, url, name', 
                                                           'conditions' => array('url' => ($_POST['path']) ? $_POST['path'] : NULL)));
         
-        $upload_handler->remove_image_water($file->name);
-        $removeThumbnail($file->name);
+        try{
+            $upload_handler->remove_image_water($file->name);
+            $removeThumbnail($file->name);
+        } catch (Exception $ex) {
+            if(is_file(FILES_PATH . '/' . $full_path)){
+                unlink(FILES_PATH . '/' . $full_path);
+            }
+            die();
+        }
         
         try {
             $bind = Bind::find_all_by_file_id($file->id);

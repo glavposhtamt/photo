@@ -33,18 +33,38 @@ class MysqlUploadHandler extends UploadHandler {
             $uploaded_file, $name, $size, $type, $error, $index, $content_range
         );
         if (empty($file->error)) {
-            $sql = 'INSERT INTO `'.$this->options['db_table']
-                .'` (`name`, `size`, `type`, `title`, `description`)'
-                .' VALUES (?, ?, ?, ?, ?)';
-            $query = $this->db->prepare($sql);
-            $query->bind_param(
-                'sisss',
-                $file->name,
-                $file->size,
-                $file->type,
-                $file->title,
-                $file->description
-            );
+            //Проверка на наличие куки
+            
+            if(isset($_COOKIE['path']) && $_COOKIE['path'] !== ''){
+                $url = $_COOKIE['path'] . $file->name;
+                $sql = 'INSERT INTO `'.$this->options['db_table']
+                    .'` (`name`, `size`, `type`, `title`, `description`, `url`)'
+                    .' VALUES (?, ?, ?, ?, ?, ?)';
+                $query = $this->db->prepare($sql);
+                $query->bind_param(
+                    'sissss',
+                    $file->name,
+                    $file->size,
+                    $file->type,
+                    $file->title,
+                    $file->description,
+                    $url
+                );
+            }else {
+            
+                $sql = 'INSERT INTO `'.$this->options['db_table']
+                    .'` (`name`, `size`, `type`, `title`, `description`)'
+                    .' VALUES (?, ?, ?, ?, ?)';
+                $query = $this->db->prepare($sql);
+                $query->bind_param(
+                    'sisss',
+                    $file->name,
+                    $file->size,
+                    $file->type,
+                    $file->title,
+                    $file->description
+                );
+            }
             $query->execute();
             $file->id = $this->db->insert_id;
             $ref1 = 'http://'. $_SERVER['HTTP_HOST'] . '/admin/news/add';
