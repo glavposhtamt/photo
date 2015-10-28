@@ -40,9 +40,7 @@ $removeThumbnail = function($fileName){
 $app->get('/admin/images', function() use($app) {
     $options = setUploadOptions($app->config('upload_options'));
     $upload_handler = new MysqlUploadHandler($options, FALSE);
-    $upload_handler->listen();
-    var_dump($options);
-    
+    $upload_handler->listen();    
 });
 
 $app->post('/admin/images', function() use($app) {
