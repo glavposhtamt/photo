@@ -89,9 +89,11 @@ $app->post('/admin/rename', function(){
 
     if(is_file(FILES_PATH . '/' . $_POST['path'])){
         $file = Files::find_by_name($_POST['name']);
-        $file->url =  $_POST['newPath'];
-        $file->save();
-        rename(FILES_PATH . '/' . $_POST['path'], FILES_PATH . '/' . $_POST['newPath']);
+        if(!empty($file)){
+            $file->url =  $_POST['newPath'];
+            $file->save();
+            rename(FILES_PATH . '/' . $_POST['path'], FILES_PATH . '/' . $_POST['newPath']);
+        }
     }
 
 });
