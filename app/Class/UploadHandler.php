@@ -557,6 +557,7 @@ class UploadHandler
     protected function gd_get_image_object($file_path, $func, $no_cache = false) {
         if (empty($this->image_objects[$file_path]) || $no_cache) {
             $this->gd_destroy_image_object($file_path);
+            ini_set ('memory_limit', '-1');
             $this->image_objects[$file_path] = $func($file_path);
         }
         return $this->image_objects[$file_path];
