@@ -160,10 +160,3 @@ $app->post('/admin/dropfile', function() use($delTree, $removeThumbnail, $app){
     die('Успех!');
     
 });
-
-$app->get('/admin/test', function() use($app){
-    $options = $app->config('upload_options');
-    $opt = setUploadOptions($options);
-    var_dump($opt);   
-
-});
