@@ -145,7 +145,7 @@
                     <h1 class="news-h1"><?=$news->title?></h1>
 <script type="text/javascript">
     document.write(VK.Share.button());
-    document.getElementById('vk_share_button').innerHTML = VK.Share.button('http://photo,local/news/15', {type: 'link'}); 
+    document.getElementById('vk_share_button').innerHTML = VK.Share.button(location.href, {type: 'link'}); 
 </script>
                     <p><?=$news->anotation?></p>
                     <!-- Управление галереей -->
@@ -197,11 +197,11 @@
         blueimp.Gallery(links, options);
     };
 </script>
-<div class="vk-block" id="vk_comments_<?=$id?>"></div>
+<div class="vk-block" id="vk_comments_<?=$type?>_<?=$id?>"></div>
 <script type="text/javascript">
     window.onload = function () {
         VK.init({apiId: 5059948 , onlyWidgets: true });
-        VK.Widgets.Comments('vk_comments_<?=$id?>', {width: 680, limit: 15, attach: "*"});
+        VK.Widgets.Comments('vk_comments_<?=$type?>_<?=$id?>', {width: 680, limit: 15, attach: "*"});
     }
 </script>
                     </div>

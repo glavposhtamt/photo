@@ -483,6 +483,7 @@ jQuery(document).ready(function(){
     $('.new-folder i.new-f').click(function(){
         var folderName = prompt('Введите название папки');
         if(folderName){
+            folderName = folderName.replace(/ /g, "-");
             $.post('/admin/newfolder', { name: '/' + scanDir.hashParse() + folderName}, function(){
                 scanDir();
             });

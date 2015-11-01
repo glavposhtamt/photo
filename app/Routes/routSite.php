@@ -26,7 +26,7 @@ $nameUrl = function(){
     $fName = [];
     $url = Files::find('all', array('select' => 'url, name'));    
     foreach($url as $value){
-        $fName[$value->name] = ( !is_null($value->url) ) ? $value->url : FILES_PATH . '/' . $value->name;
+        $fName[$value->name] = ( !is_null($value->url) ) ? $value->url : $value->name;
     }
     return $fName;
 };
@@ -98,7 +98,7 @@ $app->get('/news/:id', function($id) use($app, $nameUrl){
         $img_arr[$i] = is_file($file_water_path) ? '/.water/' . $water . '.jpg' : $fName[$value->file_name];
         $i++;
     }
-    $app->render('news_open.php', array('news' => $news, 'img' => $img_arr, 'id' => $id, 'title' => 'Новости'));
+    $app->render('news_open.php', array('news' => $news, 'img' => $img_arr, 'id' => $id, 'title' => 'Новости', 'type' => 'news'));
 } );
 
 
@@ -147,5 +147,5 @@ $app->get('/ourworks/:id', function($id) use($app, $nameUrl){
         $img_arr[$i] = is_file($file_water_path) ? '/.water/' . $water . '.jpg' : $fName[$value->file_name];
         $i++;
     }
-    $app->render('news_open.php', array('news' => $work, 'img' => $img_arr, 'id' => $id, 'title' => 'Наши работы'));
+    $app->render('news_open.php', array('news' => $work, 'img' => $img_arr, 'id' => $id, 'title' => 'Наши работы', 'type' => 'work'));
 } );

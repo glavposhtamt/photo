@@ -82,7 +82,8 @@ $app->get('/admin/scan', function() use($imgCollection) {
 });
 
 $app->post('/admin/newfolder', function(){
-    if(!is_dir(FILES_PATH . $_POST['name'])){ mkdir(FILES_PATH . $_POST['name']); }
+    $translitName = Translit::object()->convert($_POST['name'], 'ru,latin');
+    if(!is_dir(FILES_PATH . $translitName)) mkdir(FILES_PATH . $translitName);
 });
 
 $app->post('/admin/rename', function(){
