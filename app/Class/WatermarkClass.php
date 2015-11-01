@@ -163,6 +163,7 @@ class WatermarkClass {
 		$this->watermarkPosition = $position;
 		# Get function name to use for create image
 		$functionSource = $this->getFunction($imgSource, 'open');
+        ini_set ('memory_limit', '-1');
 		$this->imgSource = $functionSource($imgSource);
 		# Get function name to use for create image
 		$functionWatermark = $this->getFunction($imgWatermark, 'open');

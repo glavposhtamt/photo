@@ -29,8 +29,15 @@ $addImgThumbnail = function($model, $file_name) {
     $url = Files::find_by_name($file_name, array('select' => 'url'));
     $path = ($url->url) ? FILES_PATH . '/' . $url->url : FILES_PATH . "/$file_name";
     $image = new ImageResize($path);
-    $image->resizeToWidth(700);
-    $image->save(MINI_PATH . "/$model->id" . '_' . $file_name);
+    try{
+        $image->resizeToWidth(700);
+        $image->save(MINI_PATH . "/$model->id" . '_' . $file_name);
+    }
+    catch(Exception $e){
+        die($e->getMessage());
+    }
+    
+    
     $model->thumbnail = $model->id . '_' . $file_name;
     $model->save();
 };
@@ -304,30 +311,40 @@ $app->post('/admin/watermark/:id', function($id) use($watermark){
             die("Не могу создать папку!");
         }
     }
-    if(!is_file(FILES_PATH . '/' . $water->file_name)){
-            $water->delete();
-            die("Логотип был удалён!");
-    }
-    $img_path = FILES_PATH  . '/';
-    $img_water_path = WATER_PATH . '/';
     
     $files = Files::find('all', array('select' => 'name, url'));
-    $fNames = [];
     
+    if(empty($files)) die('Происходит что-то невероятное :-D ');
+    
+    
+    $fNames = [];
+
     foreach($files as $value){
         $fNames[$value->name] = $value->url;
     }
+    
+    if(!is_file(FILES_PATH . '/' . $water->file_name) && !is_file(FILES_PATH . '/' . $fNames[$water->file_name])) {
+            $water->delete();
+            die("Логотип был удалён!");
+    }
 
-    $wi = $img_path . $water->file_name;
-    $wi = ($fNames[$water->file_name]) ? $img_path . $fNames[$file_name->file_name] : $img_path . $water->file_name;
+    $wi = isset($fNames[$water->file_name]) ? FILES_PATH  . '/' . $fNames[$water->file_name] : FILES_PATH  . '/' . $water->file_name;
     
     foreach ($img as $file_name){
         $arr = explode('.', $file_name->file_name);
         array_pop($arr);
         $water_str = implode('.', $arr);
-        $img_full_water_name = $img_water_path . $water_str . '.jpg';
-        $img_full_name = ($fNames[$file_name->file_name]) ? $img_path . $fNames[$file_name->file_name] : $img_path . $file_name->file_name;
-        $watermark->apply($img_full_name, $img_full_water_name, $wi, 3);
+        $img_full_water_name = WATER_PATH . '/' . $water_str . '.jpg';
+        
+        $img_full_name = isset($fNames[$file_name->file_name]) ? FILES_PATH . '/' . $fNames[$file_name->file_name] : 
+                         FILES_PATH . '/' . $file_name->file_name;
+        try{
+            $watermark->apply($img_full_name, $img_full_water_name, $wi, 3);
+        }
+        catch (Exception $e) {
+            continue;
+        }
+        
     }
     die("Водяные знаки успешно установлены!");
 });

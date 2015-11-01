@@ -14,7 +14,6 @@
 class ImageProcessingCollection {
     
     public function crop($file_input, $file_output, $crop = 'square', $percent = false) {
-        
         list($w_i, $h_i, $type) = getimagesize($file_input);
         if (!$w_i || !$h_i) {
             echo 'Невозможно получить длину и ширину изображения';

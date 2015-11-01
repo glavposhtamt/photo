@@ -122,7 +122,7 @@ class MysqlUploadHandler extends UploadHandler {
         $arr = explode('.', $file_name);
         array_pop($arr);
         $water = implode('.', $arr);
-        $file_path = $_SERVER['DOCUMENT_ROOT'] . 'files/.water/' . $water . '.jpg';
+        $file_path = WATER_PATH . '/' . $water . '.jpg';
         if(is_file($file_path)){
             unlink($file_path);
         }

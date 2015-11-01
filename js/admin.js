@@ -63,7 +63,9 @@ function position(message){
     console.log("Тип %s ", type);
     var strImgName = JSON.stringify(names);
         
-    $.post("/admin/position", { position: strImgName, type: type }, function(){ message ? alert("Изменено!") : ''; });
+    $.post("/admin/position", { position: strImgName, type: type }, function(data){ 
+        message && data ? alert(data) : alert('Изменено!'); 
+    });
 }
 
 function removeImg(that) {
