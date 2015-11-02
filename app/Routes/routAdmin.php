@@ -323,7 +323,7 @@ $app->post('/admin/watermark/:id', function($id) use($watermark){
         $fNames[$value->name] = $value->url;
     }
     
-    if(!is_file(FILES_PATH . '/' . $water->file_name) && !is_file(FILES_PATH . '/' . $fNames[$water->file_name])) {
+    if(!is_file(FILES_PATH . '/' . $water->file_name) && !isset($fNames[$water->file_name])) {
             $water->delete();
             die("Логотип был удалён!");
     }
