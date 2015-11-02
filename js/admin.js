@@ -64,7 +64,7 @@ function position(message){
     var strImgName = JSON.stringify(names);
         
     $.post("/admin/position", { position: strImgName, type: type }, function(data){ 
-        message ? alert(data || 'Изменено!') : return; 
+        message ? alert(data || 'Изменено!') : ''; 
     });
 }
 
