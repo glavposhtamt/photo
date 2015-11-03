@@ -29,6 +29,8 @@ class MysqlUploadHandler extends UploadHandler {
         if(preg_match('/[а-яА-Я]/', $name)){
             $name = Translit::object()->convert($name, 'ru,latin');
         }
+        $imgInfo = pathinfo($name);
+        $name = $imgInfo['filename'] . '_' . rand(0,100000) . '.' . $imgInfo['extension'];
         $file = parent::handle_file_upload(
             $uploaded_file, $name, $size, $type, $error, $index, $content_range
         );
