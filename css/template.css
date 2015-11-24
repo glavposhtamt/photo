@@ -1045,12 +1045,15 @@ body{
 	color: #D29749;
 	font: normal 13px Tahoma, Arial;
 	float: left;
-	padding: 0 0 0 55px;
+	padding: 35px 0 0 55px;
 	background: url(../img/rkontakt.png) 0 -115px no-repeat;
+    position: relative;
 }
 .sp-mail a{
+    position: absolute;
 	color: #D29749;
 	font: normal 13px Tahoma, Arial;
+    top: 12px;
 }
 .sp-lk{
 	float: right;
