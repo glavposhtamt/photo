@@ -2,8 +2,9 @@
 
 use \Eventviva\ImageResize;
 
-require FUNCTION_PATH . '/functions.php';
 require CLASS_PATH . '/WatermarkClass.php';
+
+$js_css = $app->config('js_css');
 
 $watermark = new WatermarkClass();
 
@@ -203,9 +204,9 @@ $app->get('/admin/settings', function() use($app, $selectAllImg) {
     $app->render('admin/settings.php', array('gallery' => $gallery, 'file_name' => $wi));
 });
 
-$app->get('/admin/gallery', function() use($app) {
-
-    $app->render('admin/gallery.php');
+$app->get('/admin/gallery', function() use($app, $js_css) {
+    
+    $app->render('admin/gallery.php', array('jsCSSLibs' => $js_css));
 });
 
 $app->get('/admin/upload', function() use($app) {

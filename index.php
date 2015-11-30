@@ -14,7 +14,8 @@ ActiveRecord\Config::initialize(function($cfg) use( $projectDir, $config_db ) {
 $app = new \Slim\Slim(array(
     'templates.path' => "$projectDir/Views",
     'config_db' => $connection,
-    'upload_options' => $options
+    'upload_options' => $options,
+    'js_css' => $jsCSSLibs
 ));      //instantiate a new Framework Object and define the path to the folder that holds the views for this project
 
 require "$projectDir/routes.php";       //include the file which contains all the routes/route inclusions

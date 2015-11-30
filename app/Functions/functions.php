@@ -112,3 +112,36 @@ function getShortPath($fullPath){
        return implode('/', $cut);
         
 }
+
+
+/* Подкючаем js и css */
+
+function addCssAndJs($jsCSSLibs, $arr){
+	if(is_array($arr)){
+        $c = count($arr);
+        $proxy = [];
+        
+        for($i = 0; $i < $c; $i++){
+            
+            $proxy = $jsCSSLibs[$arr[$i]];
+            
+            if(isset($proxy['css'])){
+                if(is_array($proxy['css'])) {
+                    $cp = count($proxy['css']);
+                    for($j = 0; $j < $cp; $j++) : ?>
+						<link rel="stylesheet" href="<?=$proxy['css'][$j]?>">
+                    <?php endfor;
+                }else { ?> <link rel="stylesheet" href="<?=$proxy['css']?>"> <?php }			
+            }
+            if(isset($proxy['js'])){
+                if(is_array($proxy['js'])) {
+                    $cp = count($proxy['js']);
+                    for($j = 0; $j < $cp; $j++) : ?>
+                        <script type="text/javascript" src="<?=$proxy['js'][$j]?>"></script>
+                    <?php endfor;
+                }else { ?> <script type="text/javascript" src="<?=$proxy['js']?>"></script><?php }				
+            }
+            $proxy = null;
+        }
+    }
+}
