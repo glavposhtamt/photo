@@ -6,6 +6,7 @@ define('MINI_PATH', FILES_PATH  . '/.mini');
 define('WATER_PATH', FILES_PATH  . '/.water');
 define('THUMBAIL_PATH', FILES_PATH  . '/.thumbail');
 define('CLASS_PATH', $_SERVER['DOCUMENT_ROOT'] . "/app/Class");
+define('FUNCTION_PATH', $_SERVER['DOCUMENT_ROOT'] . "/app/Functions");
 define('FILES_URI', $_SERVER['HTTP_HOST'] . '/files');
 
 $connection = array(

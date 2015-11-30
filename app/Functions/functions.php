@@ -1,19 +1,8 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/* Фрагменты изображений */
 
-/**
- * Description of ImageProcessingCollection
- *
- * @author sergey
- */
-class ImageProcessingCollection {
-    
-    public function crop($file_input, $file_output, $crop = 'square', $percent = false) {
+function crop($file_input, $file_output, $crop = 'square', $percent = false) {
         list($w_i, $h_i, $type) = getimagesize($file_input);
         if (!$w_i || !$h_i) {
             echo 'Невозможно получить длину и ширину изображения';
@@ -55,9 +44,11 @@ class ImageProcessingCollection {
             $func($img_o,$file_output);
         }
         imagedestroy($img_o);
-    }
-    
-    public function scan($dir, $id, $url){
+}
+
+/* Сканировние директорий */
+
+function scan($dir, $id, $url){
 
         $files = array();
 
@@ -79,7 +70,7 @@ class ImageProcessingCollection {
                         "name" => $f,
                         "type" => "folder",
                         "path" => $dir . '/' . $f,
-                        "items" => $this->scan($dir . '/' . $f, $id, $url) // Recursively get the contents of the folder
+                        "items" => scan($dir . '/' . $f, $id, $url) // Recursively get the contents of the folder
                     );
                 }
 
@@ -101,9 +92,11 @@ class ImageProcessingCollection {
         }
 
         return $files;
-    }
-    
-    public function getShortPath($fullPath){
+}
+
+/* Получает укороченный путь */
+
+function getShortPath($fullPath){
         $cut = [];
         $arr = explode('/', $fullPath);
         for($i = 0; $i < count($arr); $i++){
@@ -118,6 +111,4 @@ class ImageProcessingCollection {
             
        return implode('/', $cut);
         
-    }
-    
 }

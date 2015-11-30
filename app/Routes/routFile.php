@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../Class/MysqlUploadHandler.php';
+require CLASS_PATH . '/MysqlUploadHandler.php';
 
 $connect = $app->config('config_db');
 
@@ -58,7 +58,7 @@ $app->post('/admin/attache', function(){
     $files->save();
 });
 
-$app->get('/admin/scan', function() use($imgCollection) {
+$app->get('/admin/scan', function(){
 
 // Run the recursive function 
     
@@ -66,10 +66,10 @@ $app->get('/admin/scan', function() use($imgCollection) {
     $id = []; $url = [];
     foreach($files as $key => $value){
         $id[$value->name] = $value->id;
-        $url[$value->name] = is_null($value->url) ? $imgCollection->getShortPath(FILES_PATH . '/' . $value->name) : 'files/' . $value->url;
+        $url[$value->name] = is_null($value->url) ? getShortPath(FILES_PATH . '/' . $value->name) : 'files/' . $value->url;
     }
         
-    $response = $imgCollection->scan(FILES_PATH, $id, $url);
+    $response = scan(FILES_PATH, $id, $url);
 
     header('Content-type: application/json');
 
