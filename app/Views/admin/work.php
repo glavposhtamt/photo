@@ -1,7 +1,15 @@
-<?php include_once 'admin-header-default.php'; ?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'admin']);  ?>
 </head>
+<body>
 <?php include_once 'admin.php'; ?>
-<div id="page-content-wrapper">
+    <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
@@ -18,7 +26,7 @@
                             <span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true" ></span>
                             <span class="anchor">Показать/Скрыть</span>
                         </a>
-                        <!-- Список новостей -->
+                        <!-- Список работ -->
                         <div class="list-group">
                             <?php foreach ($list as $value) : ?>
                                 <a href="/admin/work/<?=$value->id?>/edit" class="list-group-item" id="item<?=$value->id?>">

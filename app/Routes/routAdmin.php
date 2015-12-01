@@ -69,7 +69,7 @@ $bindTables = function($table, $id, $addImgThumbnail){
                 $bind->setTableId($table, $id);
                 $bind->position = $i;
                 $bind->save();
-                setcookie ("file[$name]", "", time() - 3600, "/admin/");
+                setcookie ("file[$name]", "", time() - 3600, "/admin");
                 if($i === 0){ 
                     if($table === 'news') $model = News::find((int)$bind->news_id, array('select' => 'id, thumbnail'));
                     elseif($table === 'work') $model = Work::find((int)$bind->work_id, array('select' => 'id, thumbnail'));
@@ -87,31 +87,30 @@ $app->get('/admin/', function() use($app) {
 	$app->redirect('/admin/news');
 });
 
-$app->get('/admin/news/', function() use($app) {
+$app->get('/admin/news/', function() use($app, $js_css) {
     $list = News::find_by_sql("SELECT id, title, date FROM news");
-    $app->render('admin/news.php', array('list' => $list));
+    $app->render('admin/news.php', array('list' => $list, 'jsCSSLibs' => $js_css));
 
 });
 
-$app->get('/admin/page', function() use($app, $func) {
-        $list = Post::find_by_sql("SELECT id, route, title, date FROM post");  
-        
-	$app->render('admin/list.php', array('arr' => $list , 'func' => $func));
+$app->get('/admin/page', function() use($app, $func, $js_css) {
+    $list = Post::find_by_sql("SELECT id, route, title, date FROM post");  
+    $app->render('admin/list.php', array('arr' => $list , 'func' => $func, 'jsCSSLibs' => $js_css));
 });
 
-$app->get('/admin/page/:id', function ($id) use($app) {
+$app->get('/admin/page/:id', function ($id) use($app, $js_css) {
     $post = Post::find((int)$id);   
     
-    $app->render('admin/page.php', array('post' => $post));
+    $app->render('admin/page.php', array('post' => $post, 'jsCSSLibs' => $js_css));
 });
 
-$app->post('/admin/page/:id', function ($id) use($app) {
+$app->post('/admin/page/:id', function ($id) use($app, $js_css) {
     $message = "Страница успешно изменена";
     $post = Post::find((int)$id);
     $post->post = $_POST['editor1'];
     $post->title = $_POST['title'];
     $post->save();
-    $app->render('admin/page.php', array('post' => $post, 'message' => $message));
+    $app->render('admin/page.php', array('post' => $post, 'message' => $message, 'jsCSSLibs' => $js_css));
     
 });
 
@@ -131,13 +130,13 @@ $app->post('/admin/delete/', function () {
 
 });
 
-$app->get('/admin/news/add', function () use($app) {
+$app->get('/admin/news/add', function () use($app, $js_css) {
         if (isset($_COOKIE['file'])) {
             foreach ($_COOKIE['file'] as $name => $value) {
                 setcookie ("file[$name]", "", time() - 3600, "/admin/");
             }
         }
-        $app->render('admin/news_add.php');
+        $app->render('admin/news_add.php', array('jsCSSLibs' => $js_css));
 });
 
 
@@ -155,14 +154,15 @@ $app->post('/admin/news/add', function () use ($app, $addImgThumbnail, $bindTabl
     $app->redirect('/admin/thumbnail/news/'. $news->id);
 });
 
-$app->get('/admin/news/:id', function ($id) use($app, $selectAllImg) {
+$app->get('/admin/news/:id', function ($id) use($app, $selectAllImg, $js_css) {
     $news = News::find((int)$id);  
     $img = Bind::find_all_by_news_id((int)$id, array('order' => 'position'));
     $gallery = $selectAllImg();
-    $app->render('admin/news_edit.php', array('news' => $news, 'images' => $img, 'gallery' => $gallery, 'id' => $news->id));
+    $app->render('admin/news_edit.php', array('news' => $news, 'images' => $img, 'gallery' => $gallery, 
+                                              'id' => $news->id, 'jsCSSLibs' => $js_css));
 });
 
-$app->post('/admin/news/:id', function ($id) use($app, $selectAllImg) {
+$app->post('/admin/news/:id', function ($id) use($app, $selectAllImg, $js_css) {
     $message = "Новость успешно изменена";
     $newDate = new DateTime($_POST['date']);
     $post = News::find((int)$id);
@@ -175,11 +175,11 @@ $app->post('/admin/news/:id', function ($id) use($app, $selectAllImg) {
     $img = Bind::find_all_by_news_id((int)$id, array('order' => 'position'));
     $gallery = $selectAllImg();
     $app->render('admin/news_edit.php', array('news' => $post, 'message' => $message, 'images' => $img, 'gallery' => $gallery,
-                                        'id' => $post->id));
+                                              'id' => $post->id, 'jsCSSLibs' => $js_css));
     
 });
 
-$app->get('/admin/settings', function() use($app, $selectAllImg) {
+$app->get('/admin/settings', function() use($app, $selectAllImg, $js_css) {
     $gallery = $selectAllImg();
     $count = Watermark::num_rows();
     if($count === 1){ 
@@ -201,7 +201,7 @@ $app->get('/admin/settings', function() use($app, $selectAllImg) {
         $wi = FALSE;
     }
     
-    $app->render('admin/settings.php', array('gallery' => $gallery, 'file_name' => $wi));
+    $app->render('admin/settings.php', array('gallery' => $gallery, 'file_name' => $wi, 'jsCSSLibs' => $js_css));
 });
 
 $app->get('/admin/gallery', function() use($app, $js_css) {
@@ -257,14 +257,15 @@ $app->post('/admin/removeimg', function(){
     
 });
 
-$app->get('/admin/thumbnail/news/:id', function($id) use($app) {
+$app->get('/admin/thumbnail/news/:id', function($id) use($app, $js_css) {
     $thumb = News::find((int)$id, array('select' => 'thumbnail, id, mini'));
-    $app->render('admin/thumbnail.php', array('news' => $thumb, 'return' => '/news/' . $thumb->id));      
+    $app->render('admin/thumbnail.php', array('news' => $thumb, 'return' => '/news/' . $thumb->id, 'jsCSSLibs' => $js_css));      
 });
 
-$app->get('/admin/thumbnail/work/:id', function($id) use($app) {
+$app->get('/admin/thumbnail/work/:id', function($id) use($app, $js_css) {
     $thumb = Work::find((int)$id, array('select' => 'thumbnail, id, mini'));
-    $app->render('admin/thumbnail.php', array('news' => $thumb, 'return' => '/work/' . $thumb->id . '/edit'));      
+    $app->render('admin/thumbnail.php', array('news' => $thumb, 'return' => '/work/' . $thumb->id . '/edit', 
+                                              'jsCSSLibs' => $js_css));      
 });
 
 $app->post('/admin/thumbnail/:id', function($id) {
@@ -381,18 +382,18 @@ $app->get('/admin/getwatername', function(){
     die($name->url);
 });
 
-$app->get('/admin/work/', function() use($app) {
+$app->get('/admin/work/', function() use($app, $js_css) {
     $list = Work::find_by_sql('SELECT work.id, title, city FROM work INNER JOIN institution ON work.institution = institution.id');
-	$app->render('admin/work.php', array('list' => $list));
+	$app->render('admin/work.php', array('list' => $list, 'jsCSSLibs' => $js_css));
 
 });
 
-$app->get('/admin/institution/', function() use($app) {
+$app->get('/admin/institution/', function() use($app, $js_css) {
     $inst = Institution::find('all');
     $count = Institution::num_rows();
     $city = Institution::get_unique_cityes();  
 
-    $app->render('admin/institution.php', array('inst' => $inst ,'city' => $city, 'count' => $count ));
+    $app->render('admin/institution.php', array('inst' => $inst ,'city' => $city, 'count' => $count, 'jsCSSLibs' => $js_css));
 
 });
 
@@ -419,17 +420,17 @@ $app->post('/admin/institution/', function() use($app) {
 
 });
 
-$app->get('/admin/institution/success/', function() use($app) {
+$app->get('/admin/institution/success/', function() use($app, $js_css) {
     $count = Institution::num_rows();
     $inst = Institution::find('all');
     $city = Institution::get_unique_cityes();
-    $app->render('admin/institution.php', array('inst' => $inst, 'city' => $city, 'message' => "Учебное заведение успешно добавлено!", 'count' => $count));
+    $app->render('admin/institution.php', array('inst' => $inst, 'city' => $city, 'message' => "Учебное заведение успешно добавлено!", 'count' => $count, 'jsCSSLibs' => $js_css));
 
 });
 
-$app->get('/admin/work/add', function() use($app){
+$app->get('/admin/work/add', function() use($app, $js_css){
     $school = Institution::find('all', array('select' => 'DISTINCT city', 'conditions' => array('type' => 'Школа')));
-    $app->render("admin/work_add.php", array('school' => $school));
+    $app->render("admin/work_add.php", array('school' => $school, 'jsCSSLibs' => $js_css));
 });
 
 $app->post('/admin/smartform/', function(){
@@ -470,7 +471,7 @@ $app->post('/admin/work/add', function() use($app, $addImgThumbnail, $bindTables
     
 });
 
-$app->get('/admin/work/:id/:succes', function($id, $succes) use($app, $selectAllImg){
+$app->get('/admin/work/:id/:succes', function($id, $succes) use($app, $selectAllImg, $js_css){
     $types = ['Школа', 'ВУЗ', 'Детский сад'];
     
     $list = Work::find_by_sql('SELECT work.id, title, school_class, type, year, city, anotation, work.institution, keywords FROM work INNER JOIN institution ON work.institution = institution.id WHERE work.id = ' . $id);
@@ -487,7 +488,9 @@ $app->get('/admin/work/:id/:succes', function($id, $succes) use($app, $selectAll
     if($succes === 'success') $message = 'Работа успешно сохранена!';
     else $message = '';
     $app->render('admin/work_edit.php', array('work' => $list,'school' => $city, 'images' => $img, 'gallery' => $gallery, 
-                                        'types' => $types, 'inst' => $inst, 'message' => $message, 'id' => $list->id ));
+                                        'types' => $types, 'inst' => $inst, 'message' => $message, 'id' => $list->id, 
+                                        'jsCSSLibs' => $js_css ));
+    
 });
 
 $app->post('/admin/remove/institution', function(){

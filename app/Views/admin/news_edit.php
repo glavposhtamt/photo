@@ -1,7 +1,15 @@
-<?php include_once 'admin-header-default.php'; ?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'admin', 'ckeditor', 'sortable', 'moment', 'datetimepicker']);  ?>
 </head>
-<?php include_once 'admin.php'; ?>
-<div id="page-content-wrapper">
+<body>
+    <?php include_once 'admin.php'; ?>
+        <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-8">
@@ -24,15 +32,20 @@
                             </script>
                             <div class="row input-row">
                                 <div class="col-lg-2">
-                                    <input type="number" class="form-control" name="news-id" value="<?=$news->id?>" disabled="disabled">
+                                    <input type="number" class="form-control" name="news-id" value="<?=$news->id?>"
+                                           disabled="disabled">
                                 </div>
                                 <div class="col-lg-6">
-                                    <input type="text" name="keywords" class="form-control" value="<?=$news->keywords?>" placeholder="Ключевые слова">
+                                    <input type="text" name="keywords" class="form-control" value="<?=$news->keywords?>"
+                                           placeholder="Ключевые слова">
+                                           
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <div class='input-group date' id='datetimepicker2'>
-                                            <input type="text" name="date" value="<?=date_format($news->date, 'Y.m.d H:i')?>" class="form-control" >
+                                            <input type="text" name="date" value="<?=date_format($news->date, 'Y.m.d H:i')?>"
+                                                   class="form-control" >
+                                                   
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -62,7 +75,9 @@
                         <div class="container_">
                           <h4>Загрузка изображений:</h4>
                           <!-- Trigger the modal with a button -->
-                          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Выбрать из галереи</button>
+                          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+                              Выбрать из галереи
+                          </button>
 
                           <!-- Modal -->
                           <div class="modal fade" id="myModal" role="dialog">
@@ -76,7 +91,9 @@
                                 </div>
                                 <div class="modal-body" id="modal-img-list">
                                     <?php foreach ($gallery as $value) : ?>
-                                    <img src="/files/.thumbail/<?=$value->name?>" alt="Выберите изображение" data-id="<?=$value->id?>">
+                                    <img src="/files/.thumbail/<?=$value->name?>" alt="Выберите изображение" 
+                                         data-id="<?=$value->id?>">
+                                         
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="modal-footer">
@@ -90,11 +107,15 @@
                         </div>
                         <div class="container_">                        
                             <h4>Настройка миниатюры:</h4>
-                            <a href="/admin/thumbnail/news/<?=$news->id?>" target="_blank" class="btn btn-info btn-lg" >Установить миниатюру</a>
+                            <a href="/admin/thumbnail/news/<?=$news->id?>" target="_blank" class="btn btn-info btn-lg" >
+                                Установить миниатюру
+                            </a>
                         </div>
                         <div class="container_">
                             <h4>Установить водяные знаки:</h4>
-                            <button class="btn btn-info btn-lg" id="news-watermark" data-news-id="<?=$news->id?>">Подписать картинки</button>
+                            <button class="btn btn-info btn-lg" id="news-watermark" data-news-id="<?=$news->id?>">
+                                Подписать картинки
+                            </button>
                         </div>
                     </div>
                 </div>

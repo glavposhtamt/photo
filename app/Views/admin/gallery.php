@@ -60,7 +60,6 @@
                                 node.className === 'files' ? blueimp.Gallery(links, options) : null;
                             };
                         </script>
-                        <!--<script src="/js/jquery.blueimp-gallery.min.js"></script>-->
                     </div>
                 </div>
             </div>

@@ -25,7 +25,7 @@ $jsCSSLibs = array(
     ),
     
     'moment' => array(
-        'js' => [$bower_components . 'moment/min/moment.min.js', 'moment/locale/ru.js']
+        'js' => [$bower_components . 'moment/min/moment.min.js', $bower_components . 'moment/locale/ru.js']
     ),
     
     'bootstrap' => array(

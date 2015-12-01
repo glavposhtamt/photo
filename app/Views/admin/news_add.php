@@ -1,7 +1,35 @@
-<?php include_once 'admin-header-default.php'; ?>
+  <?php
+    header("Cache-Control: no-store"); 
+    header("Expires: " .  date("r"));
+  ?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <link rel="stylesheet" href="/css/jquery.fileupload.css">
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'jquery.cookie', 'bootstrap', 'ckeditor', 'admin']);  ?>
+
+    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+    <script src="/js/vendor/jquery.ui.widget.js"></script>
+    <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+    <script src="/bower_components/blueimp-load-image/js/load-image.all.min.js" ></script>
+    <!-- The basic File Upload plugin -->
+    <script src="/js/jquery.fileupload.js"></script>
+    <!-- The File Upload processing plugin -->
+    <script src="/js/jquery.fileupload-process.js"></script>
+    <!-- The File Upload image preview & resize plugin -->
+    <script src="/js/jquery.fileupload-image.js"></script>
+    <!-- The File Upload validation plugin -->
+    <script src="/js/jquery.fileupload-validate.js"></script>
+
+    <script src="/js/uploadWidget.js"></script>
 </head>
+<body>
 <?php include 'admin.php' ?>
-<div id="page-content-wrapper">
+    <div id="page-content-wrapper">
             <div class="container-fluid">
                 <h1>
                     Новости
@@ -55,33 +83,7 @@
         <div class="clear"></div>
     </div>
     <!-- /#wrapper -->
-    <!--Scripts -->
-    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-    <script src="/js/vendor/jquery.ui.widget.js"></script>
-    <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-    <script src="/bower_components/blueimp-load-image/js/load-image.all.min.js" ></script>
-    <!-- The Canvas to Blob plugin is included for image resizing functionality -->
-    <script src="/bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.min.js"></script>
-    <!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-    <script src="/js/jquery.iframe-transport.js"></script>
-    <!-- The basic File Upload plugin -->
-    <script src="/js/jquery.fileupload.js"></script>
-    <!-- The File Upload processing plugin -->
-    <script src="/js/jquery.fileupload-process.js"></script>
-    <!-- The File Upload image preview & resize plugin -->
-    <script src="/js/jquery.fileupload-image.js"></script>
-    <!-- The File Upload audio preview plugin -->
-    <script src="/js/jquery.fileupload-audio.js"></script>
-    <!-- The File Upload video preview plugin -->
-    <script src="/js/jquery.fileupload-video.js"></script>
-    <!-- The File Upload validation plugin -->
-    <script src="/js/jquery.fileupload-validate.js"></script>
-    <!-- jQuery Cookie -->
-    <script src="/bower_components/jquery.cookie/jquery.cookie.js"></script>
-    <script src="/js/uploadWidget.js"></script>
+
 </body>
 
 </html>

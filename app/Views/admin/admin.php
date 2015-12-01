@@ -1,4 +1,3 @@
-
     <div id="wrapper">
        <!-- Navbar -->
         <div class="navbar navbar-inverse navbar-fixed-top">

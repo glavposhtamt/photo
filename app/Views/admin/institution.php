@@ -1,7 +1,15 @@
-<?php include_once 'admin-header-default.php'; ?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'admin', 'fontawesome']);  ?>
 </head>
+<body>
 <?php include_once 'admin.php'; ?>
-<div id="page-content-wrapper">
+    <div id="page-content-wrapper">
             <div class="container-fluid">
                 <h1>
                     Наши работы

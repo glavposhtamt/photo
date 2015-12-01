@@ -1,5 +1,13 @@
-<?php include_once 'admin-header-default.php'; ?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'admin', 'ckeditor', 'sortable']);  ?>
 </head>
+<body>
 <?php include_once 'admin.php'; ?>
 <div id="page-content-wrapper">
             <div class="container-fluid">
@@ -132,7 +140,8 @@
                                 </div>
                                 <div class="modal-body" id="modal-img-list">
                                     <?php foreach ($gallery as $value) : ?>
-                                    <img src="/files/.thumbail/<?=$value->name?>" alt="Выберите изображение" data-id="<?=$value->id?>">
+                                    <img src="/files/.thumbail/<?=$value->name?>" alt="Выберите изображение" 
+                                         data-id="<?=$value->id?>">
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="modal-footer">
@@ -146,11 +155,15 @@
                         </div>
                         <div class="container_">                        
                             <h4>Настройка миниатюры:</h4>
-                            <a href="/admin/thumbnail/work/<?=$work->id?>" target="_blank" class="btn btn-info btn-lg" >Установить миниатюру</a>
+                            <a href="/admin/thumbnail/work/<?=$work->id?>" target="_blank" class="btn btn-info btn-lg" >
+                                Установить миниатюру
+                            </a>
                         </div>
                         <div class="container_">
                             <h4>Установить водяные знаки:</h4>
-                            <button class="btn btn-info btn-lg" id="news-watermark" data-news-id="<?=$work->id?>">Подписать картинки</button>
+                            <button class="btn btn-info btn-lg" id="news-watermark" data-news-id="<?=$work->id?>">
+                                Подписать картинки
+                            </button>
                         </div>
                     </div>
                 </div>

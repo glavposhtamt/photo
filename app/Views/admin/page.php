@@ -1,7 +1,15 @@
-<?php include_once 'admin-header-default.php'; ?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'admin', 'ckeditor']);  ?>
 </head>
+<body>
 <?php include_once 'admin.php'; ?>
-<div id="page-content-wrapper">
+    <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
@@ -10,7 +18,9 @@
                         <span class="label label-success"><?=$message?></span>
                         <?php endif; ?>
                         <form method="POST" role="form" id="edit-pages">
-                            <input name="title" type="text" class="form-control title" placeholder="Название страницы" value="<?=$post->title?>" required>
+                            <input name="title" type="text" class="form-control title" placeholder="Название страницы"
+                                   value="<?=$post->title?>" required>
+                                   
                             <textarea name="editor1" id="editor1" rows="10" cols="80">
                                 <?=$post->post ?>
                             </textarea>
