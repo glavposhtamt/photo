@@ -67,6 +67,7 @@ $jsCSSLibs = array(
     ),
     
     'folders' => array(
+        'css' => $css . 'folders.css',
         'js' => $js . 'folders.js'
     ),
     

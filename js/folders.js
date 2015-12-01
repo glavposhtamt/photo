@@ -472,7 +472,6 @@ scanDir.replaceFile = function(){
         });
 };
 
-scanDir();
 
 /*-------------------------
 	New Folder
@@ -495,7 +494,14 @@ jQuery(document).ready(function(){
 /*-------------------------
 	Upload Files
 -------------------------*/
+
 scanDir.setUploadPath = function(){
     $.cookie('path', scanDir.hashParse(), {'path': '/admin/images'});
 };
+
+/*-------------------------
+	Run This Script
+-------------------------*/
+
+window.addEventListener('load', scanDir, false);
 

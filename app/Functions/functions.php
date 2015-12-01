@@ -125,22 +125,33 @@ function addCssAndJs($jsCSSLibs, $arr){
             
             $proxy = $jsCSSLibs[$arr[$i]];
             
+            echo "\n";
+            ?>
+<!-- <?=$arr[$i] ?> -->
+            <?php
+            
             if(isset($proxy['css'])){
                 if(is_array($proxy['css'])) {
                     $cp = count($proxy['css']);
                     for($j = 0; $j < $cp; $j++) : ?>
-						<link rel="stylesheet" href="<?=$proxy['css'][$j]?>">
-                    <?php endfor;
-                }else { ?> <link rel="stylesheet" href="<?=$proxy['css']?>"> <?php }			
+<link rel="stylesheet" href="<?=$proxy['css'][$j]?>">
+               <?php echo "\n";  endfor;
+                }else { ?> 
+<link rel="stylesheet" href="<?=$proxy['css']?>">
+           <?php echo "\n"; }			
             }
+            
             if(isset($proxy['js'])){
                 if(is_array($proxy['js'])) {
                     $cp = count($proxy['js']);
                     for($j = 0; $j < $cp; $j++) : ?>
-                        <script type="text/javascript" src="<?=$proxy['js'][$j]?>"></script>
-                    <?php endfor;
-                }else { ?> <script type="text/javascript" src="<?=$proxy['js']?>"></script><?php }				
+<script type="text/javascript" src="<?=$proxy['js'][$j]?>"></script>
+               <?php echo "\n";  endfor;
+                }else { ?> 
+<script type="text/javascript" src="<?=$proxy['js']?>"></script>
+           <?php echo "\n"; }				
             }
+            
             $proxy = null;
         }
     }

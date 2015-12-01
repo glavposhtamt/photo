@@ -1,8 +1,18 @@
-<?php include_once 'admin-header-default.php'; ?>
-<?php include_once 'admin-header-file.php'; ?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+<?php 
+    addCssAndJs($jsCSSLibs, 
+                ['jQuery','admin', 'bootstrap','folders', 'fontawesome', 'contextMenu', 'blueimp-gallery', 'jquery.cookie']);
+?>
 </head>
+<body>
 <?php include_once 'admin.php'; ?>
-<div id="page-content-wrapper">
+        <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
@@ -36,7 +46,7 @@
 
                                     <!-- Include our script files -->
 
-                         <script src="/js/folders.js"></script>
+                         
                          <script src="/js/remove.js"></script>
                          <script>
                             document.getElementById('links').onclick = function (event) {
@@ -50,7 +60,7 @@
                                 node.className === 'files' ? blueimp.Gallery(links, options) : null;
                             };
                         </script>
-                        <script src="/js/jquery.blueimp-gallery.min.js"></script>
+                        <!--<script src="/js/jquery.blueimp-gallery.min.js"></script>-->
                     </div>
                 </div>
             </div>

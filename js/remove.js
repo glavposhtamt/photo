@@ -20,30 +20,33 @@ contextObject.remove = {
     }
 };
 
-$(".filemanager ul").contextMenu({
+window.addEventListener('load', function() {
+    $(".filemanager ul").contextMenu({
 
-    selector: ".folders",
-    
-    items: { delete: contextObject.remove }
-    
-});
+        selector: ".folders",
 
-$(".filemanager ul").contextMenu({
+        items: { delete: contextObject.remove }
 
-    selector: ".files",
-    
-    items: {
-        delete: contextObject.remove,
-        
-        setAlt: { 
-            name: "Альтернативный текст",
-            callback: function(key, opt){
-                console.log(key);
-                console.log(opt);
+    });
+
+    $(".filemanager ul").contextMenu({
+
+        selector: ".files",
+
+        items: {
+            delete: contextObject.remove,
+
+            setAlt: { 
+                name: "Альтернативный текст",
+                callback: function(key, opt){
+                    console.log(key);
+                    console.log(opt);
+                }
             }
+
         }
-        
-    }
-});
+    });
+}, false);
+
 
 
