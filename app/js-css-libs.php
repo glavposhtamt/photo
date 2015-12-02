@@ -1,6 +1,8 @@
 <?php 
 
 $bower_components = '/bower_components/';
+$vendorJS = '/js/vendor/';
+$vendorCSS = '/css/vendor/';
 $js = '/js/';
 $css = '/css/';
 
@@ -39,8 +41,8 @@ $jsCSSLibs = array(
     ),
     
     'crop' => array(
-        'js' => [$js . 'jquery.Jcrop.min.js', $js . 'crop.js'],
-        'css' => $css . 'jquery.Jcrop.css'
+        'js' => [$vendorJS . 'jquery.Jcrop.min.js', $js . 'crop.js'],
+        'css' => $vendorCSS . 'jquery.Jcrop.css'
     ),
     
     'admin' => array(
@@ -54,7 +56,7 @@ $jsCSSLibs = array(
     
     'contextMenu' => array(
         'css' => $bower_components . 'jQuery-contextMenu/dist/jquery.contextMenu.min.css',
-        'js' => [ $js . 'jquery-1.11.0.min.js', $bower_components . 'jQuery-contextMenu/src/jquery.contextMenu.js', ]
+        'js' => [ $vendorJS . 'jquery-1.11.0.min.js', $bower_components . 'jQuery-contextMenu/src/jquery.contextMenu.js', ]
     ),
     
     'fontawesome' => array(
@@ -62,8 +64,8 @@ $jsCSSLibs = array(
     ),
     
     'blueimp-gallery' => array(
-        'css' => $css . 'blueimp-gallery.min.css',
-        'js' => $js . 'jquery.blueimp-gallery.min.js'
+        'css' => $vendorCSS . 'blueimp-gallery.min.css',
+        'js' => $vendorJS . 'jquery.blueimp-gallery.min.js'
     ),
     
     'folders' => array(
@@ -72,30 +74,30 @@ $jsCSSLibs = array(
     ),
     
     'fileupload' => array(
-        'css' => $css . 'jquery.fileupload.css',
-        'js' => [$js . 'jquery.ui.widget.js', $js . 'load-image.all.min.js', $js . 'jquery.fileupload.js',
-                $js . 'jquery.fileupload-process.js', $js . 'jquery.fileupload-image.js', $js . 'jquery.fileupload-validate.js']
+        'css' => $vendorCSS . 'jquery.fileupload.css',
+        'js' => [$vendorJS . 'jquery.ui.widget.js', $vendorJS . 'load-image.all.min.js', $vendorJS . 'jquery.fileupload.js',
+                $vendorJS . 'jquery.fileupload-process.js', $vendorJS . 'jquery.fileupload-image.js', $vendorJS . 'jquery.fileupload-validate.js']
     ),
     
     'fileupload-ui' => array(
-        'css' => $css . 'jquery.fileupload.css',
-        'js' => $js . 'jquery.fileupload-ui.js'
+        'css' => $vendorCSS . 'jquery.fileupload-ui.css',
+        'js' => $vendorJS . 'jquery.fileupload-ui.js'
     ),
     
     'tmpl' => array(
-        'js' => $js . 'tmpl.min.js',
+        'js' => $vendorJS . 'tmpl.min.js',
     ),
     
     'minimalUploadWidget' => array(
-        'js' => $js . 'minimalUploadWidget.js'
+        'js' => $vendorJS . 'minimalUploadWidget.js'
     ),
 
     'mainUpload' => array(
-        'js' => $js . 'main.js'
+        'js' => $vendorJS . 'main.js'
     ),
     
     'jcarousellite' => array(
-        'js' => $js . 'jcarousellite.js'
+        'js' => $vendorJS . 'jcarousellite.js'
     ),
     
     'slider' => array(
