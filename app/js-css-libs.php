@@ -73,7 +73,7 @@ $jsCSSLibs = array(
     
     'fileupload' => array(
         'css' => $css . 'jquery.fileupload.css',
-        'js' => [$js . 'vendor/jquery.ui.widget.js', $js . 'load-image.all.min.js', $js . 'jquery.fileupload.js',
+        'js' => [$js . 'jquery.ui.widget.js', $js . 'load-image.all.min.js', $js . 'jquery.fileupload.js',
                 $js . 'jquery.fileupload-process.js', $js . 'jquery.fileupload-image.js', $js . 'jquery.fileupload-validate.js']
     ),
     
@@ -92,5 +92,22 @@ $jsCSSLibs = array(
 
     'mainUpload' => array(
         'js' => $js . 'main.js'
+    ),
+    
+    'jcarousellite' => array(
+        'js' => $js . 'jcarousellite.js'
+    ),
+    
+    'slider' => array(
+        'js' => $js . 'slider.js',
+        'css' => $css . 'slider.css'
+    ),
+    
+    'vk-share' => array(
+        'js' => 'http://vk.com/js/api/share.js?90'
+    ),
+    
+    'vk-api' => array(
+        'js' => '//vk.com/js/api/openapi.js'
     )
 );

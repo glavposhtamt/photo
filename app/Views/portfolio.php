@@ -1,4 +1,16 @@
-<?php include 'header_portfolio.php'; ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="http://startupfoto.ru/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <meta charset="UTF-8">
+        
+    <?php  addCssAndJs($jsCSSLibs, ['default-template', 'jQuery', 'ymaps']);  ?>
+        
+    <title><?php if(!isset($title)) $title = 'Главная страница - StartUP'; echo $title;?></title>
+    
+</head>
+<body>
+<?php include 'navbar.php'; ?>
 <div id="b1">
     <div id="b2">
 	<div id="login">

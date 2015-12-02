@@ -4,8 +4,6 @@ use \Eventviva\ImageResize;
 
 require CLASS_PATH . '/WatermarkClass.php';
 
-$js_css = $app->config('js_css');
-
 $watermark = new WatermarkClass();
 
 $selectAllImg = function (){

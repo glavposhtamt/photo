@@ -1,6 +1,6 @@
 <?php
 
-function routes($route, $app) {
+function routes($route, $app, $js_css) {
     $url_path = parse_url($route, PHP_URL_PATH);
     $uri_parts = explode('/', trim($url_path, ' /'));
     if(count($uri_parts) === 1) {
@@ -8,7 +8,8 @@ function routes($route, $app) {
 
         if(!$post){ echo "База данных пуста"; }
         else { 
-            $app->render('template.php', array('desc' => $post->description, 'post' => $post->post, 'title' => $post->title));
+            $app->render('template.php', array('desc' => $post->description, 'post' => $post->post, 
+                                               'title' => $post->title, 'jsCSSLibs' => $js_css));
         }
     }
     elseif(count($uri_parts) === 2) {
@@ -16,7 +17,8 @@ function routes($route, $app) {
         $child = Post::find_by_route(array('route' => $url_path));
         if(!$parent || !$child){ echo "База данных пуста"; }
         else { 
-            $app->render('template.php', array('desc' => $parent->description, 'post' => $child->post, 'title' => $child->title));
+            $app->render('template.php', array('desc' => $parent->description, 'post' => $child->post, 
+                                               'title' => $child->title, 'jsCSSLibs' => $js_css));
         }
     }
     else {echo "ЧТо-то пошло не так"; }
@@ -31,59 +33,61 @@ $nameUrl = function(){
     return $fName;
 };
 
-$app->get('/', function() use($app) {	$app->render('index.php'); });
+$app->get('/', function() use($app, $js_css) {	
+    $app->render('home.php', array('jsCSSLibs' => $js_css)); 
+});
 
-$app->get('/kids/', function() use($app) { routes('kids', $app); });
+$app->get('/kids/', function() use($app, $js_css) { routes('kids', $app, $js_css); });
 
-$app->get('/about/', function() use($app) { routes('about', $app); });
+$app->get('/about/', function() use($app, $js_css) { routes('about', $app, $js_css); });
 
-$app->get('/prom/', function() use($app) { routes('prom', $app); });
+$app->get('/prom/', function() use($app, $js_css) { routes('prom', $app, $js_css); });
 
-$app->get('/video/', function() use($app) { routes('video', $app); });
+$app->get('/video/', function() use($app, $js_css) { routes('video', $app, $js_css); });
 
-$app->get('/school/', function() use($app) { routes('school', $app); });
+$app->get('/school/', function() use($app, $js_css) { routes('school', $app, $js_css); });
 
-$app->get('/student/', function() use($app) { routes('student', $app); });
+$app->get('/student/', function() use($app, $js_css) { routes('student', $app, $js_css); });
 
-$app->get('/minibook/', function() use($app) { routes('minibook', $app); });
+$app->get('/minibook/', function() use($app, $js_css) { routes('minibook', $app, $js_css); });
 
-$app->get('/kids/info/', function() use($app) { routes('kids/info', $app); });
+$app->get('/kids/info/', function() use($app, $js_css) { routes('kids/info', $app, $js_css); });
 
-$app->get('/school/info/', function() use($app) { routes('school/info', $app); });
+$app->get('/school/info/', function() use($app, $js_css) { routes('school/info', $app, $js_css); });
 
-$app->get('/student/info/', function() use($app) { routes('student/info', $app); });
+$app->get('/student/info/', function() use($app, $js_css) { routes('student/info', $app, $js_css); });
 
-$app->get('/minibook/info/', function() use($app) { routes('minibook/info', $app); });
+$app->get('/minibook/info/', function() use($app, $js_css) { routes('minibook/info', $app, $js_css); });
 
-$app->get('/kids/faq/', function() use($app) { routes('kids/faq', $app); });
+$app->get('/kids/faq/', function() use($app, $js_css) { routes('kids/faq', $app, $js_css); });
 
-$app->get('/minibook/faq/', function() use($app) { routes('minibook/faq', $app); });
+$app->get('/minibook/faq/', function() use($app, $js_css) { routes('minibook/faq', $app, $js_css); });
 
-$app->get('/school/faq/', function() use($app) { routes('school/faq', $app); });
+$app->get('/school/faq/', function() use($app, $js_css) { routes('school/faq', $app, $js_css); });
 
-$app->get('/student/faq/', function() use($app) { routes('student/faq', $app); });
+$app->get('/student/faq/', function() use($app, $js_css) { routes('student/faq', $app, $js_css); });
 
-$app->get('/kids/price/', function() use($app) { routes('kids/price', $app); });
+$app->get('/kids/price/', function() use($app, $js_css) { routes('kids/price', $app, $js_css); });
 
-$app->get('/school/price/', function() use($app) { routes('school/price', $app); });
+$app->get('/school/price/', function() use($app, $js_css) { routes('school/price', $app, $js_css); });
 
-$app->get('/student/price/', function() use($app) { routes('student/price', $app); });
+$app->get('/student/price/', function() use($app, $js_css) { routes('student/price', $app, $js_css); });
 
-$app->get('/minibook/price/', function() use($app) { routes('minibook/price', $app); });
+$app->get('/minibook/price/', function() use($app, $js_css) { routes('minibook/price', $app, $js_css); });
 
-$app->get('/contacts/', function() use($app) { routes('contacts', $app); });
+$app->get('/contacts/', function() use($app, $js_css) { routes('contacts', $app, $js_css); });
 
-$app->get('/contacts/vacancies/', function() use($app) { routes('contacts/vacancies', $app); });
+$app->get('/contacts/vacancies/', function() use($app, $js_css) { routes('contacts/vacancies', $app, $js_css); });
 
 
-$app->get('/news/', function() use($app) {
+$app->get('/news/', function() use($app, $js_css) {
     #$news = Bind::find_by_sql('SELECT file_name, title, anotation, news.id FROM bind inner join news on bind.news_id = news.id WHERE position IN ( SELECT MIN(position) as position FROM bind)');
     $news = News::find('all', array('select' => 'mini, thumbnail, id, anotation, title'));
-    $app->render('news_list.php', array('news' => $news, 'title' => 'Новости'));
+    $app->render('news_list.php', array('news' => $news, 'title' => 'Новости', 'jsCSSLibs' => $js_css));
 
 });
 
-$app->get('/news/:id', function($id) use($app, $nameUrl){
+$app->get('/news/:id', function($id) use($app, $nameUrl, $js_css){
     $news = News::find((int)$id);
     $img = Bind::find_all_by_news_id((int)$id, array('order' => 'position'));
     
@@ -98,12 +102,13 @@ $app->get('/news/:id', function($id) use($app, $nameUrl){
         $img_arr[$i] = is_file($file_water_path) ? '/.water/' . $water . '.jpg' : $fName[$value->file_name];
         $i++;
     }
-    $app->render('news_open.php', array('news' => $news, 'img' => $img_arr, 'id' => $id, 'title' => 'Новости', 'type' => 'news'));
+    $app->render('news_open.php', array('news' => $news, 'img' => $img_arr, 'id' => $id, 'title' => 'Новости',
+                                        'type' => 'news', 'jsCSSLibs' => $js_css));
 } );
 
 
-$app->get('/portfolio/', function() use($app){
-    $app->render('portfolio.php', array('title' => "Портфолио"));
+$app->get('/portfolio/', function() use($app, $js_css){
+    $app->render('portfolio.php', array('title' => "Портфолио", 'jsCSSLibs' => $js_css));
 });
 
 $app->post('/geography/', function(){
@@ -122,15 +127,15 @@ $app->post('/geography/', function(){
     die(json_encode($arr));
 });
 
-$app->get('/ourworks/', function() use($app){
+$app->get('/ourworks/', function() use($app, $js_css){
     $work = Work::find_by_sql("SELECT work.id, mini, thumbnail, anotation, title FROM work 
                                 INNER JOIN institution ON work.institution = institution.id");
     
-    $app->render('news_list.php', array('news' => $work, 'title' => 'Наши работы'));
+    $app->render('news_list.php', array('news' => $work, 'title' => 'Наши работы', 'jsCSSLibs' => $js_css));
     
 });
 
-$app->get('/ourworks/:id', function($id) use($app, $nameUrl){
+$app->get('/ourworks/:id', function($id) use($app, $nameUrl, $js_css){
     $work = Work::find_by_sql("SELECT work.id, anotation, title FROM work 
                                 INNER JOIN institution ON work.institution = institution.id WHERE work.id = $id");
     
@@ -147,5 +152,6 @@ $app->get('/ourworks/:id', function($id) use($app, $nameUrl){
         $img_arr[$i] = is_file($file_water_path) ? '/.water/' . $water . '.jpg' : $fName[$value->file_name];
         $i++;
     }
-    $app->render('news_open.php', array('news' => $work, 'img' => $img_arr, 'id' => $id, 'title' => 'Наши работы', 'type' => 'work'));
+    $app->render('news_open.php', array('news' => $work, 'img' => $img_arr, 'id' => $id, 'title' => 'Наши работы',
+                                        'type' => 'work', 'jsCSSLibs' => $js_css));
 } );

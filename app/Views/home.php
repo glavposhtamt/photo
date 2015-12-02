@@ -1,4 +1,18 @@
-	<div id="b1">
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="http://startupfoto.ru/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <meta charset="UTF-8">
+        
+    <?php  addCssAndJs($jsCSSLibs, ['default-template']);  ?>
+        
+    <title><?php if(!isset($title)) $title = 'Главная страница - StartUP'; echo $title;?></title>
+     
+      <!--<noindex><script async src="data:text/javascript;charset=utf-8;base64,ZnVuY3Rpb24gbG9hZHNjcmlwdChlLHQpe3ZhciBuPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoInNjcmlwdCIpO24uc3JjPSIvL2xwdHJhY2tlci5ydS9hcGkvIitlO24ub25yZWFkeXN0YXRlY2hhbmdlPXQ7bi5vbmxvYWQ9dDtkb2N1bWVudC5oZWFkLmFwcGVuZENoaWxkKG4pO3JldHVybiAxfXZhciBpbml0X2xzdGF0cz1mdW5jdGlvbigpe2xzdGF0cy5zaXRlX2lkPTEyNTE7bHN0YXRzLnJlZmVyZXIoKX07dmFyIGpxdWVyeV9sc3RhdHM9ZnVuY3Rpb24oKXtqUXN0YXQubm9Db25mbGljdCgpO2xvYWRzY3JpcHQoInN0YXRzX2F1dG8uanMiLGluaXRfbHN0YXRzKX07bG9hZHNjcmlwdCgianF1ZXJ5LTEuMTAuMi5taW4uanMiLGpxdWVyeV9sc3RhdHMp"></script></noindex>-->
+</head>
+    <body>
+       <?php require 'navbar.php'; ?>
+        <div id="b1">
 
             <div id="b2">
 		<div id="login">
@@ -108,3 +122,6 @@
                 <div id="system-message-container"></div>
  		 
                 <div class="blog-featured"> </div>
+            <?php require 'footer.php' ?>
+    </body>
+</html>
