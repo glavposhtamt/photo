@@ -209,9 +209,9 @@ $app->get('/admin/gallery', function() use($app, $js_css) {
     $app->render('admin/gallery.php', array('jsCSSLibs' => $js_css));
 });
 
-$app->get('/admin/upload', function() use($app) {
+$app->get('/admin/upload', function() use($app, $js_css) {
 
-    $app->render('admin/images.php');
+    $app->render('admin/images.php', array('jsCSSLibs' => $js_css));
 });
 
 

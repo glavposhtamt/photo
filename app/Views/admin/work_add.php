@@ -10,22 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Cache-Control" content="no-cache">
     <link rel="stylesheet" href="/css/jquery.fileupload.css">
-    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'jquery.cookie', 'bootstrap', 'ckeditor', 'admin']);  ?>
-
-    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-    <script src="/js/vendor/jquery.ui.widget.js"></script>
-    <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-    <script src="/bower_components/blueimp-load-image/js/load-image.all.min.js" ></script>
-    <!-- The basic File Upload plugin -->
-    <script src="/js/jquery.fileupload.js"></script>
-    <!-- The File Upload processing plugin -->
-    <script src="/js/jquery.fileupload-process.js"></script>
-    <!-- The File Upload image preview & resize plugin -->
-    <script src="/js/jquery.fileupload-image.js"></script>
-    <!-- The File Upload validation plugin -->
-    <script src="/js/jquery.fileupload-validate.js"></script>
-
-    <script src="/js/uploadWidget.js"></script>
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'jquery.cookie', 'bootstrap', 'ckeditor', 'admin',
+                                   'fileupload', 'minimalUploadWidget']);  
+    ?>
 </head>
 <body>
     <?php include_once 'admin.php'; ?>

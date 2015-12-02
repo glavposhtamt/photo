@@ -71,4 +71,26 @@ $jsCSSLibs = array(
         'js' => $js . 'folders.js'
     ),
     
+    'fileupload' => array(
+        'css' => $css . 'jquery.fileupload.css',
+        'js' => [$js . 'vendor/jquery.ui.widget.js', $js . 'load-image.all.min.js', $js . 'jquery.fileupload.js',
+                $js . 'jquery.fileupload-process.js', $js . 'jquery.fileupload-image.js', $js . 'jquery.fileupload-validate.js']
+    ),
+    
+    'fileupload-ui' => array(
+        'css' => $css . 'jquery.fileupload.css',
+        'js' => $js . 'jquery.fileupload-ui.js'
+    ),
+    
+    'tmpl' => array(
+        'js' => $js . 'tmpl.min.js',
+    ),
+    
+    'minimalUploadWidget' => array(
+        'js' => $js . 'minimalUploadWidget.js'
+    ),
+
+    'mainUpload' => array(
+        'js' => $js . 'main.js'
+    )
 );
