@@ -5,6 +5,8 @@ $vendorJS = '/js/vendor/';
 $vendorCSS = '/css/vendor/';
 $js = '/js/';
 $css = '/css/';
+$libTest = '/testing/lib/';
+$specTest = '/testing/spec/';
 
 $jsCSSLibs = array(
     'jQuery' => array(
@@ -111,5 +113,19 @@ $jsCSSLibs = array(
     
     'vk-api' => array(
         'js' => '//vk.com/js/api/openapi.js'
+    ),
+    
+    /* Подключение тестовой библиотеки */
+    
+    'jasmine' => array(
+        'js' => [$libTest . 'jasmine-2.3.4/jasmine.js', $libTest . 'jasmine-2.3.4/jasmine-html.js',
+                 $libTest . 'jasmine-2.3.4/boot.js'],
+        'css' => $libTest . 'jasmine-2.3.4/jasmine.css'
+    ),
+    
+    /* Подключение тестов */    
+    
+    'spec-context-menu' => array(
+        'js' => $specTest . 'gallerySpec.js'
     )
 );
