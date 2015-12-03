@@ -1,9 +1,12 @@
 describe("Gallery Tests", function() {
 
-  it("2 + 2 == 4", function() {
-
-      expect(2+2).toEqual(4);
-
+  it("ContextObject isset", function() {
+      expect(contextObject).toBeDefined();
   });
+
+  it("scanDir.hashParse is a function", function() {
+      expect(typeof scanDir.hashParse).toEqual('function');
+  });
+        
 
 });

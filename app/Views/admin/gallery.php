@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Cache-Control" content="no-cache">
 <?php 
-    addCssAndJs($jsCSSLibs, 
-                ['jQuery','admin', 'bootstrap','folders', 'fontawesome', 'contextMenu', 'blueimp-gallery', 'jquery.cookie']);
+    addCssAndJs($jsCSSLibs, ['jQuery','admin', 'bootstrap','folders', 'fontawesome', 'contextMenu', 'blueimp-gallery',
+                             'jquery.cookie', 'context-script']);
 ?>
+
 </head>
 <body>
 <?php include_once 'admin.php'; ?>
@@ -43,12 +44,32 @@
                               </div>
 
                         </div>
-
-                                    <!-- Include our script files -->
-
-                         
-                         <script src="/js/remove.js"></script>
-                         <script>
+                         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+                             Инициировать событие
+                          </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                             <!-- Modal content-->
+                                 <div class="modal-content">
+                                     <div class="modal-header">
+                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                         <h4 class="modal-title">Выберите изображение</h4>
+                                     </div>
+                                 <div class="modal-body" id="modal-img-list">
+                                    <form action="">
+                                        <input type="text">
+                                        <input type="text">
+                                    </form>
+                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- End Modal -->
+                        <script>
                             document.getElementById('links').onclick = function (event) {
                                 event = event || window.event;
                                 var target = event.target || event.srcElement,

@@ -4,21 +4,20 @@ contextObject.remove = {
     
     name: "Удалить",
     
-    callback: function(key, opt){
-
+    callback: function(key, opt){            
         var span = opt.$trigger[0].getElementsByClassName('name')[0],
             name = span.textContent,
             path = scanDir.hashParse(),
             type = opt.$trigger[0].className.split(' ')[0];
 
+        var hideElement = opt.$trigger.parent();
+        
+        jQuery(hideElement).hide(500);
 
-        jQuery(opt.$trigger[0]).hide(500);
-
-        console.log("Имя %s Путь %s ", name, path);
-        $.post("/admin/dropfile", { path: path, name: name, type: type });
-                      
+        $.post("/admin/dropfile", { path: path, name: name, type: type });                      
     }
 };
+
 
 window.addEventListener('load', function() {
     $(".filemanager ul").contextMenu({
@@ -36,11 +35,10 @@ window.addEventListener('load', function() {
         items: {
             delete: contextObject.remove,
 
-            setAlt: { 
-                name: "Альтернативный текст",
-                callback: function(key, opt){
-                    console.log(key);
-                    console.log(opt);
+            alt: { 
+                name: "Атрибуты",
+                callback: function(){
+                    
                 }
             }
 

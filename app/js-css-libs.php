@@ -61,6 +61,10 @@ $jsCSSLibs = array(
         'js' => [ $vendorJS . 'jquery-1.11.0.min.js', $bower_components . 'jQuery-contextMenu/src/jquery.contextMenu.js', ]
     ),
     
+    'context-script' => array(
+        'js' => $js . 'context-script.js'
+    ),
+    
     'fontawesome' => array(
         'css' => $bower_components . 'fontawesome/css/font-awesome.min.css'
     ),
@@ -78,7 +82,8 @@ $jsCSSLibs = array(
     'fileupload' => array(
         'css' => $vendorCSS . 'jquery.fileupload.css',
         'js' => [$vendorJS . 'jquery.ui.widget.js', $vendorJS . 'load-image.all.min.js', $vendorJS . 'jquery.fileupload.js',
-                $vendorJS . 'jquery.fileupload-process.js', $vendorJS . 'jquery.fileupload-image.js', $vendorJS . 'jquery.fileupload-validate.js']
+                 $vendorJS . 'jquery.fileupload-process.js', $vendorJS . 'jquery.fileupload-image.js', 
+                 $vendorJS . 'jquery.fileupload-validate.js']
     ),
     
     'fileupload-ui' => array(
