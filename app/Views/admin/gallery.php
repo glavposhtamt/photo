@@ -44,9 +44,7 @@
                               </div>
 
                         </div>
-                         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
-                             Инициировать событие
-                          </button>
+                        <button style="display:none" data-toggle="modal" data-target="#myModal"></button>
                         <!-- Modal -->
                         <div class="modal fade" id="myModal" role="dialog">
                             <div class="modal-dialog">
@@ -56,10 +54,10 @@
                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
                                          <h4 class="modal-title">Выберите изображение</h4>
                                      </div>
-                                 <div class="modal-body" id="modal-img-list">
-                                    <form action="">
-                                        <input type="text">
-                                        <input type="text">
+                                 <div class="modal-body" id="modal-img-info">
+                                    <form id="alt-desc-img">
+                                        <input type="text" class="form-control" placeholder="Альтернативный текст">
+                                        <input type="text" class="form-control" placeholder="Описание картинки">
                                     </form>
                                 </div>
                                     <div class="modal-footer">

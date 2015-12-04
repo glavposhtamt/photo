@@ -381,3 +381,11 @@ h1#settings-h1 {
 td span.glyphicon-trash {
     cursor: pointer;
 }
+
+#modal-img-info {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+}

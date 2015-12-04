@@ -33,7 +33,7 @@ $jsCSSLibs = array(
     ),
     
     'bootstrap' => array(
-        'js' => $bower_components . 'bootstrap/dist/js/bootstrap.min.js',
+        'js' => $bower_components . 'bootstrap/dist/js/bootstrap.js',
         'css' => $bower_components . 'bootstrap/dist/css/bootstrap.min.css'
     ),
     

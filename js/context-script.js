@@ -38,6 +38,8 @@ window.addEventListener('load', function() {
             alt: { 
                 name: "Атрибуты",
                 callback: function(){
+                    var btn = jQuery('[data-toggle="modal"]')[0];        
+                    jQuery.event.trigger('click', null, btn);
                     
                 }
             }
