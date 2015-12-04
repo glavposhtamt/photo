@@ -52,13 +52,18 @@
                                  <div class="modal-content">
                                      <div class="modal-header">
                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                         <h4 class="modal-title">Выберите изображение</h4>
+                                         <h4 class="modal-title">Атрибуты изображения:</h4>
                                      </div>
                                  <div class="modal-body" id="modal-img-info">
-                                    <form id="alt-desc-img">
-                                        <input type="text" class="form-control" placeholder="Альтернативный текст">
-                                        <input type="text" class="form-control" placeholder="Описание картинки">
+                                   
+                                    <form action="/admin/alt" method="post" id="alt-desc-img">
+                                        <input type="text" name="alt" class="form-control" placeholder="Альтернативный текст">
+                                        <input type="text" name="desc" class="form-control" placeholder="Описание картинки">
+                                        <input type="hidden" name="url-path">
+                                        <input type="hidden" name="img-path">
+                                        <button class="form-control btn btn-success">Сохранить</button>
                                     </form>
+                                    
                                 </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

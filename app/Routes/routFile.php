@@ -163,3 +163,19 @@ $app->post('/admin/dropfile', function() use($delTree, $removeThumbnail, $app){
     die('Успех!');
     
 });
+
+$app->post("/admin/alt", function() use($app) {
+    if(isset($_REQUEST['img-path'])){
+        
+        $file = Files::find_by_url(trim($_REQUEST['img-path']));
+        if(!$file) 
+            $file = Files::find_by_name(trim($_REQUEST['img-path']), array('conditions' => array('url IS NULL')));
+        
+        $file->title = $_REQUEST['alt'];
+        $file->description = $_REQUEST['desc'];
+        $file->save();
+
+    }
+    if(isset($_POST['url-path'])) $app->redirect($_POST['url-path']);
+    else $app->redirect('/admin/gallery');
+});

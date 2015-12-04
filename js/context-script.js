@@ -37,10 +37,17 @@ window.addEventListener('load', function() {
 
             alt: { 
                 name: "Атрибуты",
-                callback: function(){
+                callback: function(key, opt){
                     var btn = jQuery('[data-toggle="modal"]')[0];        
                     jQuery.event.trigger('click', null, btn);
                     
+                   var span = opt.$trigger[0].getElementsByClassName('name')[0],
+                       name = span.textContent,
+                       path = scanDir.hashParse();
+                    
+                    jQuery('[name="url-path"]').val(document.location.href);
+                    jQuery('[name="img-path"]').val(path + name);                   
+
                 }
             }
 
