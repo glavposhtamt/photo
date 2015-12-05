@@ -1,5 +1,5 @@
 var folders = {
-    
+    breadcrumbsUrls: [],
 
     // This function escapes special html characters in names
 	escapeHTML:	function (text) {
@@ -80,8 +80,7 @@ folders.scanDir = function(){
         data = jQuery.parseJSON(data);
 
 		var response = [data],
-			currentPath = '',
-			breadcrumbsUrls = [];
+			currentPath = '';
 
 		var folders = [],
 			files = [];
@@ -178,14 +177,14 @@ folders.scanDir = function(){
 
 				// Building the breadcrumbs
 
-				breadcrumbsUrls = that.generateBreadcrumbs(nextDir);
+				that.breadcrumbsUrls = that.generateBreadcrumbs(nextDir);
 
 				filemanager.removeClass('searching');
 				filemanager.find('input[type=search]').val('').hide();
 				filemanager.find('span').show();
 			}
 			else {
-				breadcrumbsUrls.push(nextDir);
+				that.breadcrumbsUrls.push(nextDir);
 			}
 
 			window.location.hash = encodeURIComponent(nextDir);
@@ -199,9 +198,9 @@ folders.scanDir = function(){
 			e.preventDefault();
 
 			var index = breadcrumbs.find('a').index($(this)),
-				nextDir = breadcrumbsUrls[index];
+				nextDir = that.breadcrumbsUrls[index];
 
-			breadcrumbsUrls.length = Number(index);
+			that.breadcrumbsUrls.length = Number(index);
 
 			window.location.hash = encodeURIComponent(nextDir);
 
@@ -243,13 +242,13 @@ folders.scanDir = function(){
 					if (rendered.length) {
 
 						currentPath = hash[0];
-						breadcrumbsUrls = that.generateBreadcrumbs(hash[0]);
+						that.breadcrumbsUrls = that.generateBreadcrumbs(hash[0]);
 						render(rendered);
 
 					}
 					else {
 						currentPath = hash[0];
-						breadcrumbsUrls = that.generateBreadcrumbs(hash[0]);
+						that.breadcrumbsUrls = that.generateBreadcrumbs(hash[0]);
 						render(rendered);
 					}
 
@@ -259,7 +258,7 @@ folders.scanDir = function(){
 
 				else {
 					currentPath = data.path;
-					breadcrumbsUrls.push(data.path);
+					that.breadcrumbsUrls.push(data.path);
 					render(that.searchByPath(data.path, response));
 				}
 			}
@@ -375,11 +374,11 @@ folders.scanDir = function(){
 
 				fileList.addClass('animated');
 
-				breadcrumbsUrls.forEach(function (u, i) {
+				that.breadcrumbsUrls.forEach(function (u, i) {
 
 					var name = u.split('/');
 
-					if (i !== breadcrumbsUrls.length - 1) {
+					if (i !== that.breadcrumbsUrls.length - 1) {
 						url += '<a href="'+u+'"><span class="folderName">' + name[name.length-1] + '</span></a> <span class="arrow">→</span> ';
 					}
 					else {
