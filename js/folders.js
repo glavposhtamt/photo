@@ -1,5 +1,7 @@
 var folders = {
     breadcrumbsUrls: [],
+    folders: [],
+    files: [],
 
     // This function escapes special html characters in names
 	escapeHTML:	function (text) {
@@ -221,7 +223,7 @@ folders.scanDir = function(){
 				if (hash[0] === 'search') {
 
 					filemanager.addClass('searching');
-					rendered = this.searchData(response, hash[1].toLowerCase());
+					rendered = that.searchData(response, hash[1].toLowerCase());
 
 					if (rendered.length) {
 						currentPath = hash[0];
