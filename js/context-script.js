@@ -1,5 +1,7 @@
 var contextObject = {};
 
+/* Меню удаления */
+
 contextObject.remove = {
     
     name: "Удалить",
@@ -18,6 +20,8 @@ contextObject.remove = {
     }
 };
 
+
+/* Инициализация контекстного меню после загрузки страницы */
 
 window.addEventListener('load', function() {
     $(".filemanager ul").contextMenu({
@@ -38,8 +42,8 @@ window.addEventListener('load', function() {
             alt: { 
                 name: "Атрибуты",
                 callback: function(key, opt){
-                    var btn = jQuery('[data-toggle="modal"]')[0];        
-                    jQuery.event.trigger('click', null, btn);
+                   var btn = jQuery('[data-toggle="modal"]')[0];        
+                   jQuery.event.trigger('click', null, btn);
                     
                    var span = opt.$trigger[0].getElementsByClassName('name')[0],
                        name = span.textContent,
