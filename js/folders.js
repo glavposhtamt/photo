@@ -2,6 +2,9 @@ var folders = {
     breadcrumbsUrls: [],
     folders: [],
     files: [],
+    filemanager: null,
+    breadcrumbs: null,
+    fileList: null,
 
     // This function escapes special html characters in names
 	escapeHTML:	function (text) {
@@ -65,16 +68,24 @@ var folders = {
               }
 			});
         return {folders: that.folders, files: that.files};
+    },
+    
+    initFilemanager: function(){
+        this.filemanager = $('.filemanager');
     }
 };
 
 
 folders.scanDir = function(){
     var that = this;
+    
+    this.initFilemanager();
 
-	var filemanager = $('.filemanager'),
-		breadcrumbs = $('.breadcrumbs'),
-		fileList = filemanager.find('.data');
+
+	var breadcrumbs = $('.breadcrumbs'),
+		fileList = that.filemanager.find('.data');
+        
+        console.log(that.filemanager);
 
 	// Start by fetching the file data from scan.php with an AJAX request
 
@@ -102,7 +113,7 @@ folders.scanDir = function(){
 
 		// Hiding and showing the search box
 
-		filemanager.find('.search').click(function(){
+		that.filemanager.find('.search').click(function(){
 
 			var search = $(this);
 
@@ -116,7 +127,7 @@ folders.scanDir = function(){
 		// We are using the "input" event which detects cut and paste
 		// in addition to keyboard input.
 
-		filemanager.find('input').on('input', function(e){
+		that.filemanager.find('input').on('input', function(e){
 
 			folders = [];
 			files = [];
@@ -125,7 +136,7 @@ folders.scanDir = function(){
 
 			if(value.length) {
 
-				filemanager.addClass('searching');
+				that.filemanager.addClass('searching');
 
 				// Update the hash on every key stroke
 				window.location.hash = 'search=' + value.trim();
@@ -134,7 +145,7 @@ folders.scanDir = function(){
 
 			else {
 
-				filemanager.removeClass('searching');
+				that.filemanager.removeClass('searching');
 				window.location.hash = encodeURIComponent(currentPath);
 
 			}
@@ -175,15 +186,15 @@ folders.scanDir = function(){
 
 			var nextDir = $(this).find('a.folders').attr('href');
 
-			if(filemanager.hasClass('searching')) {
+			if(that.filemanager.hasClass('searching')) {
 
 				// Building the breadcrumbs
 
 				that.breadcrumbsUrls = that.generateBreadcrumbs(nextDir);
 
-				filemanager.removeClass('searching');
-				filemanager.find('input[type=search]').val('').hide();
-				filemanager.find('span').show();
+				that.filemanager.removeClass('searching');
+				that.filemanager.find('input[type=search]').val('').hide();
+				that.filemanager.find('span').show();
 			}
 			else {
 				that.breadcrumbsUrls.push(nextDir);
@@ -222,7 +233,7 @@ folders.scanDir = function(){
 
 				if (hash[0] === 'search') {
 
-					filemanager.addClass('searching');
+					that.filemanager.addClass('searching');
 					rendered = that.searchData(response, hash[1].toLowerCase());
 
 					if (rendered.length) {
@@ -300,10 +311,10 @@ folders.scanDir = function(){
 			fileList.empty().hide();
 
 			if(!scannedFolders.length && !scannedFiles.length) {
-				filemanager.find('.nothingfound').show();
+				that.filemanager.find('.nothingfound').show();
 			}
 			else {
-				filemanager.find('.nothingfound').hide();
+				that.filemanager.find('.nothingfound').hide();
 			}
 
 			if(scannedFolders.length) {
@@ -366,7 +377,7 @@ folders.scanDir = function(){
 
 			var url = '';
 
-			if(filemanager.hasClass('searching')){
+			if(that.filemanager.hasClass('searching')){
 
 				url = '<span>Search results: </span>';
 				fileList.removeClass('animated');
