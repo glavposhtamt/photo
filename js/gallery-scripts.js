@@ -2,7 +2,7 @@
 	Parse Hash
 -------------------------*/
 
-scanDir.hashParse = function() {
+folders.hashParse = function() {
         
         var hash = decodeURIComponent(location.hash).split('/'),
             path = '';
@@ -22,8 +22,8 @@ scanDir.hashParse = function() {
 	Replace File
 -------------------------*/
 
-scanDir.replaceFile = function(){
-
+folders.replaceFile = function(){
+        var that = this;
         $('li.files').on('dragstart', function (event) {
             var id = $(event.originalEvent.target.parentNode).data('id');
             event.originalEvent.dataTransfer.setData('id', id);
@@ -34,7 +34,7 @@ scanDir.replaceFile = function(){
             event.originalEvent.preventDefault();
             
             var some = event.originalEvent.target.parentNode,
-                folderName = scanDir.hashParse() + some.getElementsByClassName('name')[0].textContent,                      
+                folderName = that.hashParse() + some.getElementsByClassName('name')[0].textContent,                      
                 id = event.originalEvent.dataTransfer.getData('id'),
                 selector = '#li' + id,
                 $li = $(selector);
@@ -42,10 +42,10 @@ scanDir.replaceFile = function(){
             if($li.length > 0) {
                 var elem = $li[0].getElementsByClassName('name')[0],
                     imgName = elem.textContent,
-                    imgPath = scanDir.hashParse() + imgName;
+                    imgPath = that.hashParse() + imgName;
                 $.post('/admin/rename', { id: id, path: imgPath, newPath: folderName + '/' + imgName, name: imgName }, 
                 function(data){
-                    scanDir();
+                    that.scanDir();
                 });
                 $li.remove();
             }
@@ -73,8 +73,8 @@ jQuery(document).ready(function(){
         var folderName = prompt('Введите название папки');
         if(folderName){
             folderName = folderName.replace(/ /g, "-");
-            $.post('/admin/newfolder', { name: '/' + scanDir.hashParse() + folderName}, function(){
-                scanDir();
+            $.post('/admin/newfolder', { name: '/' + folders.hashParse() + folderName}, function(){
+                folders.scanDir();
             });
         }
 
@@ -85,8 +85,8 @@ jQuery(document).ready(function(){
 	Upload Files
 -------------------------*/
 
-scanDir.setUploadPath = function(){
-    $.cookie('path', scanDir.hashParse(), {'path': '/admin/images'});
+folders.setUploadPath = function(){
+    $.cookie('path', folders.hashParse(), {'path': '/admin/images'});
 };
 
 /*-------------------------
@@ -95,14 +95,14 @@ scanDir.setUploadPath = function(){
 
 /* Меню удаления */
 
-scanDir.remove = {
+folders.remove = {
     
     name: "Удалить",
     
     callback: function(key, opt){            
         var span = opt.$trigger[0].getElementsByClassName('name')[0],
             name = span.textContent,
-            path = scanDir.hashParse(),
+            path = folders.hashParse(),
             type = opt.$trigger[0].className.split(' ')[0];
 
         var hideElement = opt.$trigger.parent();
@@ -121,7 +121,7 @@ window.addEventListener('load', function() {
 
         selector: ".folders",
 
-        items: { delete: scanDir.remove }
+        items: { delete: folders.remove }
 
     });
 
@@ -130,7 +130,7 @@ window.addEventListener('load', function() {
         selector: ".files",
 
         items: {
-            delete: scanDir.remove,
+            delete: folders.remove,
 
             alt: { 
                 name: "Атрибуты",
@@ -140,7 +140,7 @@ window.addEventListener('load', function() {
                     
                    var span = opt.$trigger[0].getElementsByClassName('name')[0],
                        name = span.textContent,
-                       path = scanDir.hashParse();
+                       path = folders.hashParse();
                     
                     jQuery('[name="url-path"]').val(document.location.href);
                     jQuery('[name="img-path"]').val(path + name);                   
@@ -160,5 +160,7 @@ window.addEventListener('load', function() {
 	Run This Script
 -------------------------*/
 
-window.addEventListener('load', scanDir, false);
+window.addEventListener('load', function(){
+    folders.scanDir();
+}, false);
 

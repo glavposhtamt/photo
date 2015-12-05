@@ -1,4 +1,74 @@
-var scanDir = function(){
+var folders = {
+    
+
+    // This function escapes special html characters in names
+	escapeHTML:	function (text) {
+		return text.replace(/\&/g,'&amp;').replace(/\</g,'&lt;').replace(/\>/g,'&gt;');
+	},
+    
+    // Convert file sizes from bytes to human readable units
+    bytesToSize: function (bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Bytes';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    },
+    
+    // Splits a file path and turns it into clickable breadcrumbs
+	generateBreadcrumbs: function (nextDir){
+        var path = nextDir.split('/').slice(0);
+		for(var i=1;i<path.length;i++){
+		  path[i] = path[i-1]+ '/' +path[i];
+		}
+		return path;
+    },
+    
+    // Locates a file by path
+	searchByPath: function (dir, response) {
+		var path = dir.split('/'),
+		demo = response,
+		flag = 0;
+
+		for(var i=0;i<path.length;i++){
+		  for(var j=0;j<demo.length;j++){
+			if(demo[j].name === path[i]){
+				flag = 1;
+				demo = demo[j].items;
+				break;
+            }
+          }
+		}
+
+		demo = flag ? demo : [];
+		return demo;
+    },
+    
+	// Recursively search through the file tree
+    searchData: function(data, searchTerms) {
+        
+        var that = this;
+
+        data.forEach(function(d){
+            if(d.type === 'folder') {
+
+			    that.searchData(d.items,searchTerms);
+
+				if(d.name.toLowerCase().match(searchTerms)) {
+				    that.folders.push(d);
+				}
+            } else if(d.type === 'file') {
+                if(d.name.toLowerCase().match(searchTerms)) {
+				    that.files.push(d);
+				}
+              }
+			});
+        return {folders: that.folders, files: that.files};
+    }
+};
+
+
+folders.scanDir = function(){
+    var that = this;
 
 	var filemanager = $('.filemanager'),
 		breadcrumbs = $('.breadcrumbs'),
@@ -108,7 +178,7 @@ var scanDir = function(){
 
 				// Building the breadcrumbs
 
-				breadcrumbsUrls = generateBreadcrumbs(nextDir);
+				breadcrumbsUrls = that.generateBreadcrumbs(nextDir);
 
 				filemanager.removeClass('searching');
 				filemanager.find('input[type=search]').val('').hide();
@@ -152,7 +222,7 @@ var scanDir = function(){
 				if (hash[0] === 'search') {
 
 					filemanager.addClass('searching');
-					rendered = searchData(response, hash[1].toLowerCase());
+					rendered = this.searchData(response, hash[1].toLowerCase());
 
 					if (rendered.length) {
 						currentPath = hash[0];
@@ -168,18 +238,18 @@ var scanDir = function(){
 
 				else if (hash[0].trim().length) {
 
-					rendered = searchByPath(hash[0]);
+					rendered = that.searchByPath(hash[0], response);
 
 					if (rendered.length) {
 
 						currentPath = hash[0];
-						breadcrumbsUrls = generateBreadcrumbs(hash[0]);
+						breadcrumbsUrls = that.generateBreadcrumbs(hash[0]);
 						render(rendered);
 
 					}
 					else {
 						currentPath = hash[0];
-						breadcrumbsUrls = generateBreadcrumbs(hash[0]);
+						breadcrumbsUrls = that.generateBreadcrumbs(hash[0]);
 						render(rendered);
 					}
 
@@ -190,64 +260,9 @@ var scanDir = function(){
 				else {
 					currentPath = data.path;
 					breadcrumbsUrls.push(data.path);
-					render(searchByPath(data.path));
+					render(that.searchByPath(data.path, response));
 				}
 			}
-		}
-
-		// Splits a file path and turns it into clickable breadcrumbs
-
-		function generateBreadcrumbs(nextDir){
-			var path = nextDir.split('/').slice(0);
-			for(var i=1;i<path.length;i++){
-				path[i] = path[i-1]+ '/' +path[i];
-			}
-			return path;
-		}
-
-
-		// Locates a file by path
-
-		function searchByPath(dir) {
-			var path = dir.split('/'),
-				demo = response,
-				flag = 0;
-
-			for(var i=0;i<path.length;i++){
-				for(var j=0;j<demo.length;j++){
-					if(demo[j].name === path[i]){
-						flag = 1;
-						demo = demo[j].items;
-						break;
-					}
-				}
-			}
-
-			demo = flag ? demo : [];
-			return demo;
-		}
-
-
-		// Recursively search through the file tree
-
-		function searchData(data, searchTerms) {
-
-			data.forEach(function(d){
-				if(d.type === 'folder') {
-
-					searchData(d.items,searchTerms);
-
-					if(d.name.toLowerCase().match(searchTerms)) {
-						folders.push(d);
-					}
-				}
-				else if(d.type === 'file') {
-					if(d.name.toLowerCase().match(searchTerms)) {
-						files.push(d);
-					}
-				}
-			});
-			return {folders: folders, files: files};
 		}
 
 
@@ -295,7 +310,7 @@ var scanDir = function(){
 				scannedFolders.forEach(function(f) {
 
 					var itemsLength = f.items.length,
-						name = escapeHTML(f.name),
+						name = that.escapeHTML(f.name),
 						icon = '<span class="icon folder"></span>';
 
 					if(itemsLength) {
@@ -322,8 +337,8 @@ var scanDir = function(){
 
 				scannedFiles.forEach(function(f) {
 
-					var fileSize = bytesToSize(f.size),
-						name = escapeHTML(f.name),
+					var fileSize = that.bytesToSize(f.size),
+						name = that.escapeHTML(f.name),
 						fileType = name.split('.'),
 						icon = '<span class="icon file"></span>',
                         id = f.id,
@@ -380,30 +395,13 @@ var scanDir = function(){
 
 			// Show the generated elements
 
-			//fileList.animate({'display':'inline-block'});
-            fileList.show();
+			fileList.animate({'display':'inline-block'});
+            //fileList.show();
             
-            scanDir.replaceFile();
-            scanDir.setUploadPath();
+            that.replaceFile();
+            that.setUploadPath();
 
 		}
-
-
-		// This function escapes special html characters in names
-
-		function escapeHTML(text) {
-			return text.replace(/\&/g,'&amp;').replace(/\</g,'&lt;').replace(/\>/g,'&gt;');
-		}
-
-
-		// Convert file sizes from bytes to human readable units
-
-		function bytesToSize(bytes) {
-			var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-			if (bytes == 0) return '0 Bytes';
-			var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-			return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-		}
-            
+        
 	});
 };
