@@ -5,6 +5,7 @@ var folders = {
     filemanager: null,
     breadcrumbs: null,
     fileList: null,
+    currentPath: '',
 
     // This function escapes special html characters in names
 	escapeHTML:	function (text) {
@@ -79,6 +80,59 @@ var folders = {
     }
 };
 
+    // Navigates to the given hash (path)
+
+folders.goto = function(hash, response, data) {
+    var that = this;
+    hash = decodeURIComponent(hash).slice(1).split('=');
+
+	if (hash.length) {
+	   var rendered = '';
+        
+	// if hash has search in it
+
+        if (hash[0] === 'search') {
+
+		  that.filemanager.addClass('searching');
+		  rendered = that.searchData(response, hash[1].toLowerCase());
+
+		  if (rendered.length) {
+		      that.currentPath = hash[0];
+			  that.render(rendered);
+          }	else {
+						that.render(rendered);
+          }
+
+		}
+    // if hash is some path
+
+        else if (hash[0].trim().length) {
+
+            rendered = that.searchByPath(hash[0], response);
+
+			if (rendered.length) {
+
+				that.currentPath = hash[0];
+				that.breadcrumbsUrls = that.generateBreadcrumbs(hash[0]);
+				that.render(rendered);
+
+			} else {
+				that.currentPath = hash[0];
+				that.breadcrumbsUrls = that.generateBreadcrumbs(hash[0]);
+				that.render(rendered);
+			}
+
+        }
+
+    // if there is no hash
+
+	   else {
+           that.currentPath = data.path;
+           that.breadcrumbsUrls.push(data.path);
+           that.render(that.searchByPath(data.path, response));
+       }
+    }
+};
 
 folders.scanDir = function(){
     var that = this;
@@ -90,8 +144,7 @@ folders.scanDir = function(){
 	$.get('/admin/scan', function(data) {
         data = jQuery.parseJSON(data);
 
-		var response = [data],
-			currentPath = '';
+		var response = [data];
 
 		var folders = [],
 			files = [];
@@ -101,7 +154,7 @@ folders.scanDir = function(){
 
 		$(window).on('hashchange', function(){
 
-			goto(window.location.hash);
+			that.goto(window.location.hash, response, data);
 
 			// We are triggering the event. This will execute 
 			// this function on page load, so that we show the correct folder:
@@ -144,7 +197,7 @@ folders.scanDir = function(){
 			else {
 
 				that.filemanager.removeClass('searching');
-				window.location.hash = encodeURIComponent(currentPath);
+				window.location.hash = encodeURIComponent(that.currentPath);
 
 			}
 
@@ -168,7 +221,7 @@ folders.scanDir = function(){
 
 			if(!search.val().trim().length) {
 
-				window.location.hash = encodeURIComponent(currentPath);
+				window.location.hash = encodeURIComponent(that.currentPath);
 				search.hide();
 				search.parent().find('span').show();
 
@@ -199,7 +252,7 @@ folders.scanDir = function(){
 			}
 
 			window.location.hash = encodeURIComponent(nextDir);
-			currentPath = nextDir;
+			that.currentPath = nextDir;
 		});
 
 
@@ -217,63 +270,6 @@ folders.scanDir = function(){
 
 		});
 
-
-		// Navigates to the given hash (path)
-
-		function goto(hash) {
-
-			hash = decodeURIComponent(hash).slice(1).split('=');
-
-			if (hash.length) {
-				var rendered = '';
-
-				// if hash has search in it
-
-				if (hash[0] === 'search') {
-
-					that.filemanager.addClass('searching');
-					rendered = that.searchData(response, hash[1].toLowerCase());
-
-					if (rendered.length) {
-						currentPath = hash[0];
-						that.render(rendered);
-					}
-					else {
-						that.render(rendered);
-					}
-
-				}
-
-				// if hash is some path
-
-				else if (hash[0].trim().length) {
-
-					rendered = that.searchByPath(hash[0], response);
-
-					if (rendered.length) {
-
-						currentPath = hash[0];
-						that.breadcrumbsUrls = that.generateBreadcrumbs(hash[0]);
-						that.render(rendered);
-
-					}
-					else {
-						currentPath = hash[0];
-						that.breadcrumbsUrls = that.generateBreadcrumbs(hash[0]);
-						that.render(rendered);
-					}
-
-				}
-
-				// if there is no hash
-
-				else {
-					currentPath = data.path;
-					that.breadcrumbsUrls.push(data.path);
-					that.render(that.searchByPath(data.path, response));
-				}
-			}
-		}
         
 	});
 };
