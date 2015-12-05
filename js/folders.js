@@ -70,8 +70,12 @@ var folders = {
         return {folders: that.folders, files: that.files};
     },
     
-    initFilemanager: function(){
+    
+    // Init filemanager, breadcrumbs, fileList
+    initProperty: function(){
         this.filemanager = $('.filemanager');
+        this.breadcrumbs = $('.breadcrumbs');
+        this.fileList = $('.filemanager').find('.data');
     }
 };
 
@@ -79,13 +83,7 @@ var folders = {
 folders.scanDir = function(){
     var that = this;
     
-    this.initFilemanager();
-
-
-	var breadcrumbs = $('.breadcrumbs'),
-		fileList = that.filemanager.find('.data');
-        
-        console.log(that.filemanager);
+    this.initProperty();
 
 	// Start by fetching the file data from scan.php with an AJAX request
 
@@ -181,7 +179,7 @@ folders.scanDir = function(){
 
 		// Clicking on folders
 
-		fileList.on('click', 'li.folders', function(e){
+		that.fileList.on('click', 'li.folders', function(e){
 			e.preventDefault();
 
 			var nextDir = $(this).find('a.folders').attr('href');
@@ -207,10 +205,10 @@ folders.scanDir = function(){
 
 		// Clicking on breadcrumbs
 
-		breadcrumbs.on('click', 'a', function(e){
+		that.breadcrumbs.on('click', 'a', function(e){
 			e.preventDefault();
 
-			var index = breadcrumbs.find('a').index($(this)),
+			var index = that.breadcrumbs.find('a').index($(this)),
 				nextDir = that.breadcrumbsUrls[index];
 
 			that.breadcrumbsUrls.length = Number(index);
@@ -308,7 +306,7 @@ folders.scanDir = function(){
 
             // Empty the old result and make the new one
 
-			fileList.empty().hide();
+			that.fileList.empty().hide();
 
 			if(!scannedFolders.length && !scannedFiles.length) {
 				that.filemanager.find('.nothingfound').show();
@@ -340,7 +338,7 @@ folders.scanDir = function(){
 					}
 
 					var folder = $('<li class="folders"><a href="'+ f.path +'" title="'+ f.path +'" class="folders">'+icon+'<span class="name">' + name + '</span> <span class="details">' + itemsLength + '</span></a></li>');
-					folder.appendTo(fileList);
+					folder.appendTo(that.fileList);
 				});
 
 			}
@@ -367,7 +365,7 @@ folders.scanDir = function(){
                                         '<span class="details">'+fileSize+'</span>' + 
                                     '</a>' + 
                                  '</li>');
-					file.appendTo(fileList);
+					file.appendTo(that.fileList);
 				});
 
 			}
@@ -380,12 +378,12 @@ folders.scanDir = function(){
 			if(that.filemanager.hasClass('searching')){
 
 				url = '<span>Search results: </span>';
-				fileList.removeClass('animated');
+				that.fileList.removeClass('animated');
 
 			}
 			else {
 
-				fileList.addClass('animated');
+				that.fileList.addClass('animated');
 
 				that.breadcrumbsUrls.forEach(function (u, i) {
 
@@ -402,13 +400,13 @@ folders.scanDir = function(){
 
 			}
 
-			breadcrumbs.text('').append(url);
+			that.breadcrumbs.text('').append(url);
 
 
 			// Show the generated elements
 
-			fileList.animate({'display':'inline-block'});
-            //fileList.show();
+			that.fileList.animate({'display':'inline-block'});
+            //that.fileList.show();
             
             that.replaceFile();
             that.setUploadPath();
