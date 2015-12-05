@@ -7,7 +7,7 @@
     <meta http-equiv="Cache-Control" content="no-cache">
 <?php 
     addCssAndJs($jsCSSLibs, ['jQuery','admin', 'bootstrap','folders', 'fontawesome', 'contextMenu', 'blueimp-gallery',
-                             'jquery.cookie', 'context-script']);
+                             'jquery.cookie', 'gallery-scripts']);
 ?>
 
 </head>

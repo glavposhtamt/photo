@@ -60,9 +60,9 @@ $jsCSSLibs = array(
         'css' => $bower_components . 'jQuery-contextMenu/dist/jquery.contextMenu.min.css',
         'js' => [ $vendorJS . 'jquery-1.11.0.min.js', $bower_components . 'jQuery-contextMenu/src/jquery.contextMenu.js', ]
     ),
-    
-    'context-script' => array(
-        'js' => $js . 'context-script.js'
+        
+    'gallery-scripts' => array(
+        'js' => $js . 'gallery-scripts.js'
     ),
     
     'fontawesome' => array(

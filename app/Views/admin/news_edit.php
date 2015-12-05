@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Cache-Control" content="no-cache">
-    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'admin', 'ckeditor', 'sortable', 'moment', 'datetimepicker']);  ?>
+
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'folders', 'bootstrap', 'admin', 'ckeditor', 'sortable', 'moment', 
+                                    'datetimepicker', 'jquery.cookie']);  ?>
 </head>
 <body>
     <?php include_once 'admin.php'; ?>
@@ -90,11 +92,25 @@
                                   <h4 class="modal-title">Выберите изображение</h4>
                                 </div>
                                 <div class="modal-body" id="modal-img-list">
+                                    <!-- File Manager -->
+                                    <div class="filemanager">
+
+                                         <ul class="data" id="links"></ul>
+
+                                          <div class="nothingfound">
+                                               <div class="nofiles"></div>
+                                               <span>No files here.</span>
+                                          </div>
+
+                                    </div>
+                                    <!-- End File Manager -->
+<!--
                                     <?php foreach ($gallery as $value) : ?>
                                     <img src="/files/.thumbail/<?=$value->name?>" alt="Выберите изображение" 
                                          data-id="<?=$value->id?>">
                                          
                                     <?php endforeach; ?>
+-->
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
