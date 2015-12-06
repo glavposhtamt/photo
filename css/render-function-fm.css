@@ -1,0 +1,67 @@
+.filemanager {
+    width: 100%;
+    margin: 0;
+}
+
+.filemanager .breadcrumbs{
+    font-size: 14px;
+}
+
+.filemanager .data.animated {
+    animation: none;
+    margin-top: 20px;
+}
+
+.filemanager .data li{
+    /*background-color: #fff;*/
+}
+
+#links {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    flex-flow: wrap row;
+}
+
+#links > li {
+    max-width: 80px;
+    max-height: 80px;
+    background-color: #fff;
+    margin: 5px;
+    border-radius: 0;
+}
+
+#links > li > a {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    flex-flow: wrap column;
+    align-content:center;
+    align-items:flex-start;
+    margin: auto;
+    
+}
+
+#links li a:active,
+#links li a:visited,
+#links li a:hover {
+    border: 0;
+    text-decoration: none;
+}
+
+
+
+.filemanager #links a.folders .name {
+    font-weight: 100;
+    top: 50px;
+    text-align: center;
+    width: 100%;
+}
+
+.filemanager #links a.folders .fa{
+    margin-left: 15px;
+}

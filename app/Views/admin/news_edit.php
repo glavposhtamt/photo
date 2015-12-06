@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Cache-Control" content="no-cache">
 
-    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'folders', 'bootstrap', 'admin', 'ckeditor', 'sortable', 'moment', 
-                                    'datetimepicker', 'jquery.cookie']);  ?>
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'folders', 'bootstrap', 'fontawesome', 'admin', 'ckeditor', 'sortable', 
+                                    'moment', 'datetimepicker', 'render-function-fm']);  ?>
 </head>
 <body>
     <?php include_once 'admin.php'; ?>
@@ -94,7 +94,8 @@
                                 <div class="modal-body" id="modal-img-list">
                                     <!-- File Manager -->
                                     <div class="filemanager">
-
+                                        
+                                         <div class="breadcrumbs"></div>
                                          <ul class="data" id="links"></ul>
 
                                           <div class="nothingfound">

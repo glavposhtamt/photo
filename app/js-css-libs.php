@@ -65,6 +65,11 @@ $jsCSSLibs = array(
         'js' => $js . 'gallery-scripts.js'
     ),
     
+    'render-function-fm' => array(
+        'js' => $js . 'render-function-fm.js',
+        'css' => $css . 'render-function-fm.css'
+    ),
+    
     'fontawesome' => array(
         'css' => $bower_components . 'fontawesome/css/font-awesome.min.css'
     ),
