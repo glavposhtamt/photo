@@ -163,7 +163,6 @@ folders.imageSelect = function(){
             
             $.post("/admin/bind", { file_id: $(clone).data("id"), file_name: decodeURI(fileName), id: pageId, type: type }, 
                 function(data){
-                    console.log(data);
                     position(false);
                 });
         }, false);

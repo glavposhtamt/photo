@@ -58,7 +58,7 @@ function position(message){
     }
     var dataH1 = document.querySelector("h1[data-id]");
     names.id = $(dataH1).data('id');
-    console.log("Тип: %s", names.id);
+    console.log("ID: %s", names.id);
     var type = document.location.pathname.split("/").slice(2, -1)[0];
     console.log("Тип %s ", type);
     var strImgName = JSON.stringify(names);

@@ -105,13 +105,6 @@
 
                                     </div>
                                     <!-- End File Manager -->
-<!--
-                                    <?php foreach ($gallery as $value) : ?>
-                                    <img src="/files/.thumbail/<?=$value->name?>" alt="Выберите изображение" 
-                                         data-id="<?=$value->id?>">
-                                         
-                                    <?php endforeach; ?>
--->
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

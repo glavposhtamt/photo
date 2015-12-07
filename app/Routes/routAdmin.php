@@ -228,11 +228,13 @@ $app->post('/admin/position/', function() use($addImgThumbnail){
     }
     else die();
     
-    for($i = 0; $i < count($bind); ++$i){
+    if($bind){
+        for($i = 0; $i < count($bind); ++$i){
         $bind[$i]->position = (int)$arr[(int)$bind[$i]->file_id];
         $bind[$i]->save();
         if($bind[$i]->position === 0 && !is_null($model)) $addImgThumbnail($model, $bind[$i]->file_name);
 
+    }
     }
 
 });
@@ -250,7 +252,7 @@ $app->post('/admin/bind', function(){
 $app->post('/admin/removeimg', function(){
     $id =  $_POST['file_id'];
     $bind = Bind::find_by_file_id((int)$id);
-    $bind->delete();
+    if($bind) $bind->delete();
     echo $id;
     
 });
