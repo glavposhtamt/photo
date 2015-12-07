@@ -84,41 +84,6 @@ jQuery(document).ready(function(){
 
 });
 
-/* Выбрать картинку */
-
-
-window.addEventListener('load', function(){
-    var list = document.querySelectorAll("#modal-img-list img");
-    
-    for (var i = 0, len = list.length; i < len; i++) {
-        list[i].addEventListener('click', function(){
-            var that = this;
-            var clone = that.cloneNode(true);
-            that.remove();
-            var dataH1 = document.querySelector("h1[data-id]");
-            var pageId = $(dataH1).data('id');
-            var fileName = clone.src.split("/").slice(-1)[0];
-            var div = document.createElement("div");
-            var span = document.createElement("span");
-            div.className += "drag";
-            span.className += "glyphicon glyphicon-trash";
-            span.dataset.img = $(clone).data("id");
-            $(span).bind("click", function(){ var that = this; removeImg(that); });
-            var container = document.getElementById("container-img");
-            var type = document.location.pathname.split("/").slice(2, -1)[0];
-            container.appendChild(div);
-            div.appendChild(clone);
-            div.appendChild(span);
-            $('.drag').draggable();
-            $.post("/admin/bind", { file_id: $(clone).data("id"), file_name: decodeURI(fileName), id: pageId, type: type }, 
-                function(data){
-                    console.log(data);
-                    position(false);
-                });
-        }, false);
-    }
-
-}, false);
 
 /* Удаление картинки */
 

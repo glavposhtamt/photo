@@ -75,10 +75,8 @@ folders.render = function(data) {
                fileType = fileType[fileType.length-1];
 
                     var href = 'http://' + location.hostname +'/files/.thumbail/' + name;
-                    icon = '<img src="'+ decodeURI(href) + '" >';
-					var file = $('<li id="li'+ id +'" data-id="' + id + '" class="files">' + 
-                                    '<a href="'+ url + '" class="files">' + icon + '</a>' + 
-                                 '</li>');
+                    icon = '<img src="'+ decodeURI(href) + '" data-id="' + id + '" >';
+					var file = $('<li class="files">' + icon + '</li>');
 					file.appendTo(that.fileList);
 				});
 
@@ -119,8 +117,57 @@ folders.render = function(data) {
 	// Show the generated elements
 
     that.fileList.show();
+    
+    that.imageSelect();
             
 
+};
+
+/*-------------------------
+	Image select
+-------------------------*/
+
+folders.imageSelect = function(){
+    var list = document.querySelectorAll("li.files img");
+    
+    for (var i = 0, len = list.length; i < len; i++) {
+        list[i].addEventListener('click', function(){
+            
+            var that = this,
+                clone = that.cloneNode(true);
+            
+            that.parentNode.remove();
+            
+            var dataH1 = document.querySelector("h1[data-id]"),
+                pageId = $(dataH1).data('id'),
+                fileName = clone.src.split("/").slice(-1)[0],
+                div = document.createElement("div"),
+                span = document.createElement("span");
+            
+            div.className += "drag";
+            span.className += "glyphicon glyphicon-trash";
+            span.dataset.img = $(clone).data("id");
+            
+            $(span).bind("click", function(){ 
+                var that = this; removeImg(that); 
+            });
+            
+            var container = document.getElementById("container-img"),
+                type = document.location.pathname.split("/").slice(2, -1)[0];
+            
+            container.appendChild(div);
+            div.appendChild(clone);
+            div.appendChild(span);
+            
+            $('.drag').draggable();
+            
+            $.post("/admin/bind", { file_id: $(clone).data("id"), file_name: decodeURI(fileName), id: pageId, type: type }, 
+                function(data){
+                    console.log(data);
+                    position(false);
+                });
+        }, false);
+    }
 };
 
 
