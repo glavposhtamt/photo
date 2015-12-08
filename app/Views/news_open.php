@@ -146,9 +146,15 @@
                         <div class="carousel">
                             <ul>
                                 <?php $count = count($img); for ($c = 0; $c < $count; $c++) : ?>
-                                <li><a href="/files/<?=$img[$c]?>" title="Banana"><img src="/files/<?=$img[$c]?>" 
-                                        width="129" height="97" ></a></li>
-                                        
+                                <li>
+                                    <a href="/files/<?=$img[$c]?>" 
+                                       title="<?=$altDesc[$c]->description ? $altDesc[$c]->description : "" ?>">
+                                       
+                                       <img src="/files/<?=$img[$c]?>" 
+                                            alt="<?=$altDesc[$c]->title ? $altDesc[$c]->title : "" ?>" width="129" height="97" >
+                                            
+                                    </a>
+                                </li>                                        
                                 <?php endfor; ?>
                             </ul>
                         </div>

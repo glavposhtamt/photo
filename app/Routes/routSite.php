@@ -33,6 +33,13 @@ $nameUrl = function(){
     return $fName;
 };
 
+
+$getAltDescByName = function($name){
+    $url = Files::find_by_name($name, array('select' => 'title, description'));
+    if($url) return $url;
+    else return [];
+};
+
 $app->get('/', function() use($app, $js_css) {	
     $app->render('home.php', array('jsCSSLibs' => $js_css)); 
 });
@@ -87,23 +94,28 @@ $app->get('/news/', function() use($app, $js_css) {
 
 });
 
-$app->get('/news/:id', function($id) use($app, $nameUrl, $js_css){
+$app->get('/news/:id', function($id) use($app, $nameUrl, $getAltDescByName, $js_css){
     $news = News::find((int)$id);
     $img = Bind::find_all_by_news_id((int)$id, array('order' => 'position'));
     
     $fName = $nameUrl();
     
-    $img_arr = []; $i = 0;
+    $img_arr = []; $i = 0; ;
+    
     foreach ($img as $value){
         $arr = explode('.', $value->file_name);
         array_pop($arr);
         $water = implode('.', $arr);
         $file_water_path = FILES_PATH . '/.water/' . $water . '.jpg';
         $img_arr[$i] = is_file($file_water_path) ? '/.water/' . $water . '.jpg' : $fName[$value->file_name];
+        
+        $altDesc[$i] = $getAltDescByName($value->file_name);
+        
         $i++;
     }
+        
     $app->render('news_open.php', array('news' => $news, 'img' => $img_arr, 'id' => $id, 'title' => 'Новости',
-                                        'type' => 'news', 'jsCSSLibs' => $js_css));
+                                        'type' => 'news', 'altDesc' => $altDesc, 'jsCSSLibs' => $js_css));
 } );
 
 
