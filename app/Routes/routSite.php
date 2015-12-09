@@ -100,7 +100,7 @@ $app->get('/news/:id', function($id) use($app, $nameUrl, $getAltDescByName, $js_
     
     $fName = $nameUrl();
     
-    $img_arr = []; $i = 0; ;
+    $img_arr = []; $i = 0; $altDesc = [];
     
     foreach ($img as $value){
         $arr = explode('.', $value->file_name);
@@ -147,7 +147,7 @@ $app->get('/ourworks/', function() use($app, $js_css){
     
 });
 
-$app->get('/ourworks/:id', function($id) use($app, $nameUrl, $js_css){
+$app->get('/ourworks/:id', function($id) use($app, $nameUrl, $getAltDescByName, $js_css){
     $work = Work::find_by_sql("SELECT work.id, anotation, title FROM work 
                                 INNER JOIN institution ON work.institution = institution.id WHERE work.id = $id");
     
@@ -155,15 +155,20 @@ $app->get('/ourworks/:id', function($id) use($app, $nameUrl, $js_css){
     
     $work = $work[0];
     $img = Bind::find_all_by_work_id((int)$id, array('order' => 'position'));
-    $img_arr = []; $i = 0;
+    
+    $img_arr = []; $i = 0; $altDesc = [];
+    
     foreach ($img as $value){
         $arr = explode('.', $value->file_name);
         array_pop($arr);
         $water = implode('.', $arr);
         $file_water_path = FILES_PATH . '/.water/' . $water . '.jpg';
         $img_arr[$i] = is_file($file_water_path) ? '/.water/' . $water . '.jpg' : $fName[$value->file_name];
+        
+        $altDesc[$i] = $getAltDescByName($value->file_name);
+        
         $i++;
     }
     $app->render('news_open.php', array('news' => $work, 'img' => $img_arr, 'id' => $id, 'title' => 'Наши работы',
-                                        'type' => 'work', 'jsCSSLibs' => $js_css));
+                                        'type' => 'work', 'altDesc' => $altDesc, 'jsCSSLibs' => $js_css));
 } );
