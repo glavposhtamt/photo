@@ -1,6 +1,6 @@
 /*jslint unparam: true, regexp: true */
 /*global window, $ */
-var response$;
+
 $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
@@ -82,7 +82,6 @@ $(function () {
             progress + '%'
         );
     }).on('fileuploaddone', function (e, data) {
-        response$ = data;
         setDescAndTitle(data.result.files[0].id, data.context[0].lastChild);
         $.each(data.result.files, function (index, file) {
             if (file.url) {

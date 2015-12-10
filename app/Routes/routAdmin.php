@@ -230,11 +230,11 @@ $app->post('/admin/position/', function() use($addImgThumbnail){
     
     if($bind){
         for($i = 0; $i < count($bind); ++$i){
-        $bind[$i]->position = (int)$arr[(int)$bind[$i]->file_id];
-        $bind[$i]->save();
-        if($bind[$i]->position === 0 && !is_null($model)) $addImgThumbnail($model, $bind[$i]->file_name);
+            $bind[$i]->position = (int)$arr[(int)$bind[$i]->file_id];
+            $bind[$i]->save();
+            if($bind[$i]->position === 0 && !is_null($model)) $addImgThumbnail($model, $bind[$i]->file_name);
 
-    }
+        }
     }
 
 });
