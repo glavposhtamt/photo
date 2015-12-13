@@ -76,7 +76,7 @@ folders.render = function(data) {
 
                     var href = 'http://' + location.hostname +'/files/.thumbail/' + name;
            
-                    icon = '<img src="'+ decodeURI(href) + '" data-id="' + id + '" data-src="' + url + '">';
+                    icon = '<img src="'+ decodeURI(href) + '" data-id="' + id + '" data-src="' + url + '" data-name="' + name + '">';
 					var file = $('<li class="files">' + icon + '</li>');
 					file.appendTo(that.fileList);
 				});
@@ -131,7 +131,10 @@ folders.render = function(data) {
 -------------------------*/
 
 folders.imageSelect = function(){
-    var list = document.querySelectorAll("li.files img");
+     var container = document.getElementById("container-img"),
+         list = document.querySelectorAll("li.files img");
+    
+    if(!container) return;
     
     for (var i = 0, len = list.length; i < len; i++) {
         list[i].addEventListener('click', function(){
@@ -155,8 +158,7 @@ folders.imageSelect = function(){
                 var that = this; removeImg(that); 
             });
             
-            var container = document.getElementById("container-img"),
-                type = document.location.pathname.split("/").slice(2, -1)[0];
+            var type = document.location.pathname.split("/").slice(2, -1)[0];
             
             container.appendChild(div);
             div.appendChild(clone);
@@ -177,17 +179,47 @@ folders.imageSelect = function(){
 -------------------------*/
 
 folders.imageChoise = function(){
+    var files = document.getElementById('files');
+    
+    if(!files) return;
+    
     $("li.files img").click(function(){
         var that = this,
             $that = $(that),
             img = new Image();       
 
         img.src = $that.data('src');
+        that.remove();
+        
         img.onload = function(){
             img.width = 100;
             img.height = 100;
             
-            $("#container-img").append(img);
+            var cookieName = 'file[' + $that.data('id') + ']';
+            
+            //$.cookie(cookieName, $that.data('name'), {'path': '/admin'});
+            document.cookie = cookieName + '=' + $that.data('name') + '; path=/admin; domain=' + document.location.hostname + '; secure';
+                        
+            var div = document.createElement('div'),
+                span = document.createElement('span'),
+                button = document.createElement('button'),
+                p = document.createElement('p');
+            
+            div.className = 'wrapper';
+            span.innerHTML = $that.data('name') + '<br>';
+            button.innerHTML = 'Отмена';
+            button.className = 'btn btn-warning';
+            button.addEventListener('click', function(){
+                $.removeCookie(cookieName, {'path': '/admin'});
+            }, false);
+            
+            p.appendChild(img);
+            p.appendChild(span);
+            p.appendChild(button);
+            
+            div.appendChild(p);
+            
+            files.appendChild(div);
         };
         
         

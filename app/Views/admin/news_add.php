@@ -10,8 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Cache-Control" content="no-cache">
 
-    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'jquery.cookie', 'bootstrap', 'ckeditor', 'admin', 
-                                    'fileupload', 'minimalUploadWidget']);  
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'fontawesome', 'folders', 'jquery.cookie', 'bootstrap', 'ckeditor', 'admin', 
+                                    'fileupload', 'minimalUploadWidget', 'jquery.cookie', 'render-function-fm']);  
     ?>
 </head>
 <body>
@@ -43,10 +43,10 @@
                     <div class="col-lg-4">
                        
                         <!-- Insert from Gallery -->
-                       <span class="btn btn-info fileinput-button">
+                       <button class="btn btn-info fileinput-button" data-toggle="modal" data-target="#myModal">
                             <i class="glyphicon glyphicon-plus"></i>
                             <span>Выбрать изображения</span>
-                        </span>
+                        </button>
                         <br>
                         <br>
                         <!-- The fileinput-button span is used to style the file input field as button -->
@@ -76,6 +76,7 @@
         <div id="right-frame"></div>
         <!-- /#riht-frame -->
         <div class="clear"></div>
+        <?php require 'modal.php'; ?>
     </div>
     <!-- /#wrapper -->
 

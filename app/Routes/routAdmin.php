@@ -457,7 +457,13 @@ $app->post('/admin/smartform/', function(){
 });
 
 $app->post('/admin/work/add', function() use($app, $addImgThumbnail, $bindTables){
-
+    
+    if (isset($_COOKIE['file'])) {
+        foreach ($_COOKIE['file'] as $name => $value) {
+            setcookie ("file[$name]", "", time() - 3600, "/admin/");
+        }
+    }
+    
     $work = new Work();
     if(isset($_POST['institution'])) $work->institution = (int)$_POST['institution'];
     else return;
