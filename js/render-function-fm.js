@@ -75,7 +75,8 @@ folders.render = function(data) {
                fileType = fileType[fileType.length-1];
 
                     var href = 'http://' + location.hostname +'/files/.thumbail/' + name;
-                    icon = '<img src="'+ decodeURI(href) + '" data-id="' + id + '" >';
+           
+                    icon = '<img src="'+ decodeURI(href) + '" data-id="' + id + '" data-src="' + url + '">';
 					var file = $('<li class="files">' + icon + '</li>');
 					file.appendTo(that.fileList);
 				});
@@ -119,6 +120,8 @@ folders.render = function(data) {
     that.fileList.show();
     
     that.imageSelect();
+    
+    that.imageChoise();
             
 
 };
@@ -169,6 +172,27 @@ folders.imageSelect = function(){
     }
 };
 
+/*-------------------------
+	Image choise
+-------------------------*/
+
+folders.imageChoise = function(){
+    $("li.files img").click(function(){
+        var that = this,
+            $that = $(that),
+            img = new Image();       
+
+        img.src = $that.data('src');
+        img.onload = function(){
+            img.width = 100;
+            img.height = 100;
+            
+            $("#container-img").append(img);
+        };
+        
+        
+    });
+};
 
 /*-------------------------
 	Run This Script

@@ -41,10 +41,18 @@
                         </form>
                     </div>
                     <div class="col-lg-4">
+                       
+                        <!-- Insert from Gallery -->
+                       <span class="btn btn-info fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>Выбрать изображения</span>
+                        </span>
+                        <br>
+                        <br>
                         <!-- The fileinput-button span is used to style the file input field as button -->
                        <span class="btn btn-success fileinput-button upload-img">
                             <i class="glyphicon glyphicon-plus"></i>
-                            <span>Выбрать изображения</span>
+                            <span>Загрузить изображения</span>
                             <!-- The file input field used as target for the file upload widget -->
                             <input id="fileupload" type="file" name="files[]" multiple>
                         </span>
