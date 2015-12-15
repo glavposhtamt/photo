@@ -1,6 +1,6 @@
 <?php
 
-require '../Slim//vendor/autoload.php';     //include the framework in the project
+require 'vendor/autoload.php';     //include the framework in the project
 
 $projectDir = __DIR__ . "/app";   //define the directory containing the project files
 

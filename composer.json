@@ -1,0 +1,8 @@
+{
+    "require": {
+        "slim/slim": "^2.1",
+        "php-activerecord/php-activerecord": "^1.1",
+        "ashtokalo/php-translit": "dev-master",
+        "eventviva/php-image-resize": "1.5.*"
+    }
+}
