@@ -186,7 +186,10 @@ folders.imageChoise = function(){
     $("li.files img").click(function(){
         var that = this,
             $that = $(that),
-            img = new Image();       
+            img = new Image(),
+            type = document.location.pathname.split("/").slice(2, -1)[0],
+            dataH1 = document.querySelector("h1[data-id]"),
+            pageId = $(dataH1).data('id');
 
         img.src = $that.data('src');
         that.remove();
@@ -195,11 +198,8 @@ folders.imageChoise = function(){
             img.width = 100;
             img.height = 100;
             
-            var cookieName = 'file[' + $that.data('id') + ']';
+            $.post('/admin/temporary', { type: type, pageId: pageId, id: $that.data('id'), name: $that.data('name') });
             
-            //$.cookie(cookieName, $that.data('name'), {'path': '/admin'});
-            document.cookie = cookieName + '=' + $that.data('name') + '; path=/admin; domain=' + document.location.hostname + '; secure';
-                        
             var div = document.createElement('div'),
                 span = document.createElement('span'),
                 button = document.createElement('button'),
@@ -210,7 +210,8 @@ folders.imageChoise = function(){
             button.innerHTML = 'Отмена';
             button.className = 'btn btn-warning';
             button.addEventListener('click', function(){
-                $.removeCookie(cookieName, {'path': '/admin'});
+                $.removeCookie(decodeURIComponent(cookieName), {'path': '/admin'});
+                alert(document.cookie);
             }, false);
             
             p.appendChild(img);

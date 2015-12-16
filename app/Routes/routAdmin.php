@@ -11,19 +11,47 @@ $selectAllImg = function (){
     return $img;
 };
 
-$addImgThumbnail = function($model, $file_name) {
-/*    $model = News::find((int)$model_id, array('select' => 'id, thumbnail'));*/
+$addImgThumbnail = function($postType, $id) {
+
+	switch($postType){
+		case 'news': {
+			$bind = Bind::find_by_news_id($id, array('select' => 'file_name', 'conditions' => array('ORDER BY position limit 1')));
+			$file_name = $bind->file_name;
+			
+			$model = News::find($id, array('select' => 'thumbnail, id, mini'));
+			
+			break;
+		}
+															  
+		case 'work':  {
+			$bind = Bind::find_by_work_id($id, array('select' => 'file_name', 'conditions' => array('ORDER BY position limit 1')));
+			$file_name = $bind->file_name;
+			
+			$model = Work::find($id, array('select' => 'thumbnail, id, mini'));
+			
+			break;
+		}
+		default:
+			die();
+	}
+	
+	
+	
     if(!is_dir(MINI_PATH)){
         if(!mkdir(MINI_PATH, 0755)){
             die();
         }
     }
 
-    if($model->id . '_' . $file_name === $model->thumbnail){ return; }
+ 
+    if($model->id . '_' . $file_name === $model->thumbnail){ return $model; }
     
     if(is_file(MINI_PATH . '/' . $model->thumbnail)){
         unlink(MINI_PATH . '/' . $model->thumbnail);
     }
+    
+    
+    
     $url = Files::find_by_name($file_name, array('select' => 'url'));
     $path = ($url->url) ? FILES_PATH . '/' . $url->url : FILES_PATH . "/$file_name";
     $image = new ImageResize($path);
@@ -34,10 +62,13 @@ $addImgThumbnail = function($model, $file_name) {
     catch(Exception $e){
         die($e->getMessage());
     }
-    
-    
+        
     $model->thumbnail = $model->id . '_' . $file_name;
     $model->save();
+    
+    
+    
+    return $model;
 };
 
 $func = function($route){
@@ -56,29 +87,21 @@ $func = function($route){
     
 };
 
-$bindTables = function($table, $id, $addImgThumbnail){
-    $i = 0;
-    if (isset($_COOKIE['file'])) {
-        foreach ($_COOKIE['file'] as $name => $value) {
-            if($value !== "") {
-                $bind = new Bind();
-                $bind->file_name = $value;
-                $bind->file_id = (int)$name;
-                $bind->setTableId($table, $id);
-                $bind->position = $i;
-                $bind->save();
-                setcookie ("file[$name]", "", time() - 3600, "/admin");
-                if($i === 0){ 
-                    if($table === 'news') $model = News::find((int)$bind->news_id, array('select' => 'id, thumbnail'));
-                    elseif($table === 'work') $model = Work::find((int)$bind->work_id, array('select' => 'id, thumbnail'));
-                    else die("Неверная таблица!");
-                    $addImgThumbnail($model, $bind->file_name); 
-                }
-                $i++;
-                
-            }
-        }
-    }
+$temp2bind = function($table, $id){
+	$i = 0;
+	$temp = Temp::find('all', array('conditions' => array('type = ?', $table)));
+	if($temp){
+		foreach($temp as $value){
+			$bind = new Bind();
+			$bind->file_name = $value->file_name;
+			$bind->file_id = $value->file_id;
+			$bind->setTableId($table, $id);
+			$bind->position = $i;
+			$bind->save();
+			
+            $i++;
+		}
+	}
 };
 
 $app->get('/admin/', function() use($app) {
@@ -129,16 +152,13 @@ $app->post('/admin/delete/', function () {
 });
 
 $app->get('/admin/news/add', function () use($app, $js_css) {
-        if (isset($_COOKIE['file'])) {
-            foreach ($_COOKIE['file'] as $name => $value) {
-                setcookie ("file[$name]", "", time() - 3600, "/admin/");
-            }
-        }
+ 
+        Temp::delete_all(array('conditions' => array('type' => 'news')));
         $app->render('admin/news_add.php', array('jsCSSLibs' => $js_css));
 });
 
 
-$app->post('/admin/news/add', function () use ($app, $addImgThumbnail, $bindTables){
+$app->post('/admin/news/add', function () use ($app, $temp2bind){
     $news = new News();
     $news->title = $_POST["title"];
     $news->anotation = $_POST["anotation"];
@@ -147,7 +167,7 @@ $app->post('/admin/news/add', function () use ($app, $addImgThumbnail, $bindTabl
     $news->save();
     
     /*связываем новость и картинки*/
-    $bindTables('news', $news->id, $addImgThumbnail);
+    $temp2bind('news', $news->id);
     
     $app->redirect('/admin/thumbnail/news/'. $news->id);
 });
@@ -213,18 +233,15 @@ $app->get('/admin/upload', function() use($app, $js_css) {
 });
 
 
-$app->post('/admin/position/', function() use($addImgThumbnail){
+$app->post('/admin/position/', function() {
     $pos = json_decode($_POST['position']);
     $arr = get_object_vars($pos);
     
-    $model = null;
     if($_POST['type'] === 'news') {
         $bind = Bind::find_all_by_news_id((int)$pos->id, array('select' => 'position, file_id, id, file_name'));
-        $model = News::find((int)$pos->id, array('select' => 'id, thumbnail'));
     }
     elseif($_POST['type'] === 'work') {
         $bind = Bind::find_all_by_work_id((int)$pos->id, array('select' => 'position, file_id, id, file_name'));
-        $model = Work::find((int)$pos->id, array('select' => 'id, thumbnail'));
     }
     else die();
     
@@ -232,9 +249,7 @@ $app->post('/admin/position/', function() use($addImgThumbnail){
         for($i = 0; $i < count($bind); ++$i){
             $bind[$i]->position = (int)$arr[(int)$bind[$i]->file_id];
             $bind[$i]->save();
-            if($bind[$i]->position === 0 && !is_null($model)) $addImgThumbnail($model, $bind[$i]->file_name);
-
-        }
+         }
     }
 
 });
@@ -257,13 +272,17 @@ $app->post('/admin/removeimg', function(){
     
 });
 
-$app->get('/admin/thumbnail/news/:id', function($id) use($app, $js_css) {
-    $thumb = News::find((int)$id, array('select' => 'thumbnail, id, mini'));
+$app->get('/admin/thumbnail/news/:id', function($id) use($app, $addImgThumbnail, $js_css) {
+	
+	$thumb = $addImgThumbnail('news', $id);
+
     $app->render('admin/thumbnail.php', array('news' => $thumb, 'return' => '/news/' . $thumb->id, 'jsCSSLibs' => $js_css));      
 });
 
-$app->get('/admin/thumbnail/work/:id', function($id) use($app, $js_css) {
-    $thumb = Work::find((int)$id, array('select' => 'thumbnail, id, mini'));
+$app->get('/admin/thumbnail/work/:id', function($id) use($app, $addImgThumbnail, $js_css) {
+    
+    $thumb = $addImgThumbnail('news', $id);
+    
     $app->render('admin/thumbnail.php', array('news' => $thumb, 'return' => '/work/' . $thumb->id . '/edit', 
                                               'jsCSSLibs' => $js_css));      
 });
@@ -456,13 +475,7 @@ $app->post('/admin/smartform/', function(){
     
 });
 
-$app->post('/admin/work/add', function() use($app, $addImgThumbnail, $bindTables){
-    
-    if (isset($_COOKIE['file'])) {
-        foreach ($_COOKIE['file'] as $name => $value) {
-            setcookie ("file[$name]", "", time() - 3600, "/admin/");
-        }
-    }
+$app->post('/admin/work/add', function() use($app, $temp2bind){
     
     $work = new Work();
     if(isset($_POST['institution'])) $work->institution = (int)$_POST['institution'];
@@ -472,7 +485,10 @@ $app->post('/admin/work/add', function() use($app, $addImgThumbnail, $bindTables
     $work->anotation = $_POST['work-desc'];
     $work->keywords = $_POST['work-keywords'];
     $work->save();
-    $bindTables('work', $work->id, $addImgThumbnail);
+
+    /*связываем новость и картинки*/
+    $temp2bind('work', $work->id);
+
     $app->redirect('/admin/thumbnail/work/'. $work->id);
     
 });

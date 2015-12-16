@@ -35,19 +35,27 @@ $removeThumbnail = function($fileName){
     }
 };
 
+$tempCallback = function($arr){
+    $temp = new Temp();
+    $temp->file_id = (int)$arr['file_id'];
+    $temp->file_name = $arr['file_name'];
+    $temp->type = $arr['type'];
+    $temp->save();
+};
 
-
-$app->get('/admin/images', function() use($app) {
+$routCallback = function() use($app, $tempCallback){
     $options = setUploadOptions($app->config('upload_options'));
+    $options['temp_callback'] = $tempCallback;
     $upload_handler = new MysqlUploadHandler($options, FALSE);
-    $upload_handler->listen();    
+    $upload_handler->listen();  
+};
+
+$app->get('/admin/images', function() use($routCallback) {
+    $routCallback();
 });
 
-$app->post('/admin/images', function() use($app) {
-    $options = setUploadOptions($app->config('upload_options'));
-    $upload_handler = new MysqlUploadHandler($options, FALSE);
-    $upload_handler->listen();
-    
+$app->post('/admin/images', function() use($routCallback) {
+    $routCallback();
 });
 
 $app->post('/admin/attache', function(){

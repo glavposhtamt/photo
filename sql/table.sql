@@ -97,3 +97,14 @@ CREATE TABLE `work` (
     INDEX ixThumb ( thumbnail )
 ) ENGINE=InnoDB COMMENT 'Таблица работ' CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+-- Создаём временную таблицу для связей
+
+CREATE TABLE `temp` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_id` int(11) DEFAULT NULL,
+  `type` ENUM('work', 'news') NOT NULL COMMENT 'Тип записи',
+  PRIMARY KEY (`id`),
+  INDEX ixName ( file_name )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
