@@ -536,3 +536,16 @@ $app->post('/admin/work/:id/:edit', function($id) use($app) {
     $work->save();
     $app->redirect('/admin/work/'. $id . '/success');
 });
+
+$app->post('/admin/temporary', function(){
+    if(isset($_POST['flag']) && $_POST['flag']){
+        $temp = new Temp();
+        $temp->file_name = $_POST['file_name'];
+        $temp->file_id = $_POST['file_id'];
+        $temp->type = $_POST['type'];
+        $temp->save();
+    } else {
+        $temp = Temp::find_by_file_id($_POST['file_id'], array('condition' => array('type', $_POST['type'])));
+        $temp->delete();
+    }
+});

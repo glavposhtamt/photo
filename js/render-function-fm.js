@@ -192,13 +192,13 @@ folders.imageChoise = function(){
             pageId = $(dataH1).data('id');
 
         img.src = $that.data('src');
-        that.remove();
+        that.parentNode.remove();
         
         img.onload = function(){
             img.width = 100;
             img.height = 100;
             
-            $.post('/admin/temporary', { type: type, pageId: pageId, id: $that.data('id'), name: $that.data('name') });
+            $.post('/admin/temporary', { type: type, file_name: $that.data('name'), file_id: $that.data('id'), flag: 1 });
             
             var div = document.createElement('div'),
                 span = document.createElement('span'),
@@ -210,8 +210,11 @@ folders.imageChoise = function(){
             button.innerHTML = 'Отмена';
             button.className = 'btn btn-warning';
             button.addEventListener('click', function(){
-                $.removeCookie(decodeURIComponent(cookieName), {'path': '/admin'});
-                alert(document.cookie);
+                var that = this;
+                
+                $.post('/admin/temporary', { type: type, file_id: $that.data('id'), flag: 0 }, function(){
+                    that.parentNode.parentNode.remove();
+                });
             }, false);
             
             p.appendChild(img);
