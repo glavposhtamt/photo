@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/jquery.fileupload.css">
     <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'fontawesome', 'folders', 'bootstrap', 'ckeditor', 'admin', 'fileupload', 'minimalUploadWidget',
                                     'render-function-fm']); ?>
+    <title>Создать работу</title>
 </head>
 <body>
     <?php include_once 'admin.php'; ?>

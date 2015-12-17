@@ -9,6 +9,7 @@
         addCssAndJs($jsCSSLibs, ['jQuery', 'folders', 'bootstrap', 'fontawesome', 'admin', 'ckeditor', 
                                  'sortable', 'render-function-fm']);
     ?>
+    <title>Редактировать работу</title>
 </head>
 <body>
 <?php include_once 'admin.php'; ?>

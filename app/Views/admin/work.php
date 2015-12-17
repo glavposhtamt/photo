@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Cache-Control" content="no-cache">
     <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'admin']);  ?>
+    <title>Наши работы</title>
 </head>
 <body>
 <?php include_once 'admin.php'; ?>

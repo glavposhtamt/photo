@@ -8,6 +8,7 @@
 
     <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'folders', 'bootstrap', 'fontawesome', 'admin', 'ckeditor', 'sortable', 
                                     'moment', 'datetimepicker', 'render-function-fm']);  ?>
+    <title>Редактировать новость</title>
 </head>
 <body>
     <?php include_once 'admin.php'; ?>

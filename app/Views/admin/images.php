@@ -8,6 +8,7 @@
     <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'admin', 'blueimp-gallery',
                                     'fileupload', 'tmpl', 'fileupload-ui', 'mainUpload']);
     ?>
+    <title>Загрузка изображений</title>
 </head>
 <body>
 <?php include_once 'admin.php'; ?>

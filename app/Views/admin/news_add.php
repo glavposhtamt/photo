@@ -13,6 +13,7 @@
     <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'fontawesome', 'folders', 'bootstrap', 'ckeditor', 'admin', 'fileupload', 'minimalUploadWidget', 
                                     'render-function-fm']);  
     ?>
+    <title>Создать новость</title>
 </head>
 <body>
 <?php include 'admin.php' ?>

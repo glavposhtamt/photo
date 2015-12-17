@@ -9,7 +9,7 @@
     addCssAndJs($jsCSSLibs, ['jQuery','admin', 'bootstrap','folders', 'fontawesome', 'contextMenu', 'blueimp-gallery',
                              'jquery.cookie', 'gallery-scripts']);
 ?>
-
+ <title>Галерея</title>
 </head>
 <body>
 <?php include_once 'admin.php'; ?>
