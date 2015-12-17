@@ -15,7 +15,7 @@ $addImgThumbnail = function($postType, $id) {
 
 	switch($postType){
 		case 'news': {
-			$bind = Bind::find_by_news_id($id, array('select' => 'file_name', 'conditions' => array('ORDER BY position limit 1')));
+			$bind = Bind::find_by_news_id($id, array('select' => 'file_name', 'limit' => 1, 'order' => 'position' ));
 			$file_name = $bind->file_name;
 			
 			$model = News::find($id, array('select' => 'thumbnail, id, mini'));
@@ -24,7 +24,7 @@ $addImgThumbnail = function($postType, $id) {
 		}
 															  
 		case 'work':  {
-			$bind = Bind::find_by_work_id($id, array('select' => 'file_name', 'conditions' => array('ORDER BY position limit 1')));
+			$bind = Bind::find_by_work_id($id, array('select' => 'file_name', 'limit' => 1, 'order' => 'position' ));
 			$file_name = $bind->file_name;
 			
 			$model = Work::find($id, array('select' => 'thumbnail, id, mini'));
@@ -233,7 +233,7 @@ $app->get('/admin/upload', function() use($app, $js_css) {
 });
 
 
-$app->post('/admin/position/', function() {
+$app->post('/admin/position/', function() use($addImgThumbnail) {
     $pos = json_decode($_POST['position']);
     $arr = get_object_vars($pos);
     
@@ -250,6 +250,7 @@ $app->post('/admin/position/', function() {
             $bind[$i]->position = (int)$arr[(int)$bind[$i]->file_id];
             $bind[$i]->save();
          }
+        $addImgThumbnail($_POST['type'], $pos->id);
     }
 
 });
@@ -281,7 +282,7 @@ $app->get('/admin/thumbnail/news/:id', function($id) use($app, $addImgThumbnail,
 
 $app->get('/admin/thumbnail/work/:id', function($id) use($app, $addImgThumbnail, $js_css) {
     
-    $thumb = $addImgThumbnail('news', $id);
+    $thumb = $addImgThumbnail('work', $id);
     
     $app->render('admin/thumbnail.php', array('news' => $thumb, 'return' => '/work/' . $thumb->id . '/edit', 
                                               'jsCSSLibs' => $js_css));      
@@ -448,6 +449,8 @@ $app->get('/admin/institution/success/', function() use($app, $js_css) {
 });
 
 $app->get('/admin/work/add', function() use($app, $js_css){
+    Temp::delete_all(array('conditions' => array('type' => 'work')));
+    
     $school = Institution::find('all', array('select' => 'DISTINCT city', 'conditions' => array('type' => 'Школа')));
     $app->render("admin/work_add.php", array('school' => $school, 'jsCSSLibs' => $js_css));
 });
