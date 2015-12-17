@@ -14,7 +14,7 @@
   position: relative;
   overflow: hidden;
   display: inline-block;
-  width: 50%;
+  width: 220px;
 }
 .fileinput-button input {
   position: absolute;
