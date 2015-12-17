@@ -10,9 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Cache-Control" content="no-cache">
     <link rel="stylesheet" href="/css/jquery.fileupload.css">
-    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'jquery.cookie', 'bootstrap', 'ckeditor', 'admin',
-                                   'fileupload', 'minimalUploadWidget']);  
-    ?>
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'ckeditor', 'admin', 'fileupload', 'minimalUploadWidget']); ?>
 </head>
 <body>
     <?php include_once 'admin.php'; ?>

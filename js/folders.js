@@ -34,7 +34,7 @@ var folders = {
 		var path = dir.split('/'),
 		demo = response,
 		flag = 0;
-
+        
 		for(var i=0;i<path.length;i++){
 		  for(var j=0;j<demo.length;j++){
 			if(demo[j].name === path[i]){
@@ -143,6 +143,7 @@ folders.scanDir = function(){
 
 	$.get('/admin/scan', function(data) {
         data = jQuery.parseJSON(data);
+        that.breadcrumbsUrls = [];
 
 		var response = [data];
 

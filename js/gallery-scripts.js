@@ -101,6 +101,9 @@ folders.render = function(data) {
     } else {
 
 	   that.fileList.addClass('animated');
+        
+        //console.log(that.breadcrumbsUrls);
+        
        that.breadcrumbsUrls.forEach(function (u, i) {
 
            var name = u.split('/');
@@ -124,9 +127,9 @@ folders.render = function(data) {
 
 	that.fileList.animate({'display':'inline-block'});
      //that.fileList.show();
-            
-     that.replaceFile();
-     that.setUploadPath();
+    
+    that.replaceFile();
+    that.setUploadPath();
 
 };
 
@@ -178,7 +181,7 @@ folders.replaceFile = function(){
                     imgPath = that.hashParse() + imgName;
                 $.post('/admin/rename', { id: id, path: imgPath, newPath: folderName + '/' + imgName, name: imgName }, 
                 function(data){
-                    that.scanDir();
+                    location.reload();
                 });
                 $li.remove();
             }

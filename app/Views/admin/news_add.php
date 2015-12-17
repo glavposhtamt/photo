@@ -10,8 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Cache-Control" content="no-cache">
 
-    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'fontawesome', 'folders', 'jquery.cookie', 'bootstrap', 'ckeditor', 'admin', 
-                                    'fileupload', 'minimalUploadWidget', 'jquery.cookie', 'render-function-fm']);  
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'fontawesome', 'folders', 'bootstrap', 'ckeditor', 'admin', 'fileupload', 'minimalUploadWidget', 
+                                    'render-function-fm']);  
     ?>
 </head>
 <body>
