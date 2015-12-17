@@ -10,7 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Cache-Control" content="no-cache">
     <link rel="stylesheet" href="/css/jquery.fileupload.css">
-    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'ckeditor', 'admin', 'fileupload', 'minimalUploadWidget']); ?>
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'fontawesome', 'folders', 'bootstrap', 'ckeditor', 'admin', 'fileupload', 'minimalUploadWidget',
+                                    'render-function-fm']); ?>
 </head>
 <body>
     <?php include_once 'admin.php'; ?>
@@ -107,9 +108,17 @@
                     </div>
                     <div class="col-lg-4">
                         <!-- The fileinput-button span is used to style the file input field as button -->
-                        <span class="btn btn-success fileinput-button upload-img">
+                        <!-- Insert from Gallery -->
+                       <button class="btn btn-info fileinput-button" data-toggle="modal" data-target="#myModal">
                             <i class="glyphicon glyphicon-plus"></i>
                             <span>Выбрать изображения</span>
+                        </button>
+                        <br>
+                        <br>
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                       <span class="btn btn-success fileinput-button upload-img">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>Загрузить изображения</span>
                             <!-- The file input field used as target for the file upload widget -->
                             <input id="fileupload" type="file" name="files[]" multiple>
                         </span>
@@ -131,6 +140,7 @@
         <div id="right-frame"></div>
         <!-- /#riht-frame -->
         <div class="clear"></div>
+        <?php require 'modal.php'; ?>
     </div>
     <!-- /#wrapper -->
 </body>
