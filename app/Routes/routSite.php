@@ -95,7 +95,15 @@ $app->get('/news/', function() use($app, $js_css) {
 });
 
 $app->get('/news/:id', function($id) use($app, $nameUrl, $getAltDescByName, $js_css){
-    $news = News::find((int)$id);
+    
+    try {
+        $news = News::find((int)$id);
+    }catch(Exception $e){
+        $app->render('404.php', array('post' => '<h1>Ошибка 404!</h1> Страница не найдена', 'jsCSSLibs' => $js_css, 
+                                           'title' => 'Ошибка 404'));
+        die();
+    }
+    
     $img = Bind::find_all_by_news_id((int)$id, array('order' => 'position'));
     
     $fName = $nameUrl();
@@ -148,8 +156,15 @@ $app->get('/ourworks/', function() use($app, $js_css){
 });
 
 $app->get('/ourworks/:id', function($id) use($app, $nameUrl, $getAltDescByName, $js_css){
-    $work = Work::find_by_sql("SELECT work.id, anotation, title FROM work 
-                                INNER JOIN institution ON work.institution = institution.id WHERE work.id = $id");
+
+    try{
+        $work = Work::find_by_sql("SELECT work.id, anotation, title FROM work 
+                                   INNER JOIN institution ON work.institution = institution.id WHERE work.id = $id");
+    }catch(Exception $e){
+        $app->render('404.php', array('post' => '<h1>Ошибка 404!</h1> Страница не найдена', 'jsCSSLibs' => $js_css, 
+                                           'title' => 'Ошибка 404'));
+        die();
+    }
     
     $fName = $nameUrl();
     
@@ -172,3 +187,9 @@ $app->get('/ourworks/:id', function($id) use($app, $nameUrl, $getAltDescByName, 
     $app->render('news_open.php', array('news' => $work, 'img' => $img_arr, 'id' => $id, 'title' => 'Наши работы',
                                         'type' => 'work', 'altDesc' => $altDesc, 'jsCSSLibs' => $js_css));
 } );
+
+
+$app->notFound(function () use ($app, $js_css) {
+    $app->render('404.php', array('post' => '<h1>Ошибка 404!</h1> Страница не найдена', 'jsCSSLibs' => $js_css, 
+                                       'title' => 'Ошибка 404'));
+});

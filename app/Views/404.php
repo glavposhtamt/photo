@@ -120,26 +120,6 @@
                 </ul>
             </div>
         </div>
-        <div id="moduleinfo">
-            <div class="container schoolminfo">
-                <?=$desc ? $desc : ''?>
-            </div>
-            <div id="tvkladki">
-                <div class="container ">
-                    <ul class="menu" id="104">
-                        <li class="item-142 ">
-                            <a href="/kids/info">Инфо</a>
-                        </li>
-                        <li class="item-143 ">
-                            <a href="/kids/price">Цены</a>
-                        </li>
-                        <li class="item-144 ">
-                            <a href="/kids/faq">Вопросы</a>
-                        </li>
-                    </ul>
-		</div>
-            </div>
-        </div>
         <div class="item-pagebook1">
             <?php if(isset($post)) { echo $post; } ?>
         </div>
