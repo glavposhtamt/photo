@@ -104,8 +104,8 @@ $temp2bind = function($table, $id){
 	}
 };
 
-$app->get('/admin/', function() use($app) {
-	$app->redirect('/admin/news');
+$app->get('/admin/', function() use($app, $js_css) {
+    $app->render('login.php', array('jsCSSLibs' => $js_css));
 });
 
 $app->get('/admin/news/', function() use($app, $js_css) {

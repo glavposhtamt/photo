@@ -47,6 +47,10 @@ $jsCSSLibs = array(
         'css' => $vendorCSS . 'jquery.Jcrop.css'
     ),
     
+    'login' => array(
+        'css' => $css . 'login.css'
+    ),
+    
     'admin' => array(
         'js' => $js . 'admin.js',
         'css' => $css . 'simple-sidebar.css'
