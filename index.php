@@ -18,6 +18,8 @@ $app = new \Slim\Slim(array(
     'js_css' => $jsCSSLibs
 ));      //instantiate a new Framework Object and define the path to the folder that holds the views for this project
 
+$app->add(new \Slim\Middleware\SessionCookie(array('secret' => 'myappsecret')));
+
 require "$projectDir/routes.php";       //include the file which contains all the routes/route inclusions
 
 

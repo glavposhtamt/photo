@@ -16,7 +16,8 @@ $addImgThumbnail = function($postType, $id) {
 	switch($postType){
 		case 'news': {
 			$bind = Bind::find_by_news_id($id, array('select' => 'file_name', 'limit' => 1, 'order' => 'position' ));
-			$file_name = $bind->file_name;
+			if($bind) $file_name = $bind->file_name;
+            else return null;
 			
 			$model = News::find($id, array('select' => 'thumbnail, id, mini'));
 			
@@ -25,7 +26,8 @@ $addImgThumbnail = function($postType, $id) {
 															  
 		case 'work':  {
 			$bind = Bind::find_by_work_id($id, array('select' => 'file_name', 'limit' => 1, 'order' => 'position' ));
-			$file_name = $bind->file_name;
+			if($bind) $file_name = $bind->file_name;
+            else return null;
 			
 			$model = Work::find($id, array('select' => 'thumbnail, id, mini'));
 			
@@ -104,28 +106,93 @@ $temp2bind = function($table, $id){
 	}
 };
 
+
+$app->get("/admin/logout/", function () use ($app) {
+   unset($_SESSION['user']);
+   $app->view()->setData('user', null);
+   $app->redirect('/');
+});
+
 $app->get('/admin/', function() use($app, $js_css) {
+    $flash = $app->view()->getData('flash');
+    $error = '';
+    
+    if (isset($flash['error'])) {
+       $error = $flash['error'];
+    }
+    
+    $urlRedirect = '/';
+    if ($app->request()->get('r') && $app->request()->get('r') != '/admin/') {
+       $_SESSION['urlRedirect'] = $app->request()->get('r');
+    }
+    
+    if (isset($_SESSION['urlRedirect'])) {
+       $urlRedirect = $_SESSION['urlRedirect'];
+    }
+    
+    $email_value = $email_error = $password_error = '';
+    if (isset($flash['email'])) {
+       $email_value = $flash['email'];
+    }
+    
+    if (isset($flash['errors']['email'])) {
+       $email_error = $flash['errors']['email'];
+    }
+    
+    if (isset($flash['errors']['password'])) {
+       $password_error = $flash['errors']['password'];
+    }
+    
     $app->render('login.php', array('jsCSSLibs' => $js_css));
 });
 
-$app->get('/admin/news/', function() use($app, $js_css) {
+$app->post("/admin/", function () use ($app) {
+    $email = $app->request()->post('email');
+    $password = $app->request()->post('password');
+
+    $errors = array();
+
+    if ($email != "cat@dog") {
+        $errors['email'] = "Email is not found.";
+    } else if ($password != "pass") {
+        $app->flash('email', $email);
+        $errors['password'] = "Password does not match.";
+    }
+
+    if (count($errors) > 0) {
+        $app->flash('errors', $errors);
+        $app->redirect('/');
+    }
+
+    $_SESSION['user'] = $email;
+
+    if (isset($_SESSION['urlRedirect'])) {
+       $tmp = $_SESSION['urlRedirect'];
+       unset($_SESSION['urlRedirect']);
+       $app->redirect($tmp);
+    }
+
+    $app->redirect('/admin/news');
+});
+
+$app->get('/admin/news/', $authenticate($app), function() use($app, $js_css) {
     $list = News::find_by_sql("SELECT id, title, date FROM news");
     $app->render('admin/news.php', array('list' => $list, 'jsCSSLibs' => $js_css));
 
 });
 
-$app->get('/admin/page', function() use($app, $func, $js_css) {
+$app->get('/admin/page', $authenticate($app), function() use($app, $func, $js_css) {
     $list = Post::find_by_sql("SELECT id, route, title, date FROM post");  
     $app->render('admin/list.php', array('arr' => $list , 'func' => $func, 'jsCSSLibs' => $js_css));
 });
 
-$app->get('/admin/page/:id', function ($id) use($app, $js_css) {
+$app->get('/admin/page/:id', $authenticate($app), function ($id) use($app, $js_css) {
     $post = Post::find((int)$id);   
     
     $app->render('admin/page.php', array('post' => $post, 'jsCSSLibs' => $js_css));
 });
 
-$app->post('/admin/page/:id', function ($id) use($app, $js_css) {
+$app->post('/admin/page/:id', $authenticate($app), function ($id) use($app, $js_css) {
     $message = "Страница успешно изменена";
     $post = Post::find((int)$id);
     $post->post = $_POST['editor1'];
@@ -135,7 +202,7 @@ $app->post('/admin/page/:id', function ($id) use($app, $js_css) {
     
 });
 
-$app->post('/admin/delete/', function () {
+$app->post('/admin/delete/', $authenticate($app), function () {
     Bind::deleteRow($_POST['type'], $_POST['id']);
     $remove = function($model){
         $model->delete();
@@ -151,14 +218,14 @@ $app->post('/admin/delete/', function () {
 
 });
 
-$app->get('/admin/news/add', function () use($app, $js_css) {
+$app->get('/admin/news/add', $authenticate($app), function () use($app, $js_css) {
  
         Temp::delete_all(array('conditions' => array('type' => 'news')));
         $app->render('admin/news_add.php', array('jsCSSLibs' => $js_css));
 });
 
 
-$app->post('/admin/news/add', function () use ($app, $temp2bind){
+$app->post('/admin/news/add', $authenticate($app), function () use ($app, $temp2bind){
     $news = new News();
     $news->title = $_POST["title"];
     $news->anotation = $_POST["anotation"];
@@ -172,7 +239,7 @@ $app->post('/admin/news/add', function () use ($app, $temp2bind){
     $app->redirect('/admin/thumbnail/news/'. $news->id);
 });
 
-$app->get('/admin/news/:id', function ($id) use($app, $selectAllImg, $js_css) {
+$app->get('/admin/news/:id', $authenticate($app), function ($id) use($app, $selectAllImg, $js_css) {
     $news = News::find((int)$id);  
     $img = Bind::find_all_by_news_id((int)$id, array('order' => 'position'));
     $gallery = $selectAllImg();
@@ -180,7 +247,7 @@ $app->get('/admin/news/:id', function ($id) use($app, $selectAllImg, $js_css) {
                                               'id' => $news->id, 'jsCSSLibs' => $js_css));
 });
 
-$app->post('/admin/news/:id', function ($id) use($app, $selectAllImg, $js_css) {
+$app->post('/admin/news/:id', $authenticate($app), function ($id) use($app, $selectAllImg, $js_css) {
     $message = "Новость успешно изменена";
     $newDate = new DateTime($_POST['date']);
     $post = News::find((int)$id);
@@ -197,7 +264,7 @@ $app->post('/admin/news/:id', function ($id) use($app, $selectAllImg, $js_css) {
     
 });
 
-$app->get('/admin/settings', function() use($app, $selectAllImg, $js_css) {
+$app->get('/admin/settings', $authenticate($app), function() use($app, $selectAllImg, $js_css) {
     $gallery = $selectAllImg();
     $count = Watermark::num_rows();
     if($count === 1){ 
@@ -222,7 +289,7 @@ $app->get('/admin/settings', function() use($app, $selectAllImg, $js_css) {
     $app->render('admin/settings.php', array('gallery' => $gallery, 'file_name' => $wi, 'jsCSSLibs' => $js_css));
 });
 
-$app->get('/admin/gallery', function() use($app, $js_css) {
+$app->get('/admin/gallery', $authenticate($app), function() use($app, $js_css) {
     
     $app->render('admin/gallery.php', array('jsCSSLibs' => $js_css));
 });
@@ -233,7 +300,7 @@ $app->get('/admin/upload', function() use($app, $js_css) {
 });
 
 
-$app->post('/admin/position/', function() use($addImgThumbnail) {
+$app->post('/admin/position/', $authenticate($app), function() use($addImgThumbnail) {
     $pos = json_decode($_POST['position']);
     $arr = get_object_vars($pos);
     
@@ -255,7 +322,7 @@ $app->post('/admin/position/', function() use($addImgThumbnail) {
 
 });
 
-$app->post('/admin/bind', function(){
+$app->post('/admin/bind', $authenticate($app), function(){
     $bind = new Bind();
     $bind->file_id = (int)$_POST['file_id'];
     $bind->file_name = $_POST['file_name'];
@@ -265,7 +332,7 @@ $app->post('/admin/bind', function(){
     
 });
 
-$app->post('/admin/removeimg', function(){
+$app->post('/admin/removeimg', $authenticate($app), function(){
     $id =  $_POST['file_id'];
     $bind = Bind::find_by_file_id((int)$id);
     if($bind) $bind->delete();
@@ -273,22 +340,22 @@ $app->post('/admin/removeimg', function(){
     
 });
 
-$app->get('/admin/thumbnail/news/:id', function($id) use($app, $addImgThumbnail, $js_css) {
+$app->get('/admin/thumbnail/news/:id', $authenticate($app), function($id) use($app, $addImgThumbnail, $js_css) {
 	
 	$thumb = $addImgThumbnail('news', $id);
 
-    $app->render('admin/thumbnail.php', array('news' => $thumb, 'return' => '/news/' . $thumb->id, 'jsCSSLibs' => $js_css));      
+    $app->render('admin/thumbnail.php', array('news' => $thumb, 'return' => '/news/' . $id, 'jsCSSLibs' => $js_css));      
 });
 
-$app->get('/admin/thumbnail/work/:id', function($id) use($app, $addImgThumbnail, $js_css) {
+$app->get('/admin/thumbnail/work/:id', $authenticate($app), function($id) use($app, $addImgThumbnail, $js_css) {
     
     $thumb = $addImgThumbnail('work', $id);
     
-    $app->render('admin/thumbnail.php', array('news' => $thumb, 'return' => '/work/' . $thumb->id . '/edit', 
+    $app->render('admin/thumbnail.php', array('news' => $thumb, 'return' => '/work/' . $id . '/edit', 
                                               'jsCSSLibs' => $js_css));      
 });
 
-$app->post('/admin/thumbnail/:id', function($id) {
+$app->post('/admin/thumbnail/:id', $authenticate($app), function($id) {
     if(!is_dir(CROP_PATH)){
         if(!mkdir(CROP_PATH, 0755)){
             die();
@@ -317,7 +384,7 @@ $app->post('/admin/thumbnail/:id', function($id) {
     die( 'files/.crop/' . $cropName);
 });
 
-$app->post('/admin/watermark/:id', function($id) use($watermark){
+$app->post('/admin/watermark/:id', $authenticate($app), function($id) use($watermark){
     $count_img = Bind::num_rows();
     if($_POST['type'] === 'news')
         $img = Bind::find_all_by_news_id((int)$id, array('select' => 'file_name'));
@@ -372,7 +439,7 @@ $app->post('/admin/watermark/:id', function($id) use($watermark){
     die("Водяные знаки успешно установлены!");
 });
 
-$app->post('/admin/setwatermark/', function(){
+$app->post('/admin/setwatermark/', $authenticate($app), function(){
     $count = Watermark::num_rows();
     if($count === 0){
         $watermark = new Watermark();
@@ -392,7 +459,7 @@ $app->post('/admin/setwatermark/', function(){
     } 
 });
 
-$app->get('/admin/getwatername', function(){
+$app->get('/admin/getwatername', $authenticate($app), function(){
     try{
         $name = Files::find((int)$_GET['id']);
     }
@@ -402,13 +469,13 @@ $app->get('/admin/getwatername', function(){
     die($name->url);
 });
 
-$app->get('/admin/work/', function() use($app, $js_css) {
+$app->get('/admin/work/', $authenticate($app), function() use($app, $js_css) {
     $list = Work::find_by_sql('SELECT work.id, title, city FROM work INNER JOIN institution ON work.institution = institution.id');
 	$app->render('admin/work.php', array('list' => $list, 'jsCSSLibs' => $js_css));
 
 });
 
-$app->get('/admin/institution/', function() use($app, $js_css) {
+$app->get('/admin/institution/', $authenticate($app), function() use($app, $js_css) {
     $inst = Institution::find('all');
     $count = Institution::num_rows();
     $city = Institution::get_unique_cityes();  
@@ -417,7 +484,7 @@ $app->get('/admin/institution/', function() use($app, $js_css) {
 
 });
 
-$app->post('/admin/institution/', function() use($app) {
+$app->post('/admin/institution/', $authenticate($app), function() use($app) {
 
     $type = (int)$_POST['type'];
     if($type > 0 && $type < 4 ){
@@ -440,7 +507,7 @@ $app->post('/admin/institution/', function() use($app) {
 
 });
 
-$app->get('/admin/institution/success/', function() use($app, $js_css) {
+$app->get('/admin/institution/success/', $authenticate($app), function() use($app, $js_css) {
     $count = Institution::num_rows();
     $inst = Institution::find('all');
     $city = Institution::get_unique_cityes();
@@ -448,14 +515,14 @@ $app->get('/admin/institution/success/', function() use($app, $js_css) {
 
 });
 
-$app->get('/admin/work/add', function() use($app, $js_css){
+$app->get('/admin/work/add', $authenticate($app), function() use($app, $js_css){
     Temp::delete_all(array('conditions' => array('type' => 'work')));
     
     $school = Institution::find('all', array('select' => 'DISTINCT city', 'conditions' => array('type' => 'Школа')));
     $app->render("admin/work_add.php", array('school' => $school, 'jsCSSLibs' => $js_css));
 });
 
-$app->post('/admin/smartform/', function(){
+$app->post('/admin/smartform/', $authenticate($app), function(){
     if(isset($_POST['query']) && $_POST['query'] === 'city'){
         $city = Institution::all(array('select' => 'DISTINCT city', 'conditions' => array('type' => trim($_POST['type']))));
         $arr = []; $i = 0;
@@ -478,11 +545,11 @@ $app->post('/admin/smartform/', function(){
     
 });
 
-$app->post('/admin/work/add', function() use($app, $temp2bind){
+$app->post('/admin/work/add', $authenticate($app), function() use($app, $temp2bind){
     
     $work = new Work();
-    if(isset($_POST['institution'])) $work->institution = (int)$_POST['institution'];
-    else return;
+    if(isset($_POST['institution']) && (int)$_POST['institution'] > 0) $work->institution = (int)$_POST['institution'];
+    else $app->redirect('/admin/work/add');
     if(isset($_POST['work-class'])) $work->school_class = $_POST['work-class'];
     $work->year = $_POST['work-year'];
     $work->anotation = $_POST['work-desc'];
@@ -496,11 +563,11 @@ $app->post('/admin/work/add', function() use($app, $temp2bind){
     
 });
 
-$app->get('/admin/work/:id/:succes', function($id, $succes) use($app, $selectAllImg, $js_css){
+$app->get('/admin/work/:id/:succes', $authenticate($app), function($id, $succes) use($app, $selectAllImg, $js_css){
     $types = ['Школа', 'ВУЗ', 'Детский сад'];
     
     $list = Work::find_by_sql('SELECT work.id, title, school_class, type, year, city, anotation, work.institution, keywords FROM work INNER JOIN institution ON work.institution = institution.id WHERE work.id = ' . $id);
-    
+        
     $list = $list[0];
     
     $city = Institution::find('all', array('select' => 'DISTINCT city', 'conditions' => array('type = ? AND city NOT IN (?)',
@@ -518,14 +585,14 @@ $app->get('/admin/work/:id/:succes', function($id, $succes) use($app, $selectAll
     
 });
 
-$app->post('/admin/remove/institution', function(){
+$app->post('/admin/remove/institution', $authenticate($app), function(){
     $inst = Institution::find((int)$_POST['id']);
     Work::remove((int)$_POST['id']);
     $inst->delete();
     die('Успех!');
 });
 
-$app->post('/admin/work/:id/:edit', function($id) use($app) {
+$app->post('/admin/work/:id/:edit', $authenticate($app), function($id) use($app) {
     $work = Work::find((int)$id);
     if(isset($_POST['institution'])) $work->institution = (int)$_POST['institution'];
     else return;
@@ -537,7 +604,7 @@ $app->post('/admin/work/:id/:edit', function($id) use($app) {
     $app->redirect('/admin/work/'. $id . '/success');
 });
 
-$app->post('/admin/temporary', function(){
+$app->post('/admin/temporary', $authenticate($app), function(){
     if(isset($_POST['flag']) && $_POST['flag']){
         $temp = new Temp();
         $temp->file_name = $_POST['file_name'];

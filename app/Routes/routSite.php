@@ -160,6 +160,8 @@ $app->get('/ourworks/:id', function($id) use($app, $nameUrl, $getAltDescByName, 
     try{
         $work = Work::find_by_sql("SELECT work.id, anotation, title FROM work 
                                    INNER JOIN institution ON work.institution = institution.id WHERE work.id = $id");
+        $work = $work[0];
+        
     }catch(Exception $e){
         $app->render('404.php', array('post' => '<h1>Ошибка 404!</h1> Страница не найдена', 'jsCSSLibs' => $js_css, 
                                            'title' => 'Ошибка 404'));
@@ -168,7 +170,6 @@ $app->get('/ourworks/:id', function($id) use($app, $nameUrl, $getAltDescByName, 
     
     $fName = $nameUrl();
     
-    $work = $work[0];
     $img = Bind::find_all_by_work_id((int)$id, array('order' => 'position'));
     
     $img_arr = []; $i = 0; $altDesc = [];

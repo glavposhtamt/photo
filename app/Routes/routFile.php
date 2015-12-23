@@ -50,15 +50,15 @@ $routCallback = function() use($app, $tempCallback){
     $upload_handler->listen();  
 };
 
-$app->get('/admin/images', function() use($routCallback) {
+$app->get('/admin/images', $authenticate($app), function() use($routCallback) {
     $routCallback();
 });
 
-$app->post('/admin/images', function() use($routCallback) {
+$app->post('/admin/images', $authenticate($app), function() use($routCallback) {
     $routCallback();
 });
 
-$app->post('/admin/attache', function(){
+$app->post('/admin/attache', $authenticate($app), function(){
     $id = $_POST['id'];
     $files = Files::find((int)$id);
     $files->description = $_POST['description'];
@@ -66,7 +66,7 @@ $app->post('/admin/attache', function(){
     $files->save();
 });
 
-$app->get('/admin/scan', function(){
+$app->get('/admin/scan', $authenticate($app), function(){
 
 // Run the recursive function 
     
@@ -89,12 +89,12 @@ $app->get('/admin/scan', function(){
     ));
 });
 
-$app->post('/admin/newfolder', function(){
+$app->post('/admin/newfolder', $authenticate($app), function(){
     $translitName = Translit::object()->convert($_POST['name'], 'ru,latin');
     if(!is_dir(FILES_PATH . $translitName)) mkdir(FILES_PATH . $translitName);
 });
 
-$app->post('/admin/rename', function(){
+$app->post('/admin/rename', $authenticate($app), function(){
 
     if(is_file(FILES_PATH . '/' . $_POST['path'])){
         $file = Files::find_by_name($_POST['name']);
@@ -107,7 +107,7 @@ $app->post('/admin/rename', function(){
 
 });
 
-$app->post('/admin/dropfile', function() use($delTree, $removeThumbnail, $app){
+$app->post('/admin/dropfile', $authenticate($app), function() use($delTree, $removeThumbnail, $app){
     $upload_handler = new MysqlUploadHandler($app->config('upload_options'), FALSE);
     
     if($_POST['type'] === 'folders') {
@@ -172,7 +172,7 @@ $app->post('/admin/dropfile', function() use($delTree, $removeThumbnail, $app){
     
 });
 
-$app->post("/admin/alt", function() use($app) {
+$app->post("/admin/alt", $authenticate($app), function() use($app) {
     if(isset($_REQUEST['img-path'])){
         
         $file = Files::find_by_url(trim($_REQUEST['img-path']));

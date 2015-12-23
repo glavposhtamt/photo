@@ -17,7 +17,7 @@
                         <h1>Выбор миниатюры:</h1>
                         <div class="row">
                             <div class="col-lg-8 col-md-8">
-                                <?php if(!is_null($news->thumbnail)): ?>
+                                <?php if(!is_null($news) && !is_null($news->thumbnail)): ?>
                                     <img src="/files/.mini/<?=$news->thumbnail?>" alt="[Jcrop Example]" id="target" > 
                                 <?php else: ?>
                                     <span class="label label-danger">В этой новости нет картинок!</span>
@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <section id="canvasbox">
-                                    <?php if(!is_null($news->mini)) : ?>
+                                    <?php if(!is_null($news) && !is_null($news->mini)) : ?>
                                         <img src="/files/.crop/<?=$news->mini?>" id="imgCrop" alt="Миниатюра">
                                     <?php endif; ?>
                                 </section>
