@@ -7,7 +7,9 @@
             <div id="current-user">
                 <span class="glyphicon glyphicon-user" aria-hidden="true" ></span>
                 <span class="user-name">Денис Беляев</span>
-                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" ></span>
+                <a href="/admin/logout" id="logout">
+                    <i class="fa fa-sign-out fa-2"></i>
+                </a>
             </div>
             <div class="clear"></div>
         </div>
