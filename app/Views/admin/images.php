@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Cache-Control" content="no-cache">
-    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'admin', 'blueimp-gallery',
+    <?php  addCssAndJs($jsCSSLibs, ['jQuery', 'bootstrap', 'fontawesome', 'admin', 'blueimp-gallery',
                                     'fileupload', 'tmpl', 'fileupload-ui', 'mainUpload']);
     ?>
     <title>Загрузка изображений</title>
