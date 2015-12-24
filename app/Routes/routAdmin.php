@@ -149,7 +149,7 @@ $app->post("/admin/", function () use ($app) {
     User::create_default_user();
     
     if (!User::check_pass($email, $password)) {
-        $errors['user'] = "Пользователя не существует, либо неверный пароль";
+        $errors['user'] = "Пользователь не существует, либо неверный пароль";
     }
 
     if (count($errors) > 0) {
