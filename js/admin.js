@@ -263,3 +263,23 @@ jQuery(document).ready(function(){
         });
     });
 });
+
+/* Confirm password */
+
+jQuery(document).ready(function(){
+    var password = document.getElementById("password"),
+        confirm_password = document.getElementById("confirm_password");
+
+    if(!password && !confirm_password) return;
+    
+    function validatePassword(){
+        if(password.value != confirm_password.value) {
+          confirm_password.setCustomValidity("Пароли не совпадают");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+});

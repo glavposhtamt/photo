@@ -17,12 +17,14 @@
                         <h1 id="settings-h1">Настройки</h1>
                         <div class="row">
                             <div class="col-lg-6">
+                                <?php if(isset($message)) : ?>
+                                    <span class="label label-success"><?=$message?></span>
+                                <?php endif; ?>
                                 <h3>Смена пароля:</h3>
-                                <form role="form" class="settings">
-                                    <input type="password" name="old-pass" class="form-control" placeholder="Старый пароль">
-                                    <input type="password" name="new-pass" class="form-control" placeholder="Новый пароль">
-                                    <input type="password" name="confirm-pass" class="form-control"
-                                            placeholder="Повотрите новый пароль">
+                                <form role="form" class="settings" method="post" action="/admin/change">
+                                    <input id="password" type="password" name="new-pass" class="form-control" placeholder="Новый пароль" required>
+                                    <input id="confirm_password" type="password" name="confirm-pass" class="form-control"
+                                            placeholder="Повотрите новый пароль" required>
                                             
                                     <input type="submit" class="btn btn-info btn-lg" value="Изменить пароль">
                                 </form>

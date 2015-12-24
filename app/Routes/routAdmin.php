@@ -114,6 +114,9 @@ $app->get("/admin/logout/", function () use ($app) {
 });
 
 $app->get('/admin/', function() use($app, $js_css) {
+    
+    if($app->view()->getData('user')) $app->redirect('/admin/news');
+    
     $flash = $app->view()->getData('flash');
     $error = '';
     
@@ -257,7 +260,11 @@ $app->post('/admin/news/:id', $authenticate($app), function ($id) use($app, $sel
     
 });
 
-$app->get('/admin/settings', $authenticate($app), function() use($app, $selectAllImg, $js_css) {
+$app->get('/admin/settings/:succes', $authenticate($app), function($succes) use($app, $selectAllImg, $js_css) {
+    
+    
+    $message = $succes === 'pass' ? 'Парль успешно изменён!' : '';
+        
     $gallery = $selectAllImg();
     $count = Watermark::num_rows();
     if($count === 1){ 
@@ -279,7 +286,7 @@ $app->get('/admin/settings', $authenticate($app), function() use($app, $selectAl
         $wi = FALSE;
     }
     
-    $app->render('admin/settings.php', array('gallery' => $gallery, 'file_name' => $wi, 'jsCSSLibs' => $js_css));
+    $app->render('admin/settings.php', array('gallery' => $gallery, 'file_name' => $wi, 'jsCSSLibs' => $js_css, 'message' => $message ));
 });
 
 $app->get('/admin/gallery', $authenticate($app), function() use($app, $js_css) {
@@ -608,4 +615,16 @@ $app->post('/admin/temporary', $authenticate($app), function(){
         $temp = Temp::find_by_file_id($_POST['file_id'], array('condition' => array('type', $_POST['type'])));
         $temp->delete();
     }
+});
+
+$app->post('/admin/change', $authenticate($app), function() use ($app){
+    $user = $app->view()->getData('user');
+    $pass = $app->request()->post('new-pass');    
+       
+    var_dump($user);
+    var_dump($pass);
+    
+    if($pass) User::change_password($user, $pass);
+    
+    $app->redirect('/admin/settings/pass');
 });

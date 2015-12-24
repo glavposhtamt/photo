@@ -24,4 +24,10 @@ class User extends ActiveRecord\Model {
             $user->save();
         }
     }
+    
+    public static function change_password($user, $pass){
+        $obj = self::find_by_user($user, array('select' => 'id, pass'));
+        $obj->pass = password_hash($pass, PASSWORD_DEFAULT);
+        $obj->save();
+    }
 }

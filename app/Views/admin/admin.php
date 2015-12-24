@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/settings">
+                    <a href="/admin/settings/set">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true" ></span>
                         <span class="anchor">Настройки</span>
                     </a>
