@@ -110,7 +110,7 @@ $temp2bind = function($table, $id){
 $app->get("/admin/logout/", function () use ($app) {
    unset($_SESSION['user']);
    $app->view()->setData('user', null);
-   $app->redirect('/');
+   $app->redirect('/admin/');
 });
 
 $app->get('/admin/', function() use($app, $js_css) {
@@ -130,20 +130,14 @@ $app->get('/admin/', function() use($app, $js_css) {
        $urlRedirect = $_SESSION['urlRedirect'];
     }
     
-    $email_value = $email_error = $password_error = '';
-    if (isset($flash['email'])) {
-       $email_value = $flash['email'];
+    $email_error = '';
+    
+    if (isset($flash['errors']['user'])) {
+       $email_error = $flash['errors']['user'];
     }
     
-    if (isset($flash['errors']['email'])) {
-       $email_error = $flash['errors']['email'];
-    }
     
-    if (isset($flash['errors']['password'])) {
-       $password_error = $flash['errors']['password'];
-    }
-    
-    $app->render('login.php', array('jsCSSLibs' => $js_css));
+    $app->render('login.php', array('jsCSSLibs' => $js_css, 'email_error' => $email_error));
 });
 
 $app->post("/admin/", function () use ($app) {
@@ -152,16 +146,15 @@ $app->post("/admin/", function () use ($app) {
 
     $errors = array();
 
-    if ($email != "cat@dog") {
-        $errors['email'] = "Email is not found.";
-    } else if ($password != "pass") {
-        $app->flash('email', $email);
-        $errors['password'] = "Password does not match.";
+    User::create_default_user();
+    
+    if (!User::check_pass($email, $password)) {
+        $errors['user'] = "Пользователя не существует, либо неверный пароль";
     }
 
     if (count($errors) > 0) {
         $app->flash('errors', $errors);
-        $app->redirect('/');
+        $app->redirect('/admin/');
     }
 
     $_SESSION['user'] = $email;

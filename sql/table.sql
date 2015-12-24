@@ -108,3 +108,14 @@ CREATE TABLE `temp` (
   INDEX ixName ( file_name )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- Создаём таблицу пользователей
+
+CREATE TABLE `user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user` varchar(255) NOT NULL,
+  `pass` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX ixUser ( `user` ),
+  INDEX ixPass ( `pass` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
