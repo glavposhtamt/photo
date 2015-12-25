@@ -1815,7 +1815,7 @@ p
 {
 	width:180px;
 }
-.comments .val input, .comments .val textarea
+.comments .val input, .comments .val textarea, .comments .val select
 {
 	width: 430px;
     height: 25px;
@@ -1826,6 +1826,10 @@ p
 .comments .val textarea
 {
 	height: 70px;
+}
+
+.comments .val select {
+    width: 443px;
 }
 .comments .send
 {

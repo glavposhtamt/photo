@@ -628,3 +628,7 @@ $app->post('/admin/change', $authenticate($app), function() use ($app){
     
     $app->redirect('/admin/settings/pass');
 });
+
+$app->get('/admin/review', $authenticate($app), function() use($app, $js_css) {
+    $app->render('admin/review.php', array('jsCSSLibs' => $js_css));
+});

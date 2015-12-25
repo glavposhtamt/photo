@@ -198,9 +198,44 @@ $app->notFound(function () use ($app, $js_css) {
 });
 
 $app->get('/review', function() use($app, $js_css){
-    $app->render('review.php', array('jsCSSLibs' => $js_css, 'type' => 'r'));
+    $institution = Institution::find('all');
+    $app->render('review.php', array('jsCSSLibs' => $js_css, 'type' => 'r', 'inst' => $institution));
 });
 
 $app->get('/question', function() use($app, $js_css){
-    $app->render('review.php', array('jsCSSLibs' => $js_css, 'type' => 'q'));
+    $institution = Institution::find('all');
+    $app->render('review.php', array('jsCSSLibs' => $js_css, 'type' => 'q', 'inst' => $institution));
+});
+
+
+$addReviewQuestion = function() use($app, $js_css){
+    $re = new Review();
+    $re->author = $app->request()->post('author');
+    $re->phone = $app->request()->post('phone');
+    $re->email = $app->request()->post('email');
+    $re->institution = $app->request()->post('institution');
+    $re->message = $app->request()->post('text');
+    $re->type = $app->request()->post('type');
+    
+    try{
+        $re->save();
+    }catch(Exception $e){}
+    
+    
+};
+
+$app->post('/review', function() use($app, $addReviewQuestion){
+
+    $addReviewQuestion();
+    
+    $app->redirect('/review');
+    
+});
+
+$app->post('/question', function() use($app, $addReviewQuestion){
+
+    $addReviewQuestion();
+    
+    $app->redirect('/question');
+    
 });

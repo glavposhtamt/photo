@@ -119,3 +119,21 @@ CREATE TABLE `user` (
   INDEX ixPass ( `pass` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- Отзывы/Советы
+
+CREATE TABLE `review` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `author` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `institution` int UNSIGNED DEFAULT 0 COMMENT 'ID учебного заведения',
+  `message` text NOT NULL DEFAULT '' COMMENT 'Текст',
+  `type` varchar(10) NOT NULL,
+  `status` int(1) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  INDEX ixUser ( `institution` ),
+  INDEX ixPass ( `type` ),
+  INDEX ixStatus ( `status` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+

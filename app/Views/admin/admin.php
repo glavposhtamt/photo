@@ -48,6 +48,12 @@
                         <span class="anchor">Настройки</span>
                     </a>
                 </li>
+                <li>
+                    <a href="/admin/review">
+                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" ></span>
+                        <span class="anchor">Отзывы/Вопросы</span>
+                    </a>
+                </li>
             </ul>
         </div>
         

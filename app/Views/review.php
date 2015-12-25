@@ -41,46 +41,45 @@
                        </div>
                        <div class="comments">
                            <div class="red_popup review_add">
-                               <form id="TComments5" action="/actions.php" class="form" method="post">
-                                   <input name="mode" value="TComments" type="hidden">
-                                   <input name="parent" value="5" type="hidden">
-                                   <input name="do" value="add" type="hidden">
-                                   <input name="answer_to" value="0" type="hidden">
-                                   <input name="type" value="review" type="hidden">
+                               <form id="" class="form" method="post">
+                                   <input name="type" value="<?=$type; ?>" type="hidden">
                                    <div class="field">
-                                       <div class="name">ФИО: <span class="star">*</span>: </div>
+                                       <div class="name">Имя *: </div>
                                        <div class="val">
-                                           <input name="author" placeholder="ФИО" required="" type="text">
+                                           <input name="author" placeholder="Имя" required type="text">
                                        </div>
                                    </div>
                                    <div class="field">
-                                       <div class="name">E-mail <span class="star">*</span>: </div>
+                                       <div class="name">E-mail *: </div>
                                        <div class="val">
-                                           <input name="email" placeholder="e-mail@domain.com" required="" type="text">
+                                           <input name="email" placeholder="e-mail@domain.com" required type="email">
                                        </div>
                                    </div>
                                    <div class="field">
                                        <div class="name">Телефон: </div>
                                        <div class="val">
-                                           <input name="phone" placeholder="" type="text">
+                                           <input name="phone" placeholder="+7(978)866-73-78" type="phone">
                                        </div>
                                    </div>
                                    <div class="field">
-                                       <div class="name">Учебное заведение: </div>
+                                       <div class="name">
+                                           Учебное заведение <?php if($type == 'r') : ?> * <?php endif; ?>: 
+                                        </div>
                                        <div class="val">
-                                           <input name="institution" placeholder="" type="text">
+                                            <select name="institution">
+                                                <option>Учебное заведение</option>
+                                                <?php foreach($inst as $value) : ?>
+                                                    <option value="<?=$value->id?>"><?=$value->title?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                        </div>
                                    </div>
                                    <div class="field">
-                                       <div class="name">Класс: </div>
+                                       <div class="name">
+                                           <?=$type == 'r' ? 'Отзыв *' : 'Вопрос *'; ?>: 
+                                        </div>
                                        <div class="val">
-                                           <input name="class" placeholder="" type="text">
-                                       </div>
-                                   </div>
-                                   <div class="field">
-                                       <div class="name"><?=$type == 'r' ? 'Отзыв' : 'Вопрос'; ?>: </div>
-                                       <div class="val">
-                                           <textarea name="text" required=""></textarea>
+                                           <textarea name="text" required></textarea>
                                        </div>
                                    </div>
                                    <div class="submit" style="text-align:center;">
