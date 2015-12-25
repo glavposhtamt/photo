@@ -5,7 +5,7 @@ body
   font-family: Tahoma;
   line-height: 15px;
   
-  background: #593504 url('/images/bg.png') repeat-y center top;
+  background: #593504 url('/img/bg.png') repeat-y center top;
 }
 
 a
@@ -99,7 +99,7 @@ input:focus, a:focus, textarea:focus, button:focus, select:focus
   width: 65px;
   height: 13px;
   
-  background: url('/images/sprite.png') no-repeat -88px 0;
+  background: url('/img/sprite.png') no-repeat -88px 0;
 }
 
 #messageswindow, 
@@ -228,7 +228,7 @@ input:focus, a:focus, textarea:focus, button:focus, select:focus
   text-decoration: none;
   text-transform: lowercase;
   
-  background: url('/images/sprite-menu.png') no-repeat 0 0;
+  background: url('/img/sprite-menu.png') no-repeat 0 0;
   
   //display: inline;
   //zoom: 1;

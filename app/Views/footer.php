@@ -30,8 +30,8 @@
 
                         <div class="text" id="obj_1358">
                             <p>
-                                <a href="http://smsc.ru/" target="_blank"><img src="/images/smsc_button.gif" alt="SMS-центр" height="31"></a>
-                                <a><img src="/images/counters.jpg" alt=""></a>
+                                <a href="http://smsc.ru/" target="_blank"><img src="/img/smsc_button.gif" alt="SMS-центр" height="31"></a>
+                                <a><img src="/img/counters.jpg" alt=""></a>
                             </p>
 
                         </div>

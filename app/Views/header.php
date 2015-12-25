@@ -1,6 +1,6 @@
 <div class="header">
     <div class="logo">
-        <a href="/" title="StartUP"><img src="/images/logo_ru.png" alt="StartUP"></a>
+        <a href="/" title="StartUP"><img src="/img/logo_ru.png" alt="StartUP"></a>
     </div>
 
     <div class="toploginform" id="obj_1">

@@ -423,7 +423,7 @@ p
 {
   display: block;
   
-  background: url('/images/sprite.png') no-repeat 0 0;
+  background: url('/img/sprite.png') no-repeat 0 0;
 }
 
 .sub_menu.custom ul li > a.link .first
@@ -828,7 +828,7 @@ p
   margin-top: -37px;
   margin-left: -37px;
   
-  background: rgba(255, 255, 255, 0.7) url('/images/sprite.png') no-repeat -236px -147px;
+  background: rgba(255, 255, 255, 0.7) url('/img/sprite.png') no-repeat -236px -147px;
   
   border: 20px solid transparent;
   -webkit-border-radius: 50%;
@@ -1188,7 +1188,7 @@ p
   
   text-indent: -20000px;
   
-  background: url('/images/sprite.png') no-repeat;
+  background: url('/img/sprite.png') no-repeat;
 }
 
 .rubricator .tabs a:hover,

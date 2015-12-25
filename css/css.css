@@ -53,7 +53,7 @@
   width: 28px;
   height: 25px;
   
-  background: url('/images/sprite.png') no-repeat -236px -90px;
+  background: url('/img/sprite.png') no-repeat -236px -90px;
 }
 
 .header .email
@@ -73,7 +73,7 @@
   width: 22px;
   height: 25px;
   
-  background: url('/images/sprite.png') no-repeat -264px -90px;
+  background: url('/img/sprite.png') no-repeat -264px -90px;
 }
 
 
@@ -109,7 +109,7 @@
   width: 50px;
   height: 57px;
   
-  background: url('/images/sprite.png') no-repeat -88px -90px;
+  background: url('/img/sprite.png') no-repeat -88px -90px;
 }
 
 .header .toploginform a
@@ -136,7 +136,7 @@
   margin-top: 20px;
   padding: 15px 24px;
   
-  background: url('/images/bg-content.jpg') repeat-y left top;
+  background: url('/img/book1000.jpg') repeat-y left top;
   background-size: 101%;
   
   border-top: 4px solid #000;
@@ -173,7 +173,7 @@
   width: 54px;
   height: 54px;
   
-  background: url('/images/sprite.png') no-repeat -1px -147px;
+  background: url('/img/sprite.png') no-repeat -1px -147px;
 }
 
 .panel_socials .socials .links .tw

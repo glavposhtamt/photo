@@ -18,20 +18,7 @@
     <div class="wrap">
         <?php require 'header.php' ?>
             <div id="b1">
-                <div id="login">
-                    <a href="#" title="Войти в личный кабинет">Личный кабинет</a>
-                </div>
-                <div id="rkontakt">
-                    <a class="logo" title="StartUP" alt="StartUP" href="/"> </a>
-                    <span class="rkp">+7(495) 776-61-33<br>+7(926) 269-09-64</span>
-                    <span class="rke">
-                        <a href="mailto:info@startupfoto.ru">info@startupfoto.ru</a><br>
-                        <a href="mailto:info@startupfoto.ru">zel@startupfoto.ru</a><br>
-                        <a href="mailto:info@startupfoto.ru">nn@startupfoto.ru</a><br>
-                        <a href="mailto:info@startupfoto.ru">penza@startupfoto.ru</a>
-                    </span>
-                </div>
-                
+                               
                 <?php require 'topmenu.php'; ?>
                 
                 <?php require 'menu.php' ?>
