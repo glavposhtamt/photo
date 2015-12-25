@@ -52,49 +52,38 @@
                         </div>
                     </div>
 
-                    <div id="system-message-container"></div>
-
-                    <div class="blog-featured"> </div>
-
                     <div class="content">
-
-                        <div>
-
-                            <div class="" id="obj_1361">
-                                <div class="preview">
-                                    <div class="preview_title"><a href="http://www.startupfoto.ru/news/">Последние новости</a></div>
-                                    <div class="elements">
-                                        <div class="preview_object tr0">
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="td_pic">
-                                                            <div class="image">
-                                                                <a href="http://www.startupfoto.ru/news/5/">
-                                                                    <img src="/images/preview_oblozhka.jpg" alt="Как оформить фотоальбом? Полезные советы фото" title="Как оформить фотоальбом? Полезные советы фото">
-
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="title"><a href="http://www.startupfoto.ru/news/5/">Как оформить фотоальбом? Полезные советы</a></div>
-                                                            <div class="text">Цифровые технологии побуждают многих людей хранить фотографии в папках на компьютере. Но вряд ли стоит считать бумажные фотоальбомы «вчерашним днем». Красиво оформленный альбом с отборными фото смотреть куда приятнее, чем...</div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                        <div class="preview">
+                            <div class="preview_title">
+                                <a href="/news">
+                                    Последние новости
+                                </a>
+                            </div> 
+                        </div>
+                        <div class="news-list">
+                            <?php foreach ($news as $value) : ?>
+                                <div class="news-wrapper">
+                                    <div class="mini-img">
+                                        <?php if($value->mini) :?>
+                                            <img src="/files/.crop/<?=$value->mini?>" alt="mini">
+                                            <?php endif; ?>
+                                    </div>
+                                    <div class="anotation">
+                                        <h1><a href="/news/<?=$value->id?>"><?=$value->title?></a></h1>
+                                        <div class="anotation-desc">
+                                            <?=$value->anotation?>
                                         </div>
                                     </div>
+                                    <div class="clear"></div>
+                                    <div class="white-line">
+                                        <div class="border-dotted"></div>
+                                        <div class="border-none"></div>
+                                    </div>
                                 </div>
-                            </div>
-
+                                <?php endforeach; ?>
                         </div>
 
-
                     </div>
-
-
-
 
                     <?php require 'footer.php' ?>
             </div>

@@ -40,8 +40,10 @@ $getAltDescByName = function($name){
     else return [];
 };
 
-$app->get('/', function() use($app, $js_css) {	
-    $app->render('home.php', array('jsCSSLibs' => $js_css)); 
+$app->get('/', function() use($app, $js_css) {
+    $news = News::find('all', array('select' => 'mini, thumbnail, id, anotation, title', 'order' => 'date', 'limit' => 3));
+    
+    $app->render('home.php', array('jsCSSLibs' => $js_css, 'news' => $news)); 
 });
 
 $app->get('/kids/', function() use($app, $js_css) { routes('kids', $app, $js_css); });
@@ -89,7 +91,7 @@ $app->get('/contacts/vacancies/', function() use($app, $js_css) { routes('contac
 
 $app->get('/news/', function() use($app, $js_css) {
     #$news = Bind::find_by_sql('SELECT file_name, title, anotation, news.id FROM bind inner join news on bind.news_id = news.id WHERE position IN ( SELECT MIN(position) as position FROM bind)');
-    $news = News::find('all', array('select' => 'mini, thumbnail, id, anotation, title'));
+    $news = News::find('all', array('select' => 'mini, thumbnail, id, anotation, title', 'order' => 'date'));
     $app->render('news_list.php', array('news' => $news, 'title' => 'Новости', 'jsCSSLibs' => $js_css));
 
 });
