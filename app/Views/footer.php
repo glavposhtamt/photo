@@ -1,5 +1,5 @@
 <div class="side-reviews">
-    <a href="#">Оставить отзыв</a>
+    <a href="/review">Оставить отзыв</a>
 </div>
 
 

@@ -196,3 +196,11 @@ $app->notFound(function () use ($app, $js_css) {
     $app->render('404.php', array('post' => '<h1>Ошибка 404!</h1> Страница не найдена', 'jsCSSLibs' => $js_css, 
                                        'title' => 'Ошибка 404'));
 });
+
+$app->get('/review', function() use($app, $js_css){
+    $app->render('review.php', array('jsCSSLibs' => $js_css, 'type' => 'r'));
+});
+
+$app->get('/question', function() use($app, $js_css){
+    $app->render('review.php', array('jsCSSLibs' => $js_css, 'type' => 'q'));
+});
