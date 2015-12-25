@@ -1,33 +1,65 @@
-<!--<style>#footer2 {background:none !important;}</style>-->
-		<div id="footer">
-                    <div id="footer2">
-                        <div class="cop" style="margin:50px 0 0 0;">
-                            <address>г.Москва, ул. Новая Басманная, д. 35, офис 321</address>
-				<a href="tel:+74957766133" style="color:#EEC16D; text-decoration: none;">+7(495) 776-61-33</a> <a href="tel:+79262690964" style="color:#EEC16D; text-decoration: none;">+7(926) 26-909-64</a><br>
-				<a href="mailto:info@startupfoto.ru" style="color:#EEC16D">info@startupfoto.ru</a><br>
-                                <a href="http://smsc.ru/" target="_blank">
-                                    <img style="padding-top:5px;" src="/img/smsc_button.gif" alt="SMS-центр" height="31" border="0">
-                                </a>
-			</div>
-                        <div class="copy" style="top: 100px; right: 30px;">
-                            2011-2014 © StartUP Foto 
+<div class="side-reviews">
+    <a href="#">Оставить отзыв</a>
+</div>
+
+
+<div class="footer">
+    <table>
+        <tbody>
+            <tr>
+                <td class="footer_left">
+                    <div>
+
+                        <div class="user_panel" id="obj_1359">
+                            <div class="subscribe">
+                                <form id="subscribe_form" action="/actions.php" method="post" target="iframe">
+                                    <input name="mode" value="TUserPanel" type="hidden">
+                                    <input name="do" value="add_subscribe" type="hidden">
+                                    <input name="obj" value="1359" type="hidden">
+                                    <p>подписатся на новости</p>
+                                    <input name="email" placeholder="email@domain.com" autocomplete="off" type="email">
+                                </form>
+                            </div>
                         </div>
-                        <div class="soc">
-                            <a title="Мы в Facebook" href="https://www.facebook.com/groups/169948596435926/"></a>
-                            <a title="Мы в Одноклассниках" href="#"></a>
-                            <a title="Мы в Twitter" href="#"></a>
-                            <a title="Мы Вконтакте" href="http://vk.com/startupfoto"></a>
+
+                    </div>
+
+                </td>
+                <td class="footer_center">
+                    <div>
+
+                        <div class="text" id="obj_1358">
+                            <p>
+                                <a href="http://smsc.ru/" target="_blank"><img src="/images/smsc_button.gif" alt="SMS-центр" height="31"></a>
+                                <a><img src="/images/counters.jpg" alt=""></a>
+                            </p>
+
                         </div>
+
                     </div>
-		</div>
-            </div>
-            <div id="afisha">
-                <div class="container mafisha">
-                    <div id="k2ModuleBox115" class="k2ItemsBlock mafisha">
-                        <ul>
-                        </ul>
+
+                </td>
+                <td class="footer_right">
+                    <div class="panel_socials">
+                        <div class="socials">
+                            <div class="links">
+                                <a class="fb" href="https://www.facebook.com/groups/169948596435926/" title="Мы в Facebook" target="_blank"></a>
+                                <a class="ok" href="#" title="Мы в Одноклассниках"></a>
+                                <a class="tw" href="#" title="Мы в Twitter"></a>
+                                <a class="vk" href="http://vk.com/startupfoto" title="Мы Вконтакте" target="_blank"></a>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
                     </div>
-                </div>
-            </div>
-	</div>
-        
+
+                    <div class="copyright" id="obj_56">
+                        <div class="title">
+                            2011-2015 © Startupfoto.ru <a href="http://www.startupfoto.ru/">www.startupfoto.ru</a></div>
+
+                    </div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

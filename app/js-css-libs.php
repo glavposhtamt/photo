@@ -12,10 +12,11 @@ $jsCSSLibs = array(
     'jQuery' => array(
         'js' => $bower_components . 'jquery/dist/jquery.min.js'
     ),
-    'default-template' => array(
-        'css' => [$css . 'kernel_main.css', $css . 'template.css']        
-    ),
     
+    'default-template' => array(
+        'css' => [$css . 'kernel_main.css', $css . 'template.css', $css . 'styles.css', $css . 'css.css', $css . 'objects.css']        
+    ),
+        
     'ymaps' => array(
         'js' => ['//api-maps.yandex.ru/2.1/?lang=ru_RU', $js . 'ymaps.js']
     ),
