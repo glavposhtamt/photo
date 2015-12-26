@@ -240,7 +240,7 @@
     text-decoration: none;
 }
 
-input.title {
+input.title, select.title {
     font-size: 18px;
     margin-bottom: 20px;
     height: 40px;

@@ -612,7 +612,7 @@ $app->post('/admin/temporary', $authenticate($app), function(){
         $temp->type = $_POST['type'];
         $temp->save();
     } else {
-        $temp = Temp::find_by_file_id($_POST['file_id'], array('condition' => array('type', $_POST['type'])));
+        $temp = Temp::find_by_file_id($_POST['file_id'], array('conditions' => array('type' => $_POST['type'])));
         $temp->delete();
     }
 });
@@ -620,15 +620,69 @@ $app->post('/admin/temporary', $authenticate($app), function(){
 $app->post('/admin/change', $authenticate($app), function() use ($app){
     $user = $app->view()->getData('user');
     $pass = $app->request()->post('new-pass');    
-       
-    var_dump($user);
-    var_dump($pass);
-    
+           
     if($pass) User::change_password($user, $pass);
     
     $app->redirect('/admin/settings/pass');
 });
 
 $app->get('/admin/review', $authenticate($app), function() use($app, $js_css) {
-    $app->render('admin/review.php', array('jsCSSLibs' => $js_css));
+    $join = 'INNER JOIN institution ON(review.institution = institution.id)';
+    
+    $re = Review::find('all', array('select' => 'review.id, review.author, review.status, institution.title, institution.type', 
+                                    'conditions' => array('type' => 'r'), 'joins' => $join));
+    
+    $qu = Review::find('all', array('select' => 'review.id, review.author, review.status, institution.title, institution.type', 
+                                    'conditions' => array('type' => 'q'), 'joins' => $join));
+            
+    $app->render('admin/review.php', array('jsCSSLibs' => $js_css, 're' => $re, 'qu' => $qu));
+});
+
+$app->get('/admin/review/:id', $authenticate($app), function($id) use($app, $js_css) {
+    $join = 'INNER JOIN institution ON(review.institution = institution.id)';
+    
+    try{
+        $re = Review::find($id, array('select' => 'review.id, author, email, phone, message, review.type, review.status, institution.title', 
+                                      'joins' => $join));
+    } catch(Exception $e){
+        $app->redirect('/admin/review');
+    }
+    
+    $inst = Institution::find('all');
+      
+    $success = $app->getCookie('success') ? $app->getCookie('success') : '';
+    
+    $app->deleteCookie('success');
+    
+            
+    $app->render('admin/review_edit.php', array('jsCSSLibs' => $js_css, 're' => $re, 'inst' => $inst, 'suck' => $success));
+});
+
+$app->post('/admin/review/:id', $authenticate($app), function($id) use($app){
+    
+    try{
+        $re = Review::find($id);
+    }catch(Exception $e){
+        $app->redirect('/admin/review');
+    }   
+    
+    if($app->request()->post('public')){
+        $re->status = 1;
+        $re->save();
+        
+    } elseif($app->request()->post('save')){
+        $re->author = $app->request()->post('author');
+        $re->email = $app->request()->post('email');
+        $re->phone = $app->request()->post('phone');
+        $re->institution = $app->request()->post('institution');
+        $re->message = $app->request()->post('editor1');
+        $re->save();
+        $app->setCookie('success', 'Отзыв успешно изменён!');
+        
+    } elseif($app->request()->post('disable')){
+        $re->delete();
+        $app->redirect('/admin/review');
+    }
+    
+    $app->redirect('/admin/review/' . $id);
 });

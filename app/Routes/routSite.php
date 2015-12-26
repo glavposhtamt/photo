@@ -198,6 +198,10 @@ $app->notFound(function () use ($app, $js_css) {
 });
 
 $app->get('/review', function() use($app, $js_css){
+    
+    $user = $app->view()->getData('user');
+    //var_dump($user);
+    
     $institution = Institution::find('all');
     $app->render('review.php', array('jsCSSLibs' => $js_css, 'type' => 'r', 'inst' => $institution));
 });
@@ -208,12 +212,12 @@ $app->get('/question', function() use($app, $js_css){
 });
 
 
-$addReviewQuestion = function() use($app, $js_css){
+$addReviewQuestion = function() use($app){
     $re = new Review();
     $re->author = $app->request()->post('author');
     $re->phone = $app->request()->post('phone');
     $re->email = $app->request()->post('email');
-    $re->institution = $app->request()->post('institution');
+    $re->institution = (int)$app->request()->post('institution');
     $re->message = $app->request()->post('text');
     $re->type = $app->request()->post('type');
     
@@ -225,7 +229,7 @@ $addReviewQuestion = function() use($app, $js_css){
 };
 
 $app->post('/review', function() use($app, $addReviewQuestion){
-
+    
     $addReviewQuestion();
     
     $app->redirect('/review');
