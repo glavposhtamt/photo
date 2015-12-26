@@ -15,16 +15,16 @@
     <?php include_once 'admin.php'; ?>
         <div id="page-content-wrapper">
             <div class="container-fluid">
+               
+                <?php if($suck) : ?>
+                    <span class="label label-success"><?=$suck?></span>
+                <?php endif; ?>
+                
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="row">
+                        <div class="row">                            
                             <div class="col-lg-7 col-md-5">
-                                <h3><?=$re->type === 'r' ? 'Отзыв' : 'Вопрос'?> (<?=$re->status ? 'Одобрено' : 'Ожидает проверки'?>)</h3>
-                                
-                                <?php if($suck) : ?>
-                                    <span class="label label-success"><?=$suck?></span>
-                                <?php endif; ?>
-                                
+                                <h3><?=$re->type === 'r' ? 'Отзыв' : 'Вопрос'?> (<?=$re->status ? 'Одобрено' : 'Ожидает проверки'?>)</h3>                                
                                 <form method="POST" role="form" id="edit-pages">
                                     <input name="author" type="text" class="form-control title" value="<?=$re->author?>" placeholder="Имя" required>
                                     
@@ -67,6 +67,34 @@
                             </div>
                             <div class="col-lg-5 col-md-5">
                                 <h3>Ответы:</h3>
+                                
+                                <form method="POST" role="form" id="edit-pages">
+                                    <textarea name="answer_text" class="anotation form-control" placeholder="Ответ..."></textarea>
+                                    <div class="button-panel">
+                                        <input name="answer" type="submit" class="btn btn-info" value="Ответить">
+                                    </div>
+                                </form>
+                                
+                                <div class="panel panel-default answer">
+                                    <!-- Default panel contents -->
+                                    <div class="panel-heading">
+                                       Ответы на <?=$re->type === 'r' ? 'отзывы' : 'вопросы'?>:
+                                    </div>
+                                    <?php foreach($answ as $val) : ?>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-lg-11 col-md-1">
+                                                    <p><?=$val->answer?></p>
+                                                </div>
+                                                <div class="col-lg-1 col-md-1">
+                                                    <a href="/admin/removeanswer/<?=$re->id . '/' . $val->id?>">
+                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                         </div>
                     </div>

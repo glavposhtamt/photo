@@ -648,14 +648,17 @@ $app->get('/admin/review/:id', $authenticate($app), function($id) use($app, $js_
         $app->redirect('/admin/review');
     }
     
+    $user_id = User::get_user_id($app->view()->getData('user'));    
+    $answer = Answer::answer_by_id($user_id, $id);
+    
     $inst = Institution::find('all');
       
     $success = $app->getCookie('success') ? $app->getCookie('success') : '';
     
     $app->deleteCookie('success');
     
-            
-    $app->render('admin/review_edit.php', array('jsCSSLibs' => $js_css, 're' => $re, 'inst' => $inst, 'suck' => $success));
+        
+    $app->render('admin/review_edit.php', array('jsCSSLibs' => $js_css, 're' => $re, 'inst' => $inst, 'suck' => $success, 'answ' => $answer));
 });
 
 $app->post('/admin/review/:id', $authenticate($app), function($id) use($app){
@@ -681,8 +684,38 @@ $app->post('/admin/review/:id', $authenticate($app), function($id) use($app){
         
     } elseif($app->request()->post('disable')){
         $re->delete();
+        
+        $answer = Answer::find_all_by_review_id($id);
+        foreach($answer as $value){
+            $value->delete();
+        }
+        
         $app->redirect('/admin/review');
+        
+    } elseif($app->request()->post('answer')){
+        
+        $user_id = User::get_user_id($app->view()->getData('user'));
+        
+        $answer = new Answer();
+        $answer->answer = $app->request()->post('answer_text');
+        $answer->user_id = $user_id;
+        $answer->review_id = $id;
+        $answer->save();
+        $app->setCookie('success', 'Ответ успешно сохранён!');
     }
     
     $app->redirect('/admin/review/' . $id);
+});
+
+$app->get('/admin/removeanswer/:rid/:aid', $authenticate($app), function($rid, $aid) use($app) {
+    try{
+        $a = Answer::find($aid);
+        $a->delete();
+    }catch(Exception $e){
+        $app->redirect('/admin/review/');
+    }
+
+    
+    $app->redirect('/admin/review/' . $rid);
+    
 });

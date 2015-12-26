@@ -403,3 +403,7 @@ td span.glyphicon-trash {
     font-size: 1.2em;
     color: #fff;
 }
+
+.answer {
+    margin-top: 30px;
+}

@@ -115,7 +115,7 @@ CREATE TABLE `user` (
   `user` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX ixUser ( `user` ),
+  CONSTRAINT ixUser UNIQUE KEY ( `user` ),
   INDEX ixPass ( `pass` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -134,6 +134,18 @@ CREATE TABLE `review` (
   INDEX ixUser ( `institution` ),
   INDEX ixPass ( `type` ),
   INDEX ixStatus ( `status` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Ответы
+
+CREATE TABLE `answer` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(255) DEFAULT 0,
+  `review_id` int UNSIGNED DEFAULT 0 COMMENT 'ID отзыва/вопроса',
+  `answer` text NOT NULL DEFAULT '' COMMENT 'Текст',
+  PRIMARY KEY (`id`),
+  INDEX ixUser ( `user_id` ),
+  INDEX ixReview ( `review_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

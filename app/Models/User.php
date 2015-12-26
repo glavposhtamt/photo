@@ -30,4 +30,9 @@ class User extends ActiveRecord\Model {
         $obj->pass = password_hash($pass, PASSWORD_DEFAULT);
         $obj->save();
     }
+    
+    public static function get_user_id($user_name){
+        $u = self::find_by_user($user_name);
+        return $u->id;
+    }
 }
