@@ -197,27 +197,49 @@ $app->notFound(function () use ($app, $js_css) {
                                        'title' => 'Ошибка 404'));
 });
 
-$app->get('/review', function() use($app, $js_css){
-    
-    $user = $app->view()->getData('user');
-    //var_dump($user);
+
+$getAnswerByReviewId = function($id){
+    return Answer::find_all_by_review_id($id);
+};
+
+$app->get('/review', function() use($app, $js_css, $getAnswerByReviewId){
     
     $institution = Institution::find('all');
-    $app->render('review.php', array('jsCSSLibs' => $js_css, 'type' => 'r', 'inst' => $institution));
+    
+    $join = 'INNER JOIN institution ON(review.institution = institution.id)';    
+    $re = Review::find('all', array( 'select' => 'review.id, author, message, review.type, review.status, institution.title', 
+                                     'joins' => $join, 'conditions' => array('type' => 'r', 'status' => '1')));    
+    
+
+    $app->render('review.php', array('jsCSSLibs' => $js_css, 'type' => 'r', 'inst' => $institution, 're' => $re, 'answ' => $getAnswerByReviewId,
+                                     'title' => 'Отзывы'));
 });
 
-$app->get('/question', function() use($app, $js_css){
+$app->get('/question', function() use($app, $js_css, $getAnswerByReviewId){
+    
     $institution = Institution::find('all');
-    $app->render('review.php', array('jsCSSLibs' => $js_css, 'type' => 'q', 'inst' => $institution));
+    
+    $join = 'INNER JOIN institution ON(review.institution = institution.id)';    
+    $re = Review::find('all', array( 'select' => 'review.id, author, message, review.type, review.status, institution.title', 
+                                     'joins' => $join, 'conditions' => array('type' => 'q', 'status' => '1')));   
+    
+    $app->render('review.php', array('jsCSSLibs' => $js_css, 'type' => 'q', 'inst' => $institution, 're' => $re, 'answ' => $getAnswerByReviewId,
+                                     'title' => 'Вопросы'));
 });
 
 
 $addReviewQuestion = function() use($app){
     $re = new Review();
+    
+    if( $app->request()->post('institution') !== 'Учебное заведение' ){ 
+        $re->institution = $app->request()->post('institution');
+    } else {
+        $app->redirect('/review');
+    }
+    
     $re->author = $app->request()->post('author');
     $re->phone = $app->request()->post('phone');
-    $re->email = $app->request()->post('email');
-    $re->institution = (int)$app->request()->post('institution');
+    $re->email = $app->request()->post('email');    
     $re->message = $app->request()->post('text');
     $re->type = $app->request()->post('type');
     

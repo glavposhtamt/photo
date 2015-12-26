@@ -63,7 +63,7 @@
                                    </div>
                                    <div class="field">
                                        <div class="name">
-                                           Учебное заведение <?php if($type == 'r') : ?> * <?php endif; ?>: 
+                                           Учебное заведение *: 
                                         </div>
                                        <div class="val">
                                             <select name="institution">
@@ -88,6 +88,32 @@
                                </form>
                            </div>
                        </div>
+                       
+                       <div id="reviews">
+                           <?php foreach($re as $val) : ?>
+                               <div class="block">
+                                    <div class="rblock">
+                                        <div class="name">
+                                            <h3><?=$val->author?> <?=$val->title ? '(' . $val->title . ')' : ''?></h3>
+                                        </div>
+                                        
+                                        <div class="rbody"><?=$val->message ?></div>
+                                    </div>
+                                    
+                                    <?php $a = $answ($val->id); foreach($a as $val2) : ?>
+                                        <div class="ablock">
+                                            <div class="name">
+                                                <h3>Администратор сайта</h3>
+                                            </div>
+                                            
+                                            <div class="rbody"><?=$val2->answer?></div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                    
+                               </div>
+                           <?php endforeach; ?>
+                       </div>
+                       
                    </div>
                </div>
                
