@@ -1,3 +1,3 @@
 # photo
 
-[StartUP](http://enotrocky.ru/)
+[Reference to project](http://enotrocky.ru/)
